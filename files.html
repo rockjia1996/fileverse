@@ -1,74 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Fileverse -- Files </title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <script src="./bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-    <nav>
-        <li>Files</li>
-        <li>Docs</li>
-        <li>Settings</li>
-        <li>Account</li>
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Fileverse</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link active" aria-current="page" href="#">Files</a>
+                    <a class="nav-link" href="#">Docs</a>
+                    <a class="nav-link" href="#">Settings</a>
+                    <a class="nav-link" href="#">Account</a>
+                </div>
+            </div>
+        </div>
     </nav>
+
     <main>
-        <!--- Left Sidebar for shortcuts to folders --->
+        <!-- Search Bar-->
         <section>
-            <ul>
-                <li>My Document</li>
-                <li>My Musics</li>
-                <li>My Picture</li>
-            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </section>
+        <section>
+            <div class="input-group mb-3">
+                <div class="input-group-text">
+                    <label class="m-2">Download selected</label>
+                    <input class="form-check-input mt-0" type="checkbox" value="">
+                </div>
+                <div class="input-group-text">
+                    <label class="m-2">Delete selected</label>
+                    <input class="form-check-input mt-0" type="checkbox" value="">
+                </div>
+                <div class="input-group-text">
+                    <button type="button" class="btn btn-primary">Execute</button>
+                </div>
+            </div>
         </section>
 
-        <!-- Middle File Table for displaying files-->
+        <!-- File Table -->
         <section>
-
-            <!-- Filter the Filetable-->
-            <section>
-                <p>Filter</p>
-            </section>
-
-            <!-- File Table -->
-            <section>
-                <table>
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Last Modified</th>
-                        <th>Size</th>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Last Modified</th>
+                        <th scope="col">Size</th>
                     </tr>
+                </thead>
+                <tbody>
                     <tr>
+                        <td>
+                            <input class="form-check-input mt-0" type="checkbox" value="">
+                        </td>
+
                         <td>test file 1</td>
                         <td>21:35, Jun 15 2022</td>
                         <td>30 kb</td>
                     </tr>
                     <tr>
+                        <td>
+                            <input class="form-check-input mt-0" type="checkbox" value="">
+                        </td>
+
+
                         <td>test file 1</td>
                         <td>21:35, Jun 15 2022</td>
                         <td>30 kb</td>
                     </tr>
                     <tr>
+                        <td>
+                            <input class="form-check-input mt-0" type="checkbox" value="">
+                        </td>
+
+
                         <td>test file 1</td>
                         <td>21:35, Jun 15 2022</td>
                         <td>30 kb</td>
                     </tr>
-                </table>
-            </section>
+                </tbody>
+            </table>
         </section>
-
-
-        <!-- Right Sidebar for functionalites -->
-        <section>
-            <ul>
-                <li>Search</li>
-            </ul>
-        </section>
-
-
     </main>
-    
 </body>
-
-
 
 </html>
