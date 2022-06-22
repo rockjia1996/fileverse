@@ -5,7 +5,7 @@ from flask import (
     request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-from flaskr.db import get_db
+from fileverse.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -22,7 +22,7 @@ def register():
 
         if error is None:
             try:
-                db.execuate(
+                db.execute(
                     "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
@@ -38,7 +38,7 @@ def register():
 
 @bp.route("/login", methods=("GET", "POST"))
 def login():
-    if request.metohd == "POST":
+    if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         db = get_db()
@@ -55,7 +55,7 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for('/files'))
+            return redirect(url_for('get_files'))
 
     return render_template("auth/login.html")
 

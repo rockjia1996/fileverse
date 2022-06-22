@@ -1,101 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %} {% block header %}
+<h1>{% block title %}Files{% endblock %}</h1>
+{% endblock %} {% block content %}
+<!-- Search Bar-->
+<form>
+  <input type="search" placeholder="Search" />
+  <button type="submit">Search</button>
+</form>
 
-<head>
-    <title>Fileverse -- Files </title>
-    <link rel="stylesheet" href="/static/bootstrap.min.css">
-    <script src="/static/bootstrap.bundle.min.js"></script>
+<div>
+  <div>
+    <label>Download selected</label>
+    <input type="checkbox" value="" />
+  </div>
 
-</head>
+  <div>
+    <label>Delete selected</label>
+    <input type="checkbox" value="" />
+  </div>
 
-<body>
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Fileverse</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="#">Files</a>
-                    <a class="nav-link" href="#">Docs</a>
-                    <a class="nav-link" href="#">Settings</a>
-                    <a class="nav-link" href="#">Account</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+  <div>
+    <button type="button">Execute</button>
+  </div>
+</div>
 
-    <main>
-        <!-- Search Bar-->
-        <section>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </section>
-        <section>
-            <div class="input-group mb-3">
-                <div class="input-group-text">
-                    <label class="m-2">Download selected</label>
-                    <input class="form-check-input mt-0" type="checkbox" value="">
-                </div>
-                <div class="input-group-text">
-                    <label class="m-2">Delete selected</label>
-                    <input class="form-check-input mt-0" type="checkbox" value="">
-                </div>
-                <div class="input-group-text">
-                    <button type="button" class="btn btn-primary">Execute</button>
-                </div>
-            </div>
-        </section>
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Last Modified</th>
+      <th>Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="checkbox" value="" /></td>
+      <td>test file 1</td>
+      <td>21:35, Jun 15 2022</td>
+      <td>30 kb</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" value="" /></td>
+      <td>test file 1</td>
+      <td>21:35, Jun 15 2022</td>
+      <td>30 kb</td>
+    </tr>
+    <tr>
+      <td><input type="checkbox" value="" /></td>
+      <td>test file 1</td>
+      <td>21:35, Jun 15 2022</td>
+      <td>30 kb</td>
+    </tr>
+  </tbody>
+</table>
 
-        <!-- File Table -->
-        <section>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Last Modified</th>
-                        <th scope="col">Size</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <input class="form-check-input mt-0" type="checkbox" value="">
-                        </td>
-
-                        <td>test file 1</td>
-                        <td>21:35, Jun 15 2022</td>
-                        <td>30 kb</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="form-check-input mt-0" type="checkbox" value="">
-                        </td>
-
-
-                        <td>test file 1</td>
-                        <td>21:35, Jun 15 2022</td>
-                        <td>30 kb</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="form-check-input mt-0" type="checkbox" value="">
-                        </td>
-
-
-                        <td>test file 1</td>
-                        <td>21:35, Jun 15 2022</td>
-                        <td>30 kb</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </main>
-</body>
-
-</html>
+{% endblock %}

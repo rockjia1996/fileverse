@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        {% block title %}
-        {% endblock %}
-    </title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}"/>
+    <script src="{{ url_for('static', filename='bootstrap.bundle.min.js')}}"></script>
+  </head>
+
+  <body>
+    <header>
+      <section>{% block header %} {% endblock %}</section>
+    </header>
+
+    <main>
+      <nav>
+        <ul>
+          <li><a href="/"> Home </a></li>
+          <li><a href="/files"> Files </a></li>
+          <li><a href="/mannual"> Mannual </a></li>
+          <li><a href="/auth/register"> Register </a></li>
+          <li><a href="/auth/login"> Login </a></li>
+          <li><a href="/auth/logout"> Logout </a></li>
+        </ul>
+      </nav>
+
+      {% for message in get_flashed_messages() %}
+      <div>{{ message }}</div>
+      {% endfor %} 
+      {% block content %} {% endblock %}
+    </main>
+
+    <footer></footer>
+  </body>
 </html>
