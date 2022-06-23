@@ -26,4 +26,10 @@ def create_app(test_config=None):
     from .import auth
     app.register_blueprint(auth.bp)
 
+    from . import files
+    app.register_blueprint(files.bp)
+
+    from . import index
+    app.register_blueprint(index.bp)
+
     return app
