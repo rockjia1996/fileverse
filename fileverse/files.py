@@ -9,7 +9,6 @@ from fileverse.db import get_db
 
 bp = Blueprint('files', __name__)
 
-
 @bp.route("/files")
 #@login_required
 def files():
@@ -17,4 +16,11 @@ def files():
     files = db.execute(
         "SELECT id, filename, date, size FROM user_upload"
     ).fetchall()
+
     return render_template("files/files.html")
+
+
+@bp.route("/upload", methods=("POST", ))
+def upload():
+    db = get_db()
+    return request.url
