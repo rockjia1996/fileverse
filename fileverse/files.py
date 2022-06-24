@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, 
     redirect, render_template, 
-    request, url_for
+    request, url_for, current_app
 )
 from werkzeug.exceptions import abort
 from fileverse.auth import login_required
@@ -23,4 +23,9 @@ def files():
 @bp.route("/upload", methods=("POST", ))
 def upload():
     db = get_db()
-    return request.url
+    save_path = current_app.config["UPLOAD_FOLDER"]
+
+
+
+
+    return "Ok"
