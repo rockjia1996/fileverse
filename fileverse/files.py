@@ -3,7 +3,8 @@ import os
 from flask import (
     Blueprint, flash, g, 
     redirect, render_template, 
-    request, url_for, current_app
+    request, url_for, current_app, 
+    Response, stream_with_context
 )
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
@@ -48,6 +49,36 @@ def upload():
     return "Ok"
 
 
-@bp.route("/files/download/<int:id>", methods=("POST", ))
+def read_chunk(path_to_file, chunk_size):
+    with open(path_to_file, "rb") as f:
+        while True:
+            data = f.read(chunk_size)
+            if data: yield data
+            else: break
+
+
+
+@bp.route("/files/download/<int:id>", methods=("GET", ))
 def download(id):
+    db =get_db()
+    
+    record = db.execute(
+        "SELECT filename, path FROM user_upload WHERE id = ? ;", 
+        (id, )
+    ).fetchone()
+    path_to_file = record["path"]
+    filename = record["filename"]
+
+    return Response(
+       stream_with_context(read_chunk(path_to_file, 1024)),
+       headers={
+            'Content-Disposition': f'attachment; filename={filename}'
+       }
+    )
+    
+
+
+
+
+
     return "Ok"
