@@ -9,9 +9,10 @@ CREATE TABLE user (
 
 CREATE TABLE user_upload (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    --owner_id INTEGER NOT NULL,
     date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     filename TEXT NOT NULL,
     size INTEGER NOT NULL,
-    --FOREIGN KEY (owner_id) REFERENCES user (id)
+    path TEXT NOT NULL
 );
+    --owner_id INTEGER NOT NULL,
+    --FOREIGN KEY (owner_id) REFERENCES user (id)
