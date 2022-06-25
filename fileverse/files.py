@@ -16,13 +16,16 @@ bp = Blueprint('files', __name__)
 #@login_required
 def files():
     db = get_db()
-    files = db.execute(
+    uploads = db.execute(
         "SELECT id, filename, date, size FROM user_upload"
     ).fetchall()
 
 
+    for upload in uploads:
+        print(f"{upload['filename']}")
 
-    return render_template("files/files.html")
+
+    return render_template("files/files.html", uploads=uploads)
 
 
 @bp.route("/files/upload", methods=("POST", ))
@@ -38,13 +41,13 @@ def upload():
         upload.save(path)
 
         db.execute(
-            "INSERT INTO user_upload (filename, size)",
-            "VALUES (?, ?)", (filename, size, path)
+            "INSERT INTO user_upload (filename, size, path) VALUES (?, ?, ?)", 
+            (filename, size, path)
         )
         db.commit()
     return "Ok"
 
 
-@bp.route("/files/download/<int:id>", methods=("POST"))
+@bp.route("/files/download/<int:id>", methods=("POST", ))
 def download(id):
     return "Ok"
