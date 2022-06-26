@@ -20,12 +20,6 @@ def files():
     uploads = db.execute(
         "SELECT id, filename, date, size FROM user_upload"
     ).fetchall()
-
-
-    for upload in uploads:
-        print(f"{upload['filename']}")
-
-
     return render_template("files/files.html", uploads=uploads)
 
 
@@ -76,9 +70,9 @@ def download(id):
        }
     )
 
-@bp.route("/files/delete/<int:id>", methods=("POST", ))
+@bp.route("/files/delete/<int:id>", methods=("DELETE", ))
 def delete(id):
-    db = get_db
+    db = get_db()
     record = db.execute(
         "SELECT path FROM user_upload WHERE id = ? ;", 
         (id, )
