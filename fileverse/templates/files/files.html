@@ -31,24 +31,29 @@
 <table class="table table-hover">
   <thead>
     <tr>
-      <th></th>
       <th>ID</th>
       <th>Name</th>
       <th>Last Modified</th>
       <th>Size</th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     {% for upload in uploads %}
-    <tr>
-      <td><input type="checkbox" value="" /></td>
+    <tr id="{{ upload['id'] }}">
+      <!--
+        <td><input type="checkbox" id="{{ upload['id'] }}" value="" /></td>
+      -->
       <td>{{ upload['id']}}</td>
       <td>{{ upload['filename']}}</td>
       <td>{{ upload['date']}}</td>
       <td>{{ upload['size']}}</td>
+      <td><button name="delete">Delete</button></td>
+      <td><button name="download">Download</button></td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-
+<script src="{{ url_for('static', filename='file_api.js')}}"></script>
 {% endblock %}
