@@ -76,7 +76,7 @@ def download(id):
        }
     )
 
-@bp.route("/files/delete/<int:id>")
+@bp.route("/files/delete/<int:id>", methods=("POST", ))
 def delete(id):
     db = get_db
     record = db.execute(
@@ -85,5 +85,9 @@ def delete(id):
     ).fetchone()
     path_to_file = record["path"]
     os.remove(path_to_file)
-
+    db.execute(
+        "DELETE FROM user_upload WHERE id = ?;",
+        (id, )
+    )
+    db.commit()
     return "Ok delete"
