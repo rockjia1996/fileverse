@@ -75,10 +75,15 @@ def download(id):
             'Content-Disposition': f'attachment; filename={filename}'
        }
     )
-    
 
+@bp.route("/files/delete/<int:id>")
+def delete(id):
+    db = get_db
+    record = db.execute(
+        "SELECT path FROM user_upload WHERE id = ? ;", 
+        (id, )
+    ).fetchone()
+    path_to_file = record["path"]
+    os.remove(path_to_file)
 
-
-
-
-    return "Ok"
+    return "Ok delete"
