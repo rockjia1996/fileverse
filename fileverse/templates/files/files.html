@@ -23,9 +23,15 @@
   </div>
 </div>
 
-<form class="m-3" action="/files/upload" method="post" enctype="multipart/form-data">
-  <input type="file" name="upload" multiple />
-  <input type="submit" value="Upload" />
+<form 
+  class="m-3" 
+  id="uploadForm" 
+  action="/files/upload" 
+  method="post" 
+  enctype="multipart/form-data"
+>
+  <input id="uploadFiles" type="file" name="upload" multiple />
+  <button name="upload" onclick="uploadFile(event)">Upload</button>
 </form>
 
 <table class="table table-hover">

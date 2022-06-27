@@ -28,7 +28,7 @@ def upload():
     db = get_db()
     save_path = current_app.config["UPLOAD_FOLDER"]
     upload_files = request.files.getlist("upload")
-    
+
     for upload in upload_files:
         filename = secure_filename(upload.filename)
         path = os.path.join(save_path, filename)
