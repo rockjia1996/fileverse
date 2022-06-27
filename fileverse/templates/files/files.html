@@ -49,8 +49,8 @@
       <td>{{ upload['filename']}}</td>
       <td>{{ upload['date']}}</td>
       <td>{{ upload['size']}}</td>
-      <td><button name="delete" onclick="delete_file(event)">Delete</button></td>
-      <td><button name="download" onclick="download_file(event)">Download</button></td>
+      <td><button name="delete" onclick="deleteFile(event)">Delete</button></td>
+      <td><button name="download" onclick="downloadFile(event)">Download</button></td>
     </tr>
     {% endfor %}
   </tbody>

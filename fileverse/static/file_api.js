@@ -8,15 +8,26 @@ function update_file(){
 
 
 
-async function delete_file(event){
+async function deleteFile(event){
     const  id = event.target.parentElement.parentElement.id;
     const  delete_request = "/files/delete/" + id;
     response = await fetch(delete_request, {method: "DELETE"});
 
+    if (response.status == 200){
+        event.target.parentElement.parentElement.remove()
+    }
 }
 
 
-function download_file(){
+async function downloadFile(event){
+    const  id = event.target.parentElement.parentElement.id;
+    const  download_request = "/files/download/" + id;
+    response = await fetch(download_request, {method: "GET"});
+    console.log(response)
+
+    if (response.status === 200){
+
+    }
 
 }
 
