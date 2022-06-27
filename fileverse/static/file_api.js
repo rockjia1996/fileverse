@@ -20,15 +20,31 @@ async function deleteFile(event) {
 }
 
 
+<<<<<<< HEAD
 async function downloadFile(event) {
     const id = event.target.parentElement.parentElement.id;
     const download_request = "/files/download/" + id;
     response = await fetch(download_request, { method: "GET" });
+=======
+async function downloadFile(event){
+    const  id = event.target.parentElement.parentElement.id;
+    const  download_request = "/files/download/" + id;
+
+    const download_link = document.createElement('a')
+    
+    download_link.download = event.target.parentElement.parentElement.childNodes[1]
+    download_link.href = download_request
+    download_link.click()
+
+    /*
+    response = await fetch(download_request, {method: "GET"});
+>>>>>>> f2e3b6e0e8ac53dc0f9ed8f16a6cb039ac633f4d
     console.log(response)
 
     if (response.status === 200) {
 
     }
+    */
 
 }
 
