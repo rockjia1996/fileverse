@@ -7,7 +7,7 @@ def create_app(test_config=None):
         SECRET_KEY = "dev",
         DATABASE=os.path.join(app.instance_path, 'fileverse.sqlite'),
         UPLOAD_FOLDER=os.path.join(app.instance_path, "upload"),
-        MAX_CONTENT_LENGTH = 4 * 1000 * 1000 * 1000
+        MAX_CONTENT_LENGTH = 100 * 1024 * 1024 * 1024
     )
 
 

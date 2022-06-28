@@ -3,10 +3,10 @@
 
 <!-- Search Bar -->
 <form class="m-3">
-  <input type="search" placeholder="Search"/>
-  <input type="submit" value="Search"/>
+  <input type="search" placeholder="Search" />
+  <input type="submit" value="Search" />
 </form>
- 
+
 <div class="d-flex justify-content-between m-3">
   <div>
     <label>Download selected</label>
@@ -23,15 +23,9 @@
   </div>
 </div>
 
-<form 
-  class="m-3" 
-  id="uploadForm" 
-  action="/files/upload" 
-  method="post" 
-  enctype="multipart/form-data"
->
-  <input id="uploadFiles" type="file" name="upload" multiple />
-  <button name="upload" onclick="uploadFile(event)">Upload</button>
+<form class="m-3" id="uploadForm">
+  <input id="uploadFiles" type="file" multiple />
+  <button onclick="uploadFile(event)">Upload</button>
 </form>
 
 <table class="table table-hover">

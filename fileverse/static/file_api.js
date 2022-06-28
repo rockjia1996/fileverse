@@ -1,6 +1,20 @@
-
-
 async function uploadFile(event) {
+    event.preventDefault()
+    const selectedFiles = document.getElementById("uploadFiles").files;
+
+    console.log(selectedFiles)
+
+    for (selected of selectedFiles){
+        console.log("name: %s, size: %d", selected.name, selected.size)
+    }
+
+
+    for (selected of selectedFiles){
+        console.log(selected)
+        const url = "/files/upload/" + selected.name
+        const response = await fetch(url, {method: "post", body: selected})
+        console.log(response)
+    }
 }
 
 function updateFile() {

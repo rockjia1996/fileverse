@@ -32,10 +32,10 @@ def upload(filename):
     filename = secure_filename(filename)
     save_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
 
-    chunk_size = 25 * 1024  # set chunk size to 25 Mb 
+    chunk_size = 4096  # set chunk size to 4 Mb 
 
-    while True:
-        with open(save_path, "bw") as f:
+    with open(save_path, "bw") as f:
+        while True:
             chunk = request.stream.read(chunk_size)
             if len(chunk) == 0:
                 break
@@ -44,7 +44,7 @@ def upload(filename):
     size = os.stat(save_path).st_size
     db.execute(
         "INSERT INTO user_upload (filename, size, path) VALUES (?, ?, ?)", 
-        (filename, size, path)
+        (filename, size, save_path)
     )
     db.commit()
 
