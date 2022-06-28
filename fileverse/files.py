@@ -22,24 +22,32 @@ def files():
     ).fetchall()
     return render_template("files/files.html", uploads=uploads)
 
-
-@bp.route("/files/upload", methods=("POST", ))
-def upload():
+# See the details about why favour request.stream over request.files/request.form
+# https://izmailoff.github.io/web/flask-file-streaming/
+#
+# Don't touch request.files, and request.form! 
+@bp.route("/files/upload/<filename>", methods=("POST", ))
+def upload(filename):
     db = get_db()
-    save_path = current_app.config["UPLOAD_FOLDER"]
-    upload_files = request.files.getlist("upload")
+    filename = secure_filename(filename)
+    save_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
 
-    for upload in upload_files:
-        filename = secure_filename(upload.filename)
-        path = os.path.join(save_path, filename)
-        size = 1
-        upload.save(path)
+    chunk_size = 25 * 1024  # set chunk size to 25 Mb 
 
-        db.execute(
-            "INSERT INTO user_upload (filename, size, path) VALUES (?, ?, ?)", 
-            (filename, size, path)
-        )
-        db.commit()
+    while True:
+        with open(save_path, "bw") as f:
+            chunk = request.stream.read(chunk_size)
+            if len(chunk) == 0:
+                break
+            f.write(chunk)
+
+    size = os.stat(save_path).st_size
+    db.execute(
+        "INSERT INTO user_upload (filename, size, path) VALUES (?, ?, ?)", 
+        (filename, size, path)
+    )
+    db.commit()
+
     return "Ok"
 
 
