@@ -28,7 +28,10 @@
   <button onclick="uploadFile(event)">Upload</button>
 </form>
 
-<table class="table table-hover">
+<p>Upload Progress</p>
+<progress id="uploadProgress" max="100" value="0"></progress>
+
+<table id="fileTable" class="table table-hover">
   <thead>
     <tr>
       <th>ID</th>

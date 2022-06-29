@@ -1,12 +1,26 @@
+function updateUploadProgressBar(current, total){
+    const progressBar = document.getElementById("uploadProgress");
+    progressBar.value= (current / total) * 100;
+}
+
+
+
 function uploadFile(event) {
     event.preventDefault()
     const selectedFiles = document.getElementById("uploadFiles").files;
+   
+    let current = 0;
+    let total = 0;
+    for (selected of selectedFiles){
+        total += selected.size
+    }
+
     for (selected of selectedFiles) {
         console.log(selected)
         const url = "/files/upload/" + selected.name
-        //const response = await fetch(url, { method: "post", body: selected })
-        uploadHandler(selected, url)
-        //console.log(response)
+        const uploadPromise = uploadHandler(selected, url)
+        uploadPromise.then( msg => console.log(msg))
+
     }
 }
 
@@ -18,6 +32,9 @@ function uploadHandler(file, url) {
         // report the progress
         xhr.upload.onprogress = (event) => {
             console.log(`Upload ${event.loaded} of ${event.total}`);
+
+            // display progress
+            updateUploadProgressBar(event.loaded, event.total)
         };
    
         // set event handler
