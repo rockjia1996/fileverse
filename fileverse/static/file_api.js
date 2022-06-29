@@ -8,12 +8,6 @@ function updateUploadProgressBar(current, total){
 function uploadFile(event) {
     event.preventDefault()
     const selectedFiles = document.getElementById("uploadFiles").files;
-   
-    let current = 0;
-    let total = 0;
-    for (selected of selectedFiles){
-        total += selected.size
-    }
 
     for (selected of selectedFiles) {
         console.log(selected)
