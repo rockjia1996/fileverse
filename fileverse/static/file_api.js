@@ -1,21 +1,43 @@
-async function uploadFile(event) {
+function uploadFile(event) {
     event.preventDefault()
     const selectedFiles = document.getElementById("uploadFiles").files;
-
-    console.log(selectedFiles)
-
-    for (selected of selectedFiles){
-        console.log("name: %s, size: %d", selected.name, selected.size)
-    }
-
-
-    for (selected of selectedFiles){
+    for (selected of selectedFiles) {
         console.log(selected)
         const url = "/files/upload/" + selected.name
-        const response = await fetch(url, {method: "post", body: selected})
-        console.log(response)
+        //const response = await fetch(url, { method: "post", body: selected })
+        uploadHandler(selected, url)
+        //console.log(response)
     }
 }
+
+
+function uploadHandler(file, url) {
+    return new Promise( (resolve, reject) => {
+        let xhr = new XMLHttpRequest();
+
+        // report the progress
+        xhr.upload.onprogress = (event) => {
+            console.log(`Upload ${event.loaded} of ${event.total}`);
+        };
+   
+        // set event handler
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState !== 5) return;
+
+            if (xhr.status >= 200 && xhr.status < 300){
+                resolve("ok")
+            }
+            else{
+                reject("failed")
+            }
+        }
+
+        xhr.open("POST", url)
+        xhr.send(file)
+    })
+}
+
+
 
 function updateFile() {
 
@@ -34,12 +56,12 @@ async function deleteFile(event) {
 }
 
 
-async function downloadFile(event){
-    const  id = event.target.parentElement.parentElement.id;
-    const  download_request = "/files/download/" + id;
+async function downloadFile(event) {
+    const id = event.target.parentElement.parentElement.id;
+    const download_request = "/files/download/" + id;
 
     const download_link = document.createElement('a')
-    
+
     download_link.download = event.target.parentElement.parentElement.childNodes[1]
     download_link.href = download_request
     download_link.click()

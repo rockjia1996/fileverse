@@ -34,6 +34,7 @@ def upload(filename):
 
     chunk_size = 4096  # set chunk size to 4 Mb 
 
+    # save the file
     with open(save_path, "bw") as f:
         while True:
             chunk = request.stream.read(chunk_size)
@@ -41,6 +42,7 @@ def upload(filename):
                 break
             f.write(chunk)
 
+    # get the size of file and record the upload in database
     size = os.stat(save_path).st_size
     db.execute(
         "INSERT INTO user_upload (filename, size, path) VALUES (?, ?, ?)", 
