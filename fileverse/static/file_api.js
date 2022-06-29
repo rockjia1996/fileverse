@@ -31,8 +31,6 @@ function uploadHandler(file, url) {
 
         // report the progress
         xhr.upload.onprogress = (event) => {
-            console.log(`Upload ${event.loaded} of ${event.total}`);
-
             // display progress
             updateUploadProgressBar(event.loaded, event.total)
         };
