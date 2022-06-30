@@ -2,44 +2,48 @@
 {% endblock %} {% block content %}
 
 <!-- Search Bar -->
-<form class="m-3">
+<form class="search-bar">
   <input type="search" placeholder="Search" />
   <input type="submit" value="Search" />
 </form>
-
-<div class="d-flex justify-content-between m-3">
-  <div>
-    <label>Download selected</label>
-    <input type="checkbox" value="" />
-  </div>
-
-  <div>
-    <label>Delete selected</label>
-    <input type="checkbox" value="" />
-  </div>
-
-  <div>
-    <button type="button">Execute</button>
-  </div>
-</div>
 
 <form class="m-3" id="uploadForm">
   <input id="uploadFiles" type="file" multiple />
   <button onclick="uploadFile(event)">Upload</button>
 </form>
 
+
+
+<!--Drag and Drop Upload Box-->
+<form>
+    <input type="file" id="file" name="file" class="inputfile" multiple />
+    <label for="file">
+      Choose a file
+    </label>
+    <button type="submit">Upload</button>
+</form>
+
+
+
+
+
+
+
+
+
+
 <p>Upload Progress</p>
 <progress id="uploadProgress" max="100" value="0"></progress>
 
-<table id="fileTable" class="table table-hover">
-  <thead>
+<table id="fileTable" class="table table-hover table-striped">
+  <thead class="thead-dark">
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Last Modified</th>
-      <th>Size</th>
-      <th></th>
-      <th></th>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Last Modified</th>
+      <th scope="col">Size</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>

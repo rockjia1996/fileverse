@@ -1,2 +1,8 @@
 # fileverse
-A local network file storage server
+## Self host files server on your local network
+
+
+## Install Requirements
+python3
+pip3
+
