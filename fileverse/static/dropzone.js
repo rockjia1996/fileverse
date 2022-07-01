@@ -2,6 +2,13 @@
 const inputElement = document.querySelector(".drop-zone__input");
 const dropZoneElement = document.querySelector(".drop-zone");
 
+inputElement.addEventListener("change", e => {
+    for (selected of inputElement.files) {
+        addUploadFileEntry(selected.name)
+    }
+} )
+
+
 dropZoneElement.addEventListener("dragover", e => {
     e.preventDefault();
     dropZoneElement.classList.add("drop-zone--over");
