@@ -23,7 +23,6 @@ function uploadFile(event) {
     }
 }
 
-
 function uploadHandler(file, url) {
     return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
@@ -51,13 +50,8 @@ function uploadHandler(file, url) {
     })
 }
 
-
-
 function updateFile() {
-
 }
-
-
 
 async function deleteFile(event) {
     const id = event.target.parentElement.parentElement.id;
@@ -68,7 +62,6 @@ async function deleteFile(event) {
         event.target.parentElement.parentElement.remove()
     }
 }
-
 
 async function downloadFile(event) {
     const id = event.target.parentElement.parentElement.id;
@@ -82,18 +75,15 @@ async function downloadFile(event) {
 }
 
 function getFileId(event) {
-
     let element = event.target
 
     if (element.name === "delete") {
         alert("onclick delete button, id = " + element.parentElement.parentElement.id)
-
     }
 
     if (element.name === "download") {
         alert("onclick download button, id =" + element.parentElement.parentElement.id)
     }
 }
-
 
 
