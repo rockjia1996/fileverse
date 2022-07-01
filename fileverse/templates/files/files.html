@@ -1,39 +1,28 @@
 {% extends "base.html" %} {% block header %}
 {% endblock %} {% block content %}
 
-<!-- Search Bar -->
-<form class="search-bar">
-  <input type="search" placeholder="Search" />
-  <input type="submit" value="Search" />
-</form>
-
-<form class="m-3" id="uploadForm">
-  <input id="uploadFiles" type="file" multiple />
-  <button onclick="uploadFile(event)">Upload</button>
-</form>
-
 
 
 <!--Drag and Drop Upload Box-->
-<form>
-    <input type="file" id="file" name="file" class="inputfile" multiple />
-    <label for="file">
-      Choose a file
-    </label>
-    <button type="submit">Upload</button>
-</form>
-
-
-
-
-
-
-
-
-
-
-<p>Upload Progress</p>
-<progress id="uploadProgress" max="100" value="0"></progress>
+<div class="drop-zone">
+  <span class="drop-zone__prompt">Drop files here or click to upload</span>
+    <input 
+    class="drop-zone__input" 
+    type="file" 
+    name="file" 
+    multiple />
+    <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
+  </div>
+  
+  
+  <div class="upload-details">
+  </div>
+  
+  <!-- Search Bar -->
+  <form class="search-bar">
+    <input type="search" placeholder="Search" />
+    <input type="submit" value="Search" />
+  </form>
 
 <table id="fileTable" class="table table-hover table-striped">
   <thead class="thead-dark">
@@ -63,4 +52,5 @@
   </tbody>
 </table>
 <script src="{{ url_for('static', filename='file_api.js')}}"></script>
+<script src="{{ url_for('static', filename='dropzone.js')}}"></script>
 {% endblock %}

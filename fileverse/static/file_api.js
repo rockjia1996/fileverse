@@ -1,42 +1,47 @@
-function updateUploadProgressBar(current, total){
-    const progressBar = document.getElementById("uploadProgress");
-    progressBar.value= (current / total) * 100;
+function updateUploadProgressBar(current, total, filename) {
+    console.log(document.querySelectorAll(".detail__name"))
+    const elements = document.querySelectorAll(".detail__name")
+    
+    for (element of elements){
+        if (element.textContent === filename) {
+            const progressBar = element.nextElementSibling;
+            progressBar.value = (current / total) * 100;
+            break;
+        }
+    }    
 }
-
-
 
 function uploadFile(event) {
     event.preventDefault()
-    const selectedFiles = document.getElementById("uploadFiles").files;
+    const selectedFiles = document.querySelector(".drop-zone__input").files;
 
     for (selected of selectedFiles) {
         console.log(selected)
         const url = "/files/upload/" + selected.name
         const uploadPromise = uploadHandler(selected, url)
-        uploadPromise.then( msg => console.log(msg))
-
+        uploadPromise.then(msg => console.log(msg))
     }
 }
 
 
 function uploadHandler(file, url) {
-    return new Promise( (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         let xhr = new XMLHttpRequest();
 
         // report the progress
         xhr.upload.onprogress = (event) => {
             // display progress
-            updateUploadProgressBar(event.loaded, event.total)
+            updateUploadProgressBar(event.loaded, event.total, file.name)
         };
-   
+
         // set event handler
         xhr.onreadystatechange = () => {
-            if(xhr.readyState !== 5) return;
+            if (xhr.readyState !== 5) return;
 
-            if (xhr.status >= 200 && xhr.status < 300){
+            if (xhr.status >= 200 && xhr.status < 300) {
                 resolve("ok")
             }
-            else{
+            else {
                 reject("failed")
             }
         }
