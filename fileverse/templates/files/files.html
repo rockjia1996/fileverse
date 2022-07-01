@@ -2,55 +2,82 @@
 {% endblock %} {% block content %}
 
 
+<div class="page-content" style="margin: 20px;" >
 
-<!--Drag and Drop Upload Box-->
-<div class="drop-zone">
-  <span class="drop-zone__prompt">Drop files here or click to upload</span>
-    <input 
-    class="drop-zone__input" 
-    type="file" 
-    name="file" 
-    multiple />
-    <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
+  <div class="tab">
+    <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">Files</button>
+    <button class="tab__link" onclick="openTab(event, 'upload-table');" id="upload-tab">Uploads</button>
+    <button class="tab__link" onclick="openTab(event, 'download-table');" id="download-tab">Downloads</button>
+  </div>
+
+  <div class="tabcontent" id="file-table">
+    <!-- Search Bar -->
+    <form class="search-bar">
+      <input type="search" placeholder="Search" />
+      <input type="submit" value="Search" />
+    </form>
+  
+    <table id="fileTable" class="table table-hover table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Last Modified</th>
+          <th scope="col">Size</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for upload in uploads %}
+        <tr id="{{ upload['id'] }}">
+          <!--
+          <td><input type="checkbox" id="{{ upload['id'] }}" value="" /></td>
+        -->
+          <td>{{ upload['id']}}</td>
+          <td>{{ upload['filename']}}</td>
+          <td>{{ upload['date']}}</td>
+          <td>{{ upload['size']}}</td>
+          <td><button name="delete" onclick="deleteFile(event)">Delete</button></td>
+          <td><button name="download" onclick="downloadFile(event)">Download</button></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
   
+  <div class="tabcontent" id="upload-table">
+    <!--Drag and Drop Upload Box-->
+    <div class="drop-zone">
+      <span class="drop-zone__prompt">Drop files here or click to upload</span>
+      <input class="drop-zone__input" type="file" name="file" multiple />
+      <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
+    </div>
   
-  <div class="upload-details">
+    <div class="upload-details">
+    </div>
+  
   </div>
   
-  <!-- Search Bar -->
-  <form class="search-bar">
-    <input type="search" placeholder="Search" />
-    <input type="submit" value="Search" />
-  </form>
+  <div class="tabcontent" id="download-table">
+    <h3>Download</h3>
+    <p>Download table goes here</p>
+  </div>
 
-<table id="fileTable" class="table table-hover table-striped">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Last Modified</th>
-      <th scope="col">Size</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for upload in uploads %}
-    <tr id="{{ upload['id'] }}">
-      <!--
-        <td><input type="checkbox" id="{{ upload['id'] }}" value="" /></td>
-      -->
-      <td>{{ upload['id']}}</td>
-      <td>{{ upload['filename']}}</td>
-      <td>{{ upload['date']}}</td>
-      <td>{{ upload['size']}}</td>
-      <td><button name="delete" onclick="deleteFile(event)">Delete</button></td>
-      <td><button name="download" onclick="downloadFile(event)">Download</button></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 <script src="{{ url_for('static', filename='file_api.js')}}"></script>
 <script src="{{ url_for('static', filename='dropzone.js')}}"></script>
+<script src="{{ url_for('static', filename='tabs.js')}}"></script>
 {% endblock %}

@@ -11,19 +11,21 @@ dropZoneElement.addEventListener("click", e => {
     inputElement.click();
 })
 
-["dragend", "dragleave"].forEach(type => {
-    dropZoneElement.addEventListener(type, e => {
-        dropZoneElement.classList.remove("drop-zone--over");
-    });
-});
+dropZoneElement.addEventListener("dragleave", e => {
+        dropZoneElement.classList.remove("drop-zone--over")
+} )
+
+dropZoneElement.addEventListener("dragend", e => {
+    dropZoneElement.classList.remove("drop-zone--over")
+} )
 
 dropZoneElement.addEventListener("drop", e => {
     e.preventDefault();
-    if (e.dataTransfer.files.length){
+    if (e.dataTransfer.files.length) {
         inputElement.files = e.dataTransfer.files;
 
 
-        for (selected of inputElement.files){
+        for (selected of inputElement.files) {
             addUploadFileEntry(selected.name)
         }
 
@@ -32,15 +34,14 @@ dropZoneElement.addEventListener("drop", e => {
 })
 
 
-function addUploadFileEntry(filename)
-{
+function addUploadFileEntry(filename) {
     let detail = document.createElement("div");
     let detailName = document.createElement("span");
     let detailProgress = document.createElement("progress");
     let detailCancel = document.createElement("button");
 
     detail.className = "detail";
-    detailName.className  = "detail__name";
+    detailName.className = "detail__name";
     detailProgress.className = "detail__progress";
     detailCancel.className = "detail__cancel";
 
