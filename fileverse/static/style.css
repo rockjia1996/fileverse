@@ -123,12 +123,13 @@
 
 .tab__link{
     background-color: #f1f1f1;
-    width: 20%;
     border: none;
     outline: none;
     cursor: pointer;
     padding: 5px 10px;
     transition: 0.3s;
+    width: 25%;
+    
 }
 
 .tab__link:hover {

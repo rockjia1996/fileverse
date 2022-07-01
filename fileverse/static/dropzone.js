@@ -63,3 +63,18 @@ function addUploadFileEntry(filename) {
 
     document.querySelector(".upload-details").appendChild(detail)
 }
+
+function removeUploadFileEntry(){
+    let details = document.querySelector(".upload-details");
+
+    let removeChildren = [];
+    for (child of details.children){
+        const currentProgress = child.children[1].value;
+        if (currentProgress === 100)
+            removeChildren.push(child)
+    }
+
+    for (let i = 0; i < removeChildren.length; i++)
+        details.removeChild(removeChildren[i])
+
+}
