@@ -1,0 +1,76 @@
+#context-menu{
+    position: fixed;
+    z-index: 10000;
+    width: 150px;
+    background-color: #1b1a1a;
+    border-radius: 5px;
+    transform: scale(0);
+    transform-origin: top left;
+}
+
+#context-menu.visible{
+    transform: scale(1);
+    transition: transform 200ms ease-in-out;
+    display: block;
+}
+
+.context-menu__item {
+    display: block;
+    color:white;
+    background-color: #1b1a1a;
+    border: none;
+    width: 100%;
+    text-align: left;
+
+    font-size: 17px;
+    padding: 7px;
+    
+    border-radius: 5px;
+}
+
+.context-menu__item:hover {
+    background-color: #343434;
+    cursor: pointer;
+}
+
+/* File Table */
+
+.file-table{
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+
+}
+
+.file-table thead tr {
+    background-color: #009879;
+    color: #fff;
+    text-align: left;
+}
+
+
+.file-table th,
+.file-table td {
+    padding: 12px 15px;
+}
+
+.file-table tbody tr {
+    border-bottom: thin solid #ddd;
+    cursor: pointer;
+}
+
+.file-table tbody tr:nth-of-type(even){
+    background-color: #f3f3f3;
+}
+
+.file-table tbody tr:last-of-type {
+border-bottom: 2px solid #009879;
+}
+
+.file-table tbody tr.active-row{
+    font-weight: bold;
+    color: #009879;
+
+}

@@ -54,6 +54,7 @@ function updateFile() {
 }
 
 async function deleteFile(event) {
+    console.log(event.target.parentElement)
     const id = event.target.parentElement.parentElement.id;
     const delete_request = "/files/delete/" + id;
     response = await fetch(delete_request, { method: "DELETE" });

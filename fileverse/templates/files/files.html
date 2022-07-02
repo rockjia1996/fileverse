@@ -1,7 +1,10 @@
-{% extends "base.html" %} {% block header %}
-{% endblock %} {% block content %}
+{% extends "base.html" %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='table.css')}}">
+{% endblock %}
 
+{% block content %}
 <div class="page-content" style="margin: 20px;" >
 
   <div class="tab">
@@ -31,9 +34,6 @@
       <tbody>
         {% for upload in uploads %}
         <tr id="{{ upload['id'] }}">
-          <!--
-          <td><input type="checkbox" id="{{ upload['id'] }}" value="" /></td>
-        -->
           <td>{{ upload['id']}}</td>
           <td>{{ upload['filename']}}</td>
           <td>{{ upload['date']}}</td>
@@ -44,6 +44,62 @@
         {% endfor %}
       </tbody>
     </table>
+
+
+
+    <table class="file-table">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Size</th>
+          </tr>
+      </thead>
+      <tbody class="file-table__body">
+        {% for upload in uploads %}
+        <tr class="file-table__row" id="{{ upload['id'] }}">
+          <td>{{ upload['filename']}}</td>
+          <td>{{ upload['date'] }}</td>
+          <td>{{ upload['size'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+
+  <div id="context-menu">
+      <button class="context-menu__item" onclick="downloadFile(event)">Download</button>
+      <button class="context-menu__item" onclick="deleteFile(event)">Delete</button>
+      <button class="context-menu__item" onclick="">Details</button>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   </div>
   
   <div class="tabcontent" id="upload-table">
@@ -66,19 +122,11 @@
   </div>
 
 </div>
+{% endblock %}
 
-
-
-
-
-
-
-
-
-
-
-
-<script src="{{ url_for('static', filename='file_api.js')}}"></script>
-<script src="{{ url_for('static', filename='dropzone.js')}}"></script>
-<script src="{{ url_for('static', filename='tabs.js')}}"></script>
+{% block script %} 
+<script src="{{ url_for('static', filename='file_api.js') }}"></script>
+<script src="{{ url_for('static', filename='dropzone.js') }}"></script>
+<script src="{{ url_for('static', filename='tabs.js')     }}"></script>
+<script src="{{ url_for('static', filename='table.js')     }}"></script>
 {% endblock %}
