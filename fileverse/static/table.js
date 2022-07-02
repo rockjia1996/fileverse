@@ -44,9 +44,17 @@ scopes.forEach(scope => {
         const fileId = entry.id;
         const options = document.getElementById("context-menu").children;
 
-    console.log(entry.id)
-        options[0].addEventListener("click", () => downloadFile(fileId) )
-        options[1].addEventListener("click", () => deleteFile(fileId, entry) )
+
+
+        options[0].onclick = () => {
+            downloadFile(fileId);
+            document.getElementById("context-menu").classList.remove("visible")
+        }
+
+        options[1].onclick = () => {
+            deleteFile(fileId, entry) 
+            document.getElementById("context-menu").classList.remove("visible")
+        } 
     
     })
 });
