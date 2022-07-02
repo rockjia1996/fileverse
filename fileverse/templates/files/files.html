@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="page-content" style="margin: 20px;" >
+<div class="page-content" style="margin: 20px;">
 
   <div class="tab">
     <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">Files</button>
@@ -19,41 +19,14 @@
       <input type="search" placeholder="Search" />
       <input type="submit" value="Search" />
     </form>
-  
-    <table id="fileTable" class="table table-hover table-striped">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name</th>
-          <th scope="col">Last Modified</th>
-          <th scope="col">Size</th>
-          <th scope="col"></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for upload in uploads %}
-        <tr id="{{ upload['id'] }}">
-          <td>{{ upload['id']}}</td>
-          <td>{{ upload['filename']}}</td>
-          <td>{{ upload['date']}}</td>
-          <td>{{ upload['size']}}</td>
-          <td><button name="delete" onclick="deleteFile(event)">Delete</button></td>
-          <td><button name="download" onclick="downloadFile(event)">Download</button></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-
 
     <table class="file-table">
       <thead>
-          <tr>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Size</th>
-          </tr>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Size</th>
+        </tr>
       </thead>
       <tbody class="file-table__body">
         {% for upload in uploads %}
@@ -64,58 +37,30 @@
         </tr>
         {% endfor %}
       </tbody>
-  </table>
+    </table>
 
-  <div id="context-menu">
-      <button class="context-menu__item" onclick="downloadFile(event)">Download</button>
-      <button class="context-menu__item" onclick="deleteFile(event)">Delete</button>
-      <button class="context-menu__item" onclick="">Details</button>
-  </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <div id="context-menu">
+      <button class="context-menu__item">Download</button>
+      <button class="context-menu__item">Delete</button>
+      <button class="context-menu__item">Details</button>
+    </div>
 
   </div>
-  
+
   <div class="tabcontent" id="upload-table">
     <!--Drag and Drop Upload Box-->
     <div class="drop-zone">
       <span class="drop-zone__prompt">Drop files here or click to upload</span>
       <input class="drop-zone__input" type="file" name="file" multiple />
     </div>
-    
+
     <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
     <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntry(event)">Clear</button>
     <div class="upload-details">
     </div>
-  
+
   </div>
-  
+
   <div class="tabcontent" id="download-table">
     <h3>Download</h3>
     <p>Download table goes here</p>
@@ -124,7 +69,7 @@
 </div>
 {% endblock %}
 
-{% block script %} 
+{% block script %}
 <script src="{{ url_for('static', filename='file_api.js') }}"></script>
 <script src="{{ url_for('static', filename='dropzone.js') }}"></script>
 <script src="{{ url_for('static', filename='tabs.js')     }}"></script>

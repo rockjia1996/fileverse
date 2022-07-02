@@ -53,24 +53,18 @@ function uploadHandler(file, url) {
 function updateFile() {
 }
 
-async function deleteFile(event) {
-    console.log(event.target.parentElement)
-    const id = event.target.parentElement.parentElement.id;
+async function deleteFile(id, entry) {
     const delete_request = "/files/delete/" + id;
     response = await fetch(delete_request, { method: "DELETE" });
 
     if (response.status == 200) {
-        event.target.parentElement.parentElement.remove()
+        entry.remove()
     }
 }
 
-async function downloadFile(event) {
-    const id = event.target.parentElement.parentElement.id;
+async function downloadFile(id) {
     const download_request = "/files/download/" + id;
-
     const download_link = document.createElement('a')
-
-    download_link.download = event.target.parentElement.parentElement.childNodes[1]
     download_link.href = download_request
     download_link.click()
 }

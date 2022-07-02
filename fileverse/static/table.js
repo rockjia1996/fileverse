@@ -16,12 +16,11 @@ scopes.forEach(scope => {
     scope.addEventListener("click", event => {
         event.preventDefault();
         const rows = event.target.parentElement.parentElement.children;
-        for (row of rows) {
-            row.classList.remove("active-row");
-        }
+
+        for (row of rows)
+            row.classList.remove("active-row")
 
         event.target.parentElement.classList.add("active-row")
-
     })
 });
 
@@ -35,12 +34,20 @@ scopes.forEach(scope => {
         contextMenu.classList.add("visible");
 
         const rows = event.target.parentElement.parentElement.children;
-        for (row of rows) {
-            row.classList.remove("active-row");
-        }
 
-        event.target.parentElement.classList.add("active-row")
 
+        for (row of rows)
+            row.classList.remove("active-row")
+        event.target.parentElement.classList.add("active-row");
+
+        const entry = event.target.parentElement;
+        const fileId = entry.id;
+        const options = document.getElementById("context-menu").children;
+
+    console.log(entry.id)
+        options[0].addEventListener("click", () => downloadFile(fileId) )
+        options[1].addEventListener("click", () => deleteFile(fileId, entry) )
+    
     })
 });
 
