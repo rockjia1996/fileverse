@@ -47,38 +47,6 @@
 }
 
 
-/* Drag n Drop */
-.drop-zone{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 10rem;
-    background-color: #ccc;
-    border: 4px dashed #009578;
-    border-radius: 10px; 
-}
-
-.drop-zone--over{
-    border-style: solid;
-}
-
-
-.drop-zone__input{
-    display: none;
-}
-
-.drop-zone__submit{
-    color: white;
-    background-color: #008AD8;
-    border: 0px;
-    border-radius: 10px;
-    padding: 3px 10px;
-    margin: 10px;
-    width: 10%;
-}
-
 /* Upload Details */
 .upload-details{
     width: 100%;
@@ -115,10 +83,14 @@
 /* Tabs */
 .tab {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
-    border-radius: 10px;
+    width: 15rem;
+
 }
 
 .tab__link{
@@ -128,7 +100,8 @@
     cursor: pointer;
     padding: 5px 10px;
     transition: 0.3s;
-    width: 25%;
+    width: 100%;
+    text-align: left;
     
 }
 
@@ -147,4 +120,10 @@
   margin: 10px;
 
   border-radius: 10px;
+  width: 50%;
+}
+
+/* Page Content */
+.page-content{
+    display: flex;
 }

@@ -9,8 +9,6 @@ document.querySelector(".file-table")
         event.preventDefault();
     })
 
-
-
 // Left click hightlight file entry
 scopes.forEach(scope => {
     scope.addEventListener("click", event => {
@@ -35,7 +33,6 @@ scopes.forEach(scope => {
 
         const rows = event.target.parentElement.parentElement.children;
 
-
         for (row of rows)
             row.classList.remove("active-row")
         event.target.parentElement.classList.add("active-row");
@@ -43,8 +40,6 @@ scopes.forEach(scope => {
         const entry = event.target.parentElement;
         const fileId = entry.id;
         const options = document.getElementById("context-menu").children;
-
-
 
         options[0].onclick = () => {
             downloadFile(fileId);
@@ -55,7 +50,6 @@ scopes.forEach(scope => {
             deleteFile(fileId, entry) 
             document.getElementById("context-menu").classList.remove("visible")
         } 
-    
     })
 });
 
@@ -68,7 +62,6 @@ scopes.forEach(scope => {
 })
 
 scopes.forEach(scope => {
-
     scope.addEventListener("contextmenu", (event) => {
         event.preventDefault();
         const { clientX: mouseX, clientY: mouseY } = event;
@@ -79,8 +72,6 @@ scopes.forEach(scope => {
             contextMenu.classList.add("visible");
         });
     })
-
-
 })
 
 
@@ -125,5 +116,4 @@ scope.addEventListener("contextmenu", event =>{
         contextMenu.classList.add("value");
     })
 })
-
 */

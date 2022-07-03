@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css')}}" />
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
   {% block stylesheet %}
@@ -44,9 +43,7 @@
     {% block content %} {% endblock %}
   </main>
   
-  <script src="{{ url_for('static', filename='bootstrap.bundle.min.js')}}"></script>
   {% block script %} 
-  
   {% endblock %}
 
 </body>
