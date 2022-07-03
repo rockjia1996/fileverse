@@ -1,76 +1,92 @@
 {% extends "base.html" %}
 
+{% block title %}
+<title>My Files</title>
+{% endblock %}
+
 {% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/tabs.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/searchbar.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='/css/table.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='/css/dropzone.css')}}">
-<link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css')}}">
 {% endblock %}
 
 {% block content %}
 <div class="page-content">
-
+  <!-- Sidebar -->
   <div class="tab">
-    <button class="tab__link" >Dashboard</button>
+    <button class="tab__link">Dashboard</button>
     <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">Files</button>
-    <button class="tab__link" >Trash</button>
-    <button class="tab__link" >Settings</button>
+    <button class="tab__link">Trash</button>
+    <button class="tab__link">Settings</button>
+  </div>
+
+  <div class="tabcontent" id="file-table" style="display: block;">
+    <!-- Search Bar -->
+    <form class="search-bar">
+      <input type="search" placeholder="Search" />
+      <input type="submit" value="Search" />
+    </form>
+
+    <!-- File Table -->
+    <table class="file-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Size</th>
+        </tr>
+      </thead>
+      <tbody class="file-table__body">
+        {% for upload in uploads %}
+        <tr class="file-table__row" id="{{ upload['id'] }}">
+          <td>{{ upload['filename']}}</td>
+          <td>{{ upload['date'] }}</td>
+          <td>{{ upload['size'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Right Click on File Entries in the File Table-->
+    <div id="context-menu">
+      <button class="context-menu__item">Download</button>
+      <button class="context-menu__item">Delete</button>
+      <button class="context-menu__item">Details</button>
+    </div>
 
   </div>
 
-    <div class="tabcontent" id="file-table" style="display: block;">
-      <!-- Search Bar -->
-      <form class="search-bar">
-        <input type="search" placeholder="Search" />
-        <input type="submit" value="Search" />
-      </form>
-  
-      <table class="file-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Size</th>
-          </tr>
-        </thead>
-        <tbody class="file-table__body">
-          {% for upload in uploads %}
-          <tr class="file-table__row" id="{{ upload['id'] }}">
-            <td>{{ upload['filename']}}</td>
-            <td>{{ upload['date'] }}</td>
-            <td>{{ upload['size'] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-  
-      <div id="context-menu">
-        <button class="context-menu__item">Download</button>
-        <button class="context-menu__item">Delete</button>
-        <button class="context-menu__item">Details</button>
-      </div>
-  
-    </div>
-  
-    <div class="tabcontent" id="download-table">
-      <h3>Download</h3>
-      <p>Download table goes here</p>
+  <div class="tabcontent" id="download-table">
+    <h3>Download</h3>
+    <p>Download table goes here</p>
+  </div>
+
+  <div>
+    <!--Drag and Drop Upload Box-->
+    <div class="drop-zone">
+      <span class="drop-zone__prompt">Drop files here or click to upload</span>
+      <input class="drop-zone__input" type="file" name="file" multiple />
     </div>
 
-    <div>
-      <!--Drag and Drop Upload Box-->
-      <div class="drop-zone">
-        <span class="drop-zone__prompt">Drop files here or click to upload</span>
-        <input class="drop-zone__input" type="file" name="file" multiple />
+    <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
+    <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntry(event)">Clear</button>
+
+    <div class="ongoing-tasks">
+      <div class="ongoing-tasks__upload">
+        <p>Upload Summary</p>
+        <div class="upload-details">
+        </div>
       </div>
-  
-      <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
-      <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntry(event)">Clear</button>
-      <div class="upload-details">
-      </div>
-      <div>
-        <p>on going tasks' progresses go here</p>
+
+      <div class="ongoing-tasks__download">
+        <p>Download Summary</p>
+        <div>
+
+        </div>
       </div>
     </div>
+  </div>
 
 
 </div>

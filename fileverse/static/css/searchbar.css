@@ -1,0 +1,26 @@
+.search-bar {
+    display: flex;
+    margin: 10px 10px
+}
+
+.search-bar input
+{
+    display: block;
+    padding: 5px 10px; 
+    margin-left: 10px;
+    margin-right: 10px;
+    
+}
+
+.search-bar input[type=search]{
+    width: 100%
+}
+
+.search-bar input[type=submit]{
+    color: white;
+    background-color: #0099CC;
+    border-radius: 10px;
+    border: none;
+    font-size: medium;
+    font-weight: 700;
+}
