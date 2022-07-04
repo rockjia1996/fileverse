@@ -1,0 +1,32 @@
+/* Upload Details */
+.upload-details{
+    width: 100%;
+}
+
+.detail {
+   padding: 10px; 
+   margin: 5px;
+   text-align: left;
+   padding: 1rem 5rem;
+}
+
+.detail__name{
+    display: block;
+}
+
+.detail__progress{
+    display: inline-block;
+    width: 80%;
+}
+
+.detail__cancel{
+    display: inline-block;
+    color: #d3394c;
+    padding: 2px 10px;
+    border: 2px solid #d3394c;
+    cursor: pointer;
+    font-size: medium;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}

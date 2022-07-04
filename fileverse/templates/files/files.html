@@ -1,115 +1,119 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}
-<title>My Files</title>
-{% endblock %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Drive</title>
 
-{% block stylesheet %}
-<link rel="stylesheet" href="{{ url_for('static', filename='/css/tabs.css')}}">
-<link rel="stylesheet" href="{{ url_for('static', filename='/css/searchbar.css')}}">
-<link rel="stylesheet" href="{{ url_for('static', filename='/css/table.css')}}">
-<link rel="stylesheet" href="{{ url_for('static', filename='/css/dropzone.css')}}">
-{% endblock %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/layout.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/navbar.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/tabs.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/searchbar.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/table.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/dropzone.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/details.css')}}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
 
-{% block content %}
-<div class="page-content">
-  <!-- Sidebar -->
-  <div class="tab">
-    <button class="tab__link">
-      <svg class="dashboard-icon"></svg>
-      <span>Dashboard</span>
-    </button>
+<body>
+  <div class="navbar">
+    <div>Brand Name</div>
 
-    <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">
-      <svg class="files-icon"></svg>
-      <span>Files</span>
-
-    </button>
-    <button class="tab__link">
-     <svg class="trash-icon"></svg> 
-     <span>Trash</span>
-    </button>
-
-    <button class="tab__link">
-      <svg class="settings-icon"></svg>
-      <span>Settings</span>
-    </button>
-  </div>
-
-  <div class="tabcontent" id="file-table" style="display: block;">
     <!-- Search Bar -->
     <form class="search-bar">
       <input type="search" placeholder="Search" />
       <input type="submit" value="Search" />
     </form>
 
-    <!-- File Table -->
-    <table class="file-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Date</th>
-          <th>Size</th>
-        </tr>
-      </thead>
-      <tbody class="file-table__body">
-        {% for upload in uploads %}
-        <tr class="file-table__row" id="{{ upload['id'] }}">
-          <td>{{ upload['filename']}}</td>
-          <td>{{ upload['date'] }}</td>
-          <td>{{ upload['size'] }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
 
-    <!-- Right Click on File Entries in the File Table-->
-    <div id="context-menu">
-      <button class="context-menu__item">Download</button>
-      <button class="context-menu__item">Delete</button>
-      <button class="context-menu__item">Details</button>
+    <div>User</div>
+  </div>
+    
+  <div class="page-content">
+
+    <!-- Sidebar -->
+    <div class="tab">
+      <button class="tab__link">
+        <svg class="dashboard-icon"></svg>
+        <span>Dashboard</span>
+      </button>
+
+      <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">
+        <svg class="files-icon"></svg>
+        <span>Files</span>
+
+      </button>
+      <button class="tab__link">
+        <svg class="trash-icon"></svg>
+        <span>Trash</span>
+      </button>
+
+      <button class="tab__link">
+        <svg class="settings-icon"></svg>
+        <span>Settings</span>
+      </button>
     </div>
 
-  </div>
 
-  <div class="tabcontent" id="download-table">
-    <h3>Download</h3>
-    <p>Download table goes here</p>
-  </div>
-
-  <div>
-    <!--Drag and Drop Upload Box-->
-    <div class="drop-zone">
-      <span class="drop-zone__prompt">Drop files here or click to upload</span>
-      <input class="drop-zone__input" type="file" name="file" multiple />
+    <div class="tabcontent" id="file-table" style="display: block;">
+      <!-- File Table -->
+      <table class="file-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Size</th>
+          </tr>
+        </thead>
+        <tbody class="file-table__body">
+          {% for upload in uploads %}
+          <tr class="file-table__row" id="{{ upload['id'] }}">
+            <td>{{ upload['filename']}}</td>
+            <td>{{ upload['date'] }}</td>
+            <td>{{ upload['size'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- Right Click on File Entries in the File Table-->
+      <div id="context-menu">
+        <button class="context-menu__item">Download</button>
+        <button class="context-menu__item">Delete</button>
+        <button class="context-menu__item">Details</button>
+      </div>
     </div>
 
-    <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
-    <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntry(event)">Clear</button>
-
-    <div class="ongoing-tasks">
-      <div class="ongoing-tasks__upload">
-        <p>Upload Summary</p>
-        <div class="upload-details">
-        </div>
+    <div>
+      <!--Drag and Drop Upload Box-->
+      <div class="drop-zone">
+        <span class="drop-zone__prompt">Drop files here or click to upload</span>
+        <input class="drop-zone__input" type="file" name="file" multiple />
       </div>
 
-      <div class="ongoing-tasks__download">
-        <p>Download Summary</p>
-        <div>
+      <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
+      <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntry(event)">Clear</button>
 
+      <div class="ongoing-tasks">
+        <div class="ongoing-tasks__upload">
+          <p>Upload Summary</p>
+          <div class="upload-details">
+          </div>
+        </div>
+
+        <div class="ongoing-tasks__download">
+          <p>Download Summary</p>
+          <div>
+
+          </div>
         </div>
       </div>
     </div>
+
   </div>
-
-
-</div>
-{% endblock %}
-
-{% block script %}
-<script src="{{ url_for('static', filename='/js/file_api.js') }}"></script>
-<script src="{{ url_for('static', filename='/js/dropzone.js') }}"></script>
-<script src="{{ url_for('static', filename='/js/tabs.js')     }}"></script>
-<script src="{{ url_for('static', filename='/js/table.js')     }}"></script>
-{% endblock %}
+    <script src="{{ url_for('static', filename='js/files/file_api.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/files/dropzone.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/files/tabs.js')     }}"></script>
+    <script src="{{ url_for('static', filename='js/files/table.js')     }}"></script>
+</body>
+</html>
