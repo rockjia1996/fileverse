@@ -15,10 +15,25 @@
 <div class="page-content">
   <!-- Sidebar -->
   <div class="tab">
-    <button class="tab__link">Dashboard</button>
-    <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">Files</button>
-    <button class="tab__link">Trash</button>
-    <button class="tab__link">Settings</button>
+    <button class="tab__link">
+      <svg class="dashboard-icon"></svg>
+      <span>Dashboard</span>
+    </button>
+
+    <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">
+      <svg class="files-icon"></svg>
+      <span>Files</span>
+
+    </button>
+    <button class="tab__link">
+     <svg class="trash-icon"></svg> 
+     <span>Trash</span>
+    </button>
+
+    <button class="tab__link">
+      <svg class="settings-icon"></svg>
+      <span>Settings</span>
+    </button>
   </div>
 
   <div class="tabcontent" id="file-table" style="display: block;">

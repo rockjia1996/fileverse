@@ -7,11 +7,14 @@
   overflow: hidden;
   background-color: #f1f1f1;
   width: 15rem;
+  height: 100vh;
   border:none;
 
 }
 
 .tab__link {
+  display: flex;
+  align-items: center;
   background-color: #f1f1f1;
   border: none;
   outline: none;
@@ -24,6 +27,8 @@
   text-align: left;
 
   font-size: medium;
+
+  margin-top: 10px;
 
 }
 
@@ -43,4 +48,37 @@
 
   border-radius: 10px;
   width: 50%;
+}
+
+.tab__link span {
+  padding-left: 20px;
+}
+
+.dashboard-icon {
+  width: 20px;
+  height: 20px;
+  background-image: url("/static/img/dashboard.svg");
+  background-repeat: no-repeat;
+
+}
+
+.files-icon {
+  width: 20px;
+  height: 20px;
+  background-image: url("/static/img/drive.svg");
+  background-repeat: no-repeat;
+}
+
+.trash-icon {
+  width: 20px;
+  height: 20px;
+  background-image: url("/static/img/trash.svg");
+  background-repeat: no-repeat;
+}
+
+.settings-icon {
+  width: 20px;
+  height: 20px;
+  background-image: url("/static/img/settings.svg");
+  background-repeat: no-repeat;
 }
