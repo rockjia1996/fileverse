@@ -8,9 +8,10 @@ function uploadFile(event) {
         const promise = uploadHandler(selected, `files/upload/${selected.name}`);
         promise.then((result) => {
             const contextMenu = document.getElementById("context-menu");
-            const newFileEntry = [updateFileEntry(result.name, result.date, result.size)]
+            const newFileEntry = [updateFileEntry(result.id, result.name, result.date, result.size)]
             highlightLeftClick(newFileEntry)
             customizeContextMenu(newFileEntry, contextMenu)
+            updateHighlight(newFileEntry, contextMenu)
 
         }).catch((result) => console.log(result))
     }
@@ -26,9 +27,28 @@ function uploadHandler(file, url) {
         
         let date = new Date();
         xhr.upload.onerror = () => reject("error")
-        xhr.upload.onload = () => {
-            resolve({name: file.name, size: file.size, date: date.toLocaleString()});
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState == XMLHttpRequest.DONE){
+                resolve({
+                    id: xhr.responseText,
+                    name: file.name, 
+                    size: file.size, 
+                    date: date.toLocaleString()
+                });
+            }
         }
+        /*
+        xhr.upload.onload = (event) => {
+            console.log(event)
+            resolve({
+                id: xhr.responseText,
+                name: file.name, 
+                size: file.size, 
+                date: date.toLocaleString()
+            });
+        }
+        */
         
         xhr.open("POST", url)
         xhr.send(file)

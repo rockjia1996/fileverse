@@ -17,9 +17,7 @@ function initTable() {
 
 //  Highlight the file entry while left click
 function highlightLeftClick(entries) {
-    console.log(entries)
     entries.forEach(entry => {
-
         entry.addEventListener("click", event => {
             // Note that event.target is the a <td> cell, so its parent is row
             event.preventDefault();
@@ -104,11 +102,12 @@ function openContextMenuInNewLocation(entries, contextMenu) {
 }
 
 // Update the file table UI
-function updateFileEntry(filename, date, size){
+function updateFileEntry(id, filename, date, size){
     const table = document.querySelector(".file-table__body");
 
     const newEntry = table.insertRow(0);
-
+    newEntry.id = id;
+    
     const filenameCell = newEntry.insertCell(0)
     const dateCell = newEntry.insertCell(1);
     const sizeCell = newEntry.insertCell(2);

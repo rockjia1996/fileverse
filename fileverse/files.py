@@ -49,8 +49,11 @@ def upload(filename):
         (filename, size, save_path)
     )
     db.commit()
-
-    return "Ok"
+    new_record = db.execute(
+        "SELECT id from user_upload WHERE path = ? ", (save_path, )
+    ).fetchone()
+    
+    return str(new_record["id"])
 
 
 def read_chunk(path_to_file, chunk_size):
@@ -64,7 +67,7 @@ def read_chunk(path_to_file, chunk_size):
 
 @bp.route("/files/download/<int:id>", methods=("GET", ))
 def download(id):
-    db =get_db()
+    db = get_db()
     
     record = db.execute(
         "SELECT filename, path FROM user_upload WHERE id = ? ;", 
