@@ -7,7 +7,11 @@ function uploadFile(event) {
     for (selected of selectedFiles) {
         const promise = uploadHandler(selected, `files/upload/${selected.name}`);
         promise.then((result) => {
-            updateFileEntry(result.name, result.date, result.size)
+            const contextMenu = document.getElementById("context-menu");
+            const newFileEntry = [updateFileEntry(result.name, result.date, result.size)]
+            highlightLeftClick(newFileEntry)
+            customizeContextMenu(newFileEntry, contextMenu)
+
         }).catch((result) => console.log(result))
     }
     
@@ -63,19 +67,3 @@ function updateUploadProgressBar(current, total, filename) {
     }    
 }
 
-// Update the file table UI
-function updateFileEntry(filename, date, size){
-    console.log("updateFileEntry called")
-    const table = document.querySelector(".file-table__body");
-
-    const newEntry = table.insertRow(0);
-
-    const filenameCell = newEntry.insertCell(0)
-    const dateCell = newEntry.insertCell(1);
-    const sizeCell = newEntry.insertCell(2);
-
-    filenameCell.appendChild(document.createTextNode(filename));
-    dateCell.appendChild(document.createTextNode(date));
-    sizeCell.appendChild(document.createTextNode(size));
-    
-}
