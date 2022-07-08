@@ -1,5 +1,17 @@
 /* Page Content */
-.page-content{
+.page-content {
     display: flex;
+    justify-content: space-between;
     height: 100%;
+}
+
+.upload-download {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    background-image: linear-gradient(
+        to right top, 
+        #7ed57b, #84db6b, #8de157, #99e63e, #a8eb12);
 }

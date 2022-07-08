@@ -4,12 +4,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 80%;
     height: 10rem;
     background-color: #ccc;
     border: 4px dashed #009578;
     border-radius: 10px; 
-
+    text-align: center;
     padding: 20px;
 }
 
@@ -30,3 +30,9 @@
     margin: 10px;
     width: 5rem;
 }
+
+.ongoing-tasks__upload{
+
+}
+
+.ongoing-tasks__download{}
