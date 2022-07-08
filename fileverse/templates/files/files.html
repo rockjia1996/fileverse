@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Drive</title>
 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/files/layout.css')}}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/files/navbar.css')}}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/files/tabs.css')}}">
@@ -18,7 +19,7 @@
 
 <body>
   <div class="navbar">
-    <div>Brand Name</div>
+    <div class="brand-name">FileVerse</div>
 
     <!-- Search Bar -->
     <form class="search-bar">
@@ -26,8 +27,6 @@
       <input type="submit" value="Search" />
     </form>
 
-
-    <div>User</div>
   </div>
 
   <div class="page-content">
