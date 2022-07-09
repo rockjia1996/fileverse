@@ -1,11 +1,22 @@
 /* Upload & Download Details */
+.ongoing-task{
+    width: 100%;
+}
+
 
 .ongoing-tasks__upload{
+    width: 100%;
+    height: 20%;
+    background: red;
 
 }
 
 .ongoing-tasks__download{
-    
+    width: 100%;
+    height: 20%;
+    background: orange;
+
+ 
 }
 
 
