@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/files/details.css')}}">
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<!-- TO DO: Refactor the page -->
+
 <body>
   <div class="navbar">
     <div class="brand-name">FileVerse</div>
@@ -33,10 +33,19 @@
 
     <!-- Sidebar -->
     <div class="tab">
-      <button class="tab__link">
-        <svg class="dashboard-icon"></svg>
-        <span>Dashboard</span>
-      </button>
+
+      <!--
+        <button class="tab__link">
+          <svg class="dashboard-icon"></svg>
+          <span>Dashboard</span>
+        </button>
+
+        
+        <button class="tab__link">
+          <svg class="settings-icon"></svg>
+          <span>Settings</span>
+        </button>
+      -->
 
       <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">
         <svg class="files-icon"></svg>
@@ -48,10 +57,6 @@
         <span>Trash</span>
       </button>
 
-      <button class="tab__link">
-        <svg class="settings-icon"></svg>
-        <span>Settings</span>
-      </button>
     </div>
 
 
@@ -90,24 +95,17 @@
         <input class="drop-zone__input" type="file" name="file" multiple />
       </div>
 
-      <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
-      <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntry(event)">Clear</button>
-
-      <div class="ongoing-tasks">
-        <div class="ongoing-tasks__upload">
-          <p>Ongoing Upload</p>
-          <div class="upload-details">
-          </div>
+        <div>
+          <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
+          <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntries(event)">Clear</button>
         </div>
 
-        <div class="ongoing-tasks__download">
-          <p>Ongoing Download</p>
-          <div class="download-details">
-
-          </div>
-        </div>
+      <div class="upload-details">
       </div>
+
     </div>
+  </div>
+  </div>
 
   </div>
   <script src="{{ url_for('static', filename='js/files/requestHandler.js')}}"></script>

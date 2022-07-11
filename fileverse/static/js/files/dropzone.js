@@ -46,25 +46,32 @@ function addUploadFileEntry(filename) {
     let detailName = document.createElement("span");
     let detailProgress = document.createElement("progress");
     let detailCancel = document.createElement("button");
+    let detailCancelIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
     detail.className = "detail";
     detailName.className = "detail__name";
     detailProgress.className = "detail__progress";
     detailCancel.className = "detail__cancel";
+    detailCancelIcon.classList.add("cancel-icon");
 
     detail.appendChild(detailName)
     detail.appendChild(detailProgress)
     detail.appendChild(detailCancel)
 
+    detailCancel.appendChild(detailCancelIcon)
+
     detailName.textContent = filename;
     detailProgress.max = "100";
     detailProgress.value = "0";
-    detailCancel.textContent = "Cancel";
 
     document.querySelector(".upload-details").appendChild(detail)
+
+
+    detailCancel.onclick = () => alert("abort")
+
 }
 
-function removeUploadFileEntry(){
+function removeUploadFileEntries(){
     let details = document.querySelector(".upload-details");
 
     let removeChildren = [];

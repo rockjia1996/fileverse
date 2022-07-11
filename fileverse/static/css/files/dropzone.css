@@ -22,6 +22,7 @@
 }
 
 .drop-zone__submit{
+    display: inline-block;
     color: white;
     background-color: #008AD8;
     border: 0px;
@@ -29,10 +30,8 @@
     padding: 3px 10px;
     margin: 10px;
     width: 5rem;
+    cursor: pointer;
 }
 
-.ongoing-tasks__upload{
 
-}
 
-.ongoing-tasks__download{}
