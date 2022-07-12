@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Drive</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/navbar.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/searchbar.css')}}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-layout.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-dropzone.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-details.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-table.css')}}">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="brand-name">FileVerse</div>
+
+        <!-- Search Bar -->
+        <form class="search-bar">
+            <input type="search" placeholder="Search" />
+            <input type="submit" value="Search" />
+        </form>
+
+    </div>
+
+    <div class="page-content">
+
+        <div class="drop-zone"></div>
+        <div class="ongoing-upload"></div>
+        <table class="file-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Size</th>
+                </tr>
+            </thead>
+            <tbody class="file-table__body">
+                {% for upload in uploads %}
+                <tr class="file-table__row" id="{{ upload['id'] }}">
+                    <td>{{ upload['filename']}}</td>
+                    <td>{{ upload['date'] }}</td>
+                    <td>{{ upload['size'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/files/requestHandler.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/files/dropzone.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/files/tabs.js')     }}"></script>
+    <script src="{{ url_for('static', filename='js/files/table.js')     }}"></script>
+
+</body>
+
+</html>
