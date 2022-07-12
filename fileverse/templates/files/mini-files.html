@@ -10,10 +10,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/files/navbar.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/files/searchbar.css')}}">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-layout.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-dropzone.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-details.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/mini-table.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-layout.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-dropzone.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-details.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-table.css')}}">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
@@ -35,7 +35,7 @@
         <div class="drop-zone"></div>
         <div class="ongoing-upload"></div>
         <table class="file-table">
-            <thead>
+            <thead class="file-table__header">
                 <tr>
                     <th>Name</th>
                     <th>Date</th>
@@ -43,13 +43,21 @@
                 </tr>
             </thead>
             <tbody class="file-table__body">
-                {% for upload in uploads %}
-                <tr class="file-table__row" id="{{ upload['id'] }}">
-                    <td>{{ upload['filename']}}</td>
-                    <td>{{ upload['date'] }}</td>
-                    <td>{{ upload['size'] }}</td>
+                <tr class="file-table__row">
+                    <td>some filename</td>
+                    <td>XXXX-XX-XX XX-XX-XX</td>
+                    <td>XXXXXXXXXXX</td>
                 </tr>
-                {% endfor %}
+                <tr class="file-table__row">
+                    <td>some filename</td>
+                    <td>XXXX-XX-XX XX-XX-XX</td>
+                    <td>XXXXXXXXXXX</td>
+                </tr>
+                <tr class="file-table__row">
+                    <td>some filename</td>
+                    <td>XXXX-XX-XX XX-XX-XX</td>
+                    <td>XXXXXXXXXXX</td>
+                </tr>
             </tbody>
         </table>
 
