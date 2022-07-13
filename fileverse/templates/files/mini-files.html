@@ -19,21 +19,25 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="brand-name">FileVerse</div>
-
-        <!-- Search Bar -->
-        <form class="search-bar">
-            <input type="search" placeholder="Search" />
-            <input type="submit" value="Search" />
-        </form>
-
-    </div>
-
     <div class="page-content">
 
-        <div class="drop-zone"></div>
-        <div class="ongoing-upload"></div>
+        <div class="drop-zone">
+            <span class="drop-zone__prompt">Drop files here or click to upload</span>
+            <input class="drop-zone__input" type="file" name="file" multiple />  
+        </div>
+
+
+
+
+        <div class="details">
+            <div class="detail">
+                <span class="detail__name">Some Filename</span>
+                <progress class="detail__progress" max="100" value="0"></progress>
+                <button class="detail__cancel">Cancel</button>
+            </div>
+
+
+        </div>
         <table class="file-table">
             <thead class="file-table__header">
                 <tr>

@@ -1,5 +1,25 @@
-.ongoing-upload{
-    width: 100%;
+.details {
+    width: 90%;
     height: 10rem;
+    padding: 1rem;
     background-color: lightskyblue;
+}
+
+.detail {
+    width: 100%;
+    background-color: bisque;
+}
+
+.detail__name {
+    display: block;
+}
+
+.detail__progress {
+    display: inline-block;
+    width: 70%;
+    vertical-align: middle;
+}
+
+.detail__cancel {
+    display: inline-block;
 }
