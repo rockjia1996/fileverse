@@ -2,12 +2,10 @@
     width: 80%;
     height: 10rem;
     padding: 1rem;
-    background-color: lightskyblue;
 }
 
 .detail {
     width: 100%;
-    background-color: bisque;
 }
 
 .detail__name {
@@ -16,7 +14,7 @@
 
 .detail__progress {
     display: inline-block;
-    width: 70%;
+    width: 90%;
     vertical-align: middle;
 }
 
