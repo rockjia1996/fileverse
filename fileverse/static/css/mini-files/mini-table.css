@@ -1,4 +1,4 @@
-.file-table{
+.table{
     width: 80%;
     margin: 25px 0;
 
@@ -8,31 +8,31 @@
     font-size: 0.9em;
 }
 
-.file-table thead tr {
+.table thead tr {
     background-color: #009879;
     color: #fff;
     text-align: left;
 }
 
 
-.file-table th,
-.file-table td {
+.table th,
+.table td {
     padding: 12px 15px;
 }
 
-.file-table tbody tr {
+.table tbody tr {
     border-bottom: thin solid #ddd;
     cursor: pointer;
 }
 
-.file-table tbody tr:nth-of-type(even){
+.table tbody tr:nth-of-type(even){
     background-color: #f3f3f3;
 }
 
-.file-table tbody tr:last-of-type {
+.table tbody tr:last-of-type {
 border-bottom: 2px solid #009879;
 }
 
-.file-table tbody tr.active-row{
+.table tbody tr.active-row{
     color: #009879;
 }

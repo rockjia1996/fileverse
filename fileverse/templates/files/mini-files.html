@@ -24,14 +24,27 @@
             <span class="drop-zone__prompt">Drop files here or click to upload</span>
             <input class="drop-zone__input" type="file" name="file" multiple />
         </div>
-        <div class="details">
-            <div class="detail">
-                <span class="detail__name">Some Filename</span>
-                <progress class="detail__progress" max="100" value="0"></progress>
-                <button class="detail__cancel">Cancel</button>
-            </div>
-        </div>
-        <table class="file-table">
+
+            
+        <table class="table" id="upload-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Progress</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Some Fileanme</td>
+                    <td><progress max="100" value="30"></progress></td>
+                    <td><button>Cancel</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <table class="table" id="file-table">
             <thead>
                 <tr>
                     <th>Name</th>
