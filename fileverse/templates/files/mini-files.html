@@ -51,6 +51,7 @@
         <table class="table" id="file-table">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Date</th>
                     <th>Size</th>
@@ -58,16 +59,19 @@
             </thead>
             <tbody>
                 <tr>
+                    <td>0</td>
                     <td>some filename</td>
                     <td>XXXX-XX-XX XX-XX-XX</td>
                     <td>XXXXXXXXXXX</td>
                 </tr>
                 <tr>
+                    <td>1</td>
                     <td>some filename</td>
                     <td>XXXX-XX-XX XX-XX-XX</td>
                     <td>XXXXXXXXXXX</td>
                 </tr>
                 <tr>
+                    <td>2</td>
                     <td>some filename</td>
                     <td>XXXX-XX-XX XX-XX-XX</td>
                     <td>XXXXXXXXXXX</td>
@@ -80,6 +84,7 @@
 
     <script src="{{ url_for('static', filename='js/mini-files/mini-dropzone.js') }}"></script>
     <script src="{{ url_for('static', filename='js/mini-files/mini-table.js')     }}"></script>
+    <script src="{{ url_for('static', filename='js/mini-files/mini-http.js')     }}"></script>
 
 </body>
 

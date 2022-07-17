@@ -6,11 +6,16 @@ function initDropzone(){
     const dropZoneElement = document.querySelector(".drop-zone");
     
     inputElement.addEventListener("change", e => {
-        for (selected of inputElement.files) {
-            // TO DO: implement the process of each file
-            const table = document.getElementById("upload-table").children[1]
-            addTableRow(table, createUploadEntryArray(selected.name))
+        const promises = [];
 
+        for (selected of inputElement.files) {
+                const table = document.getElementById("upload-table").children[1]
+                const row = addTableRow(table, createUploadEntryArray(selected.name))
+                const cancelButton = row.children[2].children[0];
+                const url = `files/upload/${selected.name}`;
+    
+                uploadHandler(cancelButton, url, selected);
+                
         }
     } )
     
