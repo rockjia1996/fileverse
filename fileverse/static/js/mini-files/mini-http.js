@@ -3,19 +3,19 @@ function uploadHandler(cancelButton, url, file) {
         const xhr = new XMLHttpRequest();
 
         xhr.upload.onprogress = event => {
-            updateUploadProgressBar(selected.name, event.loaded, event.total);
+            updateUploadProgressBar(file.name, event.loaded, event.total);
         }
 
         xhr.upload.onerror = () => reject("error")
         
         xhr.onreadystatechange = () => {
             if (xhr.readyState == XMLHttpRequest.DONE) {
-                let date = new Date();
+                let date = new Date().toLocaleString('en-US', {timeZone: 'UTC'});
                 resolve({
                     id: xhr.responseText,
-                    name: selected.name,
-                    size: selected.size,
-                    date: date.toLocaleString()
+                    name: file.name,
+                    size: file.size,
+                    date: date
                 });
             }
         }

@@ -11,8 +11,8 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY = "dev",
         DATABASE=os.path.join(app.instance_path, 'fileverse.sqlite'),
-        UPLOAD_FOLDER=os.path.join(app.instance_path, "upload"),
-        #UPLOAD_FOLDER="/mnt/298aaee5-6d4e-40aa-9c8e-b211d2c2d5c6",
+        #UPLOAD_FOLDER=os.path.join(app.instance_path, "upload"),
+        UPLOAD_FOLDER="/mnt/storage",
         MAX_CONTENT_LENGTH = 100 * 1024 * 1024 * 1024
     )
 

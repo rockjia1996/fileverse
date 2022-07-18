@@ -21,12 +21,11 @@ function createUploadEntryArray(name){
     return [filename, progressBar, cancelButton]
 }
 
-
 function createFileEntryArray(id, name, date, size){
-    const fileId       = document.createTextNode(id);
+    const fileId   = document.createTextNode(id);
     const filename = document.createTextNode(name);
     const modified = document.createTextNode(date);
-    const fileSize = document.createTextNode(size);
+    const fileSize = document.createTextNode(autoFileSizeUnit(size));
 
     return [fileId, filename, modified, fileSize];
 }
@@ -34,15 +33,29 @@ function createFileEntryArray(id, name, date, size){
 function updateUploadProgressBar(name, loaded, total){
     const uploadEntries = document.getElementById("upload-table").children[1].children;
 
-
     for (entry of uploadEntries){
         const filename = entry.children[0].textContent;
         if (filename === name){
             const progressBar = entry.children[1].children[0];
             progressBar.value = (loaded / total) * 100;
+            break;
         }
     }
 
 
 
+}
+
+
+function autoFileSizeUnit(size){
+    const isB = (size) => size < 2**10 ? true : false;
+    const isKB = (size) => size >= 2**10 && size < 2**20 ? true : false;
+    const isMB = (size) => size >= 2**20 && size < 2**30 ? true : false;
+    const isGB = (size) => size >= 2**30 ? true : false;
+
+
+    if (isB(size))  return `${size} byte`;
+    if (isKB(size)) return `${Math.round((size*100) / 2**10) / 100} Kb`;
+    if (isMB(size)) return `${Math.round((size*100) / 2**20) / 100} Mb`;
+    if (isGB(size)) return `${Math.round((size*100) / 2**30) / 100} Gb`;
 }
