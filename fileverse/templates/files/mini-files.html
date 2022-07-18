@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-dropzone.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-details.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-table.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-context-menu.css')}}">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
@@ -49,10 +50,18 @@
                 </tr>
             </thead>
             <tbody>
+                {% for upload in uploads %}
+                <tr>
+                    <td>{{ upload['id'] }}</td>
+                    <td>{{ upload['filename'] }}</td>
+                    <td>{{ upload['date'] }}</td>
+                    <td>{{ upload['size'] }}</td>
+                </tr>
+                {% endfor %}
             </tbody>
         </table>
 
-        <div class="context-menu">
+        <div class="context-menu" id="file-table-context-menu">
             <button class="context-menu__item">Download</button>
             <button class="context-menu__item">Delete</button>
             <button class="context-menu__item">Details</button>
@@ -61,8 +70,9 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/mini-files/mini-dropzone.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/mini-files/mini-table.js')     }}"></script>
-    <script src="{{ url_for('static', filename='js/mini-files/mini-http.js')     }}"></script>
+    <script src="{{ url_for('static', filename='js/mini-files/mini-table.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mini-files/mini-context-menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mini-files/mini-http.js') }}"></script>
 
 </body>
 

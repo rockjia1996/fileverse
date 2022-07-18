@@ -15,5 +15,9 @@ from fileverse.db import get_db
 bp = Blueprint("mini_files", __name__)
 
 @bp.route("/mini-files")
-def min_files():
-    return render_template("files/mini-files.html")
+def mini_files():
+    db = get_db()
+    uploads = db.execute(
+        "SELECT id, filename, date, size FROM user_upload"
+    ).fetchall()
+    return render_template("files/mini-files.html", uploads=uploads)
