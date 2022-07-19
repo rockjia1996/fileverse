@@ -41,10 +41,9 @@ function updateUploadProgressBar(name, loaded, total){
             break;
         }
     }
-
-
-
 }
+
+
 
 function autoFileSizeUnit(size){
     const isB = (size) => size < 2**10 ? true : false;

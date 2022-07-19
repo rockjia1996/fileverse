@@ -15,9 +15,6 @@ function initDropzone() {
 
             const promise = uploadHandler(cancelButton, url, selected);
             promise.then(details => {
-                console.log(details)
-
-
                 const configCells = createFileEntryArray(
                     details.id, 
                     details.name, 
@@ -26,11 +23,9 @@ function initDropzone() {
                 );
                     
                 const fileTable = document.getElementById("file-table").children[1];
-                addTableRow(fileTable, configCells);
-
-
+                const row = addTableRow(fileTable, configCells);
+                addFileEntryContextMenu(row);
             })
-
         }
     })
 

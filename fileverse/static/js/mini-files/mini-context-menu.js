@@ -17,6 +17,17 @@ function initFileTableContextMenu() {
 
 }
 
+function addFileEntryContextMenu(entry){
+    const contextMenu = document.getElementById("file-table-context-menu");
+    const scopes = [entry];
+
+    highlightFileTableLeftClick(scopes);
+    customizeFileTableContextMenu(scopes, contextMenu);
+    updateHighlight(scopes, contextMenu);
+    openContextMenuInNewLocation(scopes, contextMenu);
+}
+
+
 
 function highlightFileTableLeftClick(entries) {
     entries.forEach(entry => {
@@ -38,8 +49,6 @@ function highlightFileTableLeftClick(entries) {
 function customizeFileTableContextMenu(entries, contextMenu) {
     entries.forEach(entry => {
         entry.addEventListener("contextmenu", event => {
-
-            //const contextMenu = document.getElementById("context-menu");
             event.preventDefault();
 
             const { clientX: mouseX, clientY: mouseY } = event;
@@ -59,17 +68,18 @@ function customizeFileTableContextMenu(entries, contextMenu) {
             event.target.parentElement.classList.add("active-row");
 
             const entry = event.target.parentElement;
-            const fileId = entry.id;
+            const fileId = entry.children[0].textContent;
             const options = document.getElementById("file-table-context-menu").children;
 
 
             options[0].onclick = () => {
-                downloadFile(fileId);
+                downloadHandler(fileId);
                 document.getElementById("file-table-context-menu").classList.remove("visible")
             }
 
             options[1].onclick = () => {
-                deleteFile(fileId, entry)
+                deleteHandler(fileId)
+                entry.remove();
                 document.getElementById("file-table-context-menu").classList.remove("visible")
             }
         });

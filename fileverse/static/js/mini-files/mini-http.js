@@ -26,3 +26,17 @@ function uploadHandler(cancelButton, url, file) {
         cancelButton.onclick = () => xhr.abort();
     })
 }
+
+function downloadHandler(id){
+    const downloadRequest = "/files/download/" + id;
+    const downloadLink = document.createElement('a');
+    downloadLink.href = downloadRequest;
+    downloadLink.click();
+}
+
+async function deleteHandler(id){
+    const deleteRequest = "/files/delete/" + id;
+    const response = await fetch(deleteRequest, {method: "DELETE"});
+
+    return response.status;
+}
