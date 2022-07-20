@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-details.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-table.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-context-menu.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-collapsible.css')}}">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
@@ -26,7 +27,7 @@
             <input class="drop-zone__input" type="file" name="file" multiple />
         </div>
 
-            
+        <button type="button" class="collapsible">Upload Table</button>
         <table class="table" id="upload-table">
             <thead>
                 <tr>
@@ -73,6 +74,7 @@
     <script src="{{ url_for('static', filename='js/mini-files/mini-table.js') }}"></script>
     <script src="{{ url_for('static', filename='js/mini-files/mini-context-menu.js') }}"></script>
     <script src="{{ url_for('static', filename='js/mini-files/mini-http.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mini-files/mini-collapsible.js') }}"></script>
 
 </body>
 
