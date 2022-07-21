@@ -1,4 +1,3 @@
-
 initFileTableContextMenu();
 
 function initFileTableContextMenu() {

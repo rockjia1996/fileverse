@@ -4,6 +4,7 @@ function uploadHandler(cancelButton, url, file) {
 
         xhr.upload.onprogress = event => {
             updateUploadProgressBar(file.name, event.loaded, event.total);
+            updateUploadTableButton(file.name, event.loaded, event.total);
         }
 
         xhr.upload.onerror = () => reject("error")

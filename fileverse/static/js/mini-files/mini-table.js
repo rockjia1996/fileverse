@@ -43,6 +43,23 @@ function updateUploadProgressBar(name, loaded, total){
     }
 }
 
+function updateUploadTableButton(name, loaded, total){
+    const uploadEntries = document.getElementById("upload-table").children[1].children;
+    if (loaded !== total) return;
+
+    for (entry of uploadEntries){
+        const filename = entry.children[0].textContent;
+        if (filename === name){
+            const cancelButton = entry.children[2]
+            cancelButton.children[0].textContent = "Clear";
+            cancelButton.onclick = () => {
+                entry.remove();
+
+            } 
+            break;
+        }
+    }
+}
 
 
 function autoFileSizeUnit(size){
