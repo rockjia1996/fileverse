@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Drive</title>
+    {% block title %}
+    <title>My Files</title>
+    {% endblock %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/navbar.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/searchbar.css')}}">
-
+    {% block stylesheet %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-layout.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-dropzone.css')}}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-details.css')}}">
@@ -18,9 +13,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-collapsible.css')}}">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-</head>
+    {% endblock%}
 
-<body>
+   {% block content %} 
     <div class="page-content">
         <div class="drop-zone">
             <span class="drop-zone__prompt">Drop files here or click to upload</span>
@@ -29,13 +24,17 @@
 
         <button type="button" class="collapsible">Upload Table</button>
         <table class="table" id="upload-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Progress</th>
-                    <th></th>
-                </tr>
-            </thead>
+                <thead>
+                    <!--
+                        <tr>
+                            <th>Name</th>
+                            <th>Progress</th>
+                            <th></th>
+                        </tr>
+
+                    -->
+                </thead>
+
             <tbody>
             </tbody>
         </table>
@@ -82,6 +81,4 @@
     <script src="{{ url_for('static', filename='js/mini-files/mini-http.js') }}"></script>
     <script src="{{ url_for('static', filename='js/mini-files/mini-collapsible.js') }}"></script>
 
-</body>
-
-</html>
+    {% endblock %}

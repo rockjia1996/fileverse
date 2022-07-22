@@ -1,7 +1,7 @@
 .drop-zone {
     width: 80%;
     height: 10rem;
-    border: 4px dashed #009578;
+    border: 4px dashed #222222;
     border-radius: 10px;
 
     display: flex;

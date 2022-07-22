@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{ url_for('static', filename='/css/base.css')}}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/normalize.css')}}" />
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
   {% block title %}
@@ -16,17 +17,14 @@
 </head>
 
 <body>
-  
+
   <main>
     <ul class="nav-bar">
       <li>
         <a href="/">Fileverse</a>
       </li>
       <li>
-        <a href="/files">Cloud</a>
-      </li>
-      <li>
-        <a href="/mannual">Mannual</a>
+        <a href="/mini-files">Files</a>
       </li>
       <li>
         <a href="/auth/register">Register</a>
@@ -38,15 +36,12 @@
         <a href="/auth/logout">Logout</a>
       </li>
     </ul>
-    
-    {% for message in get_flashed_messages() %}
-    <div>{{ message }}</div>
-    {% endfor %} 
 
-    {% block content %} {% endblock %}
+    {% block content %} 
+    {% endblock %}
   </main>
-  
-  {% block script %} 
+
+  {% block script %}
   {% endblock %}
 
 </body>
