@@ -3,8 +3,12 @@
 <title>Register</title>
 {% endblock %}
 
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/login/form.css')}}">
+{% endblock%}
+
 {% block content %}
-    <!--
+<!--
 
         <form action="/auth/register" method="post">
             <label for="">Username</label>
@@ -17,19 +21,20 @@
 
     -->
 
-    <form action="/auth/register" method="post">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-        </div>
-        <input class="btn btn-primary my-3" type="submit" value="Register" />
-      </form>
+<div class="login-form-container">
+  <form action="/auth/register" method="post" class="login-form">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" placeholder="Username" required>
 
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <span> - Need to be more than 8 characters </span>
+    <span> - Need to include letters and digits</span>
 
+    <button>Register</button>
+  </form>
+
+</div>
 
 
 {% endblock %}
