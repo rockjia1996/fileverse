@@ -55,9 +55,9 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for('files.files'))
+            return redirect(url_for('mini-files.mini-files'))
 
-    return render_template("auth/login.html")
+    return render_template("/index.html")
 
 
 @bp.route("/logout")

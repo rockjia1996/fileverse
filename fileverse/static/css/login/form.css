@@ -5,9 +5,10 @@
     align-items: center;
 
     width: 100%;
-    padding: 10px;
+    padding: 20px;
 
     border-radius: 10px;
+    box-shadow: 1px 1px 10px black;
     background-color: #e7f3f8;
 
 }
@@ -74,6 +75,7 @@
     font-weight: bold;
     font-family: 'Courier New', Courier, monospace;
 
+    cursor: pointer;
 }
 
 
@@ -85,5 +87,5 @@
 
 .login-form hr {
     width: 85%;
-    border-bottom: 1px solid #404040;
+    border-bottom: 0.8px solid lightgray;
 }

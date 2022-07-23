@@ -1,20 +1,68 @@
 body {
-    background-color: #2c73d2;
+    background-color: #424656;
 }
 
 .index-page-layout {
     display: flex;
     justify-content: center;
+    align-items: baseline;
 
     margin-bottom: auto;
     margin-right: auto;
 }
 
-.fileverse-description-container {
-    padding: 10rem;
-}
 
 .login-form-container {
     width: 370px;
     padding: 10rem;
+}
+
+
+.fileverse-description-container {
+    width: 375px;
+    padding: 30px;
+    text-align: left;
+    font-size: 30px;
+}
+
+.fileverse-description-container p {
+    color: white;
+    text-align: left;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.fileverse-description-container h1 {
+    background-image: linear-gradient(to right top,
+            #d16ba5, #c777b9, #ba83ca,
+            #aa8fd8, #9a9ae1, #8aa7ec,
+            #79b3f4, #69bff8, #52cffe,
+            #41dfff, #46eefa, #5ffbf1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+.register-form-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 30%;
+    height: 50%;
+}
+
+
+.display-active{
+    display: block;
+}
+
+.display-disable{
+    display: none;
+}
+
+.blur-active{
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
 }
