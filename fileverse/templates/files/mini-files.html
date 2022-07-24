@@ -1,84 +1,75 @@
 {% extends 'base.html' %}
 
-    {% block title %}
-    <title>My Files</title>
-    {% endblock %}
+{% block title %}
+<title>My Files</title>
+{% endblock %}
 
-    {% block stylesheet %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-layout.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-dropzone.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-details.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-table.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-context-menu.css')}}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-collapsible.css')}}">
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-layout.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-dropzone.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-details.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-table.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-context-menu.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-collapsible.css')}}">
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    {% endblock%}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% endblock%}
 
-   {% block content %} 
-    <div class="page-content">
-        <div class="drop-zone">
-            <span class="drop-zone__prompt">Drop files here or click to upload</span>
-            <input class="drop-zone__input" type="file" name="file" multiple />
-        </div>
-
-        <button type="button" class="collapsible">Upload Table</button>
-        <table class="table" id="upload-table">
-                <thead>
-                    <!--
-                        <tr>
-                            <th>Name</th>
-                            <th>Progress</th>
-                            <th></th>
-                        </tr>
-
-                    -->
-                </thead>
-
-            <tbody>
-            </tbody>
-        </table>
-
-
-        <button type="button" class="collapsible">File Table</button>
-        <table class="table" id="file-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Date</th>
-                    <th>Size</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for upload in uploads %}
-                <tr>
-                    <td>{{ upload['id'] }}</td>
-                    <td>{{ upload['filename'] }}</td>
-                    <td>{{ upload['date'] }}</td>
-                    <td>{{ upload['size'] }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="context-menu" id="file-table-context-menu">
-            <button class="context-menu__item">Download</button>
-            <button class="context-menu__item">Delete</button>
-            <button class="context-menu__item">Details</button>
-        </div>
-
-        <div class="context-menu" id="upload-table-context-menu">
-            <button class="context-menu__item">Clear All</button>
-        </div>
-
-
+{% block content %}
+<div class="page-content">
+    <div class="drop-zone">
+        <span class="drop-zone__prompt">Drop files here or click to upload</span>
+        <input class="drop-zone__input" type="file" name="file" multiple />
     </div>
 
-    <script src="{{ url_for('static', filename='js/mini-files/mini-dropzone.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/mini-files/mini-table.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/mini-files/mini-context-menu.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/mini-files/mini-http.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/mini-files/mini-collapsible.js') }}"></script>
+    <button type="button" class="collapsible">Uploads</button>
+    <table class="table" id="upload-table">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
-    {% endblock %}
+
+    <button type="button" class="collapsible">File Table</button>
+    <table class="table" id="file-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Last modified</th>
+                <th>File size</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for upload in uploads %}
+            <tr>
+                <td>{{ upload['id'] }}</td>
+                <td>{{ upload['filename'] }}</td>
+                <td>{{ upload['date'] }}</td>
+                <td>{{ upload['size'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="context-menu" id="file-table-context-menu">
+        <button class="context-menu__item">Download</button>
+        <button class="context-menu__item">Delete</button>
+        <button class="context-menu__item">Details</button>
+    </div>
+
+    <div class="context-menu" id="upload-table-context-menu">
+        <button class="context-menu__item">Clear All</button>
+    </div>
+
+
+</div>
+
+<script src="{{ url_for('static', filename='js/mini-files/mini-dropzone.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mini-files/mini-table.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mini-files/mini-context-menu.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mini-files/mini-http.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mini-files/mini-collapsible.js') }}"></script>
+
+{% endblock %}

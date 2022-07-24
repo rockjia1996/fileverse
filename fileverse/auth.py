@@ -39,6 +39,11 @@ def register():
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
+
+        # TO DO: Add a complete fix on handling the invalid request
+        if len(request.form) != 2:
+            return redirect(url_for("index.index"))
+
         username = request.form["username"]
         password = request.form["password"]
         db = get_db()
@@ -55,7 +60,7 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for('mini-files.mini-files'))
+            return redirect(url_for('mini_files.mini_files'))
 
     return render_template("/index.html")
 

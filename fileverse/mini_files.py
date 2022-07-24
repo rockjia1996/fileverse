@@ -15,6 +15,7 @@ from fileverse.db import get_db
 bp = Blueprint("mini_files", __name__)
 
 @bp.route("/mini-files")
+@login_required
 def mini_files():
     db = get_db()
     uploads = db.execute(

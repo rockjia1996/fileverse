@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +12,10 @@
 
 <body>
     <div class="index-page-layout">
-
         <div class="fileverse-description-container">
             <h1>FileVerse </h1>
             <p> In FileVerse, you can upload and download your files at ease.</p>
         </div>
-
         <div class="login-form-container">
             <form class="login-form" method="post" action="/auth/login">
                 <label for="username">Username</label>
@@ -36,21 +33,14 @@
         <form class="login-form" method="post" action="/auth/login">
             <label for="username">Create your username</label>
             <input type="text" id="username" name="username" placeholder="Username">
-            
             <label for="password">Create your password</label>
             <input type="password" id="password" name="password" placeholder="Password">
-            
             <label for="password">Repeat your password</label>
             <input type="password" id="repeat-password" name="repeat-password" placeholder="Repeat password">
-            
             <button>Register</button>
             <button>Close</button>
-
         </form>
     </div>
-
-
     <script src="{{ url_for('static', filename='/js/index/login.js')}}"></script>
 </body>
-
 </html>
