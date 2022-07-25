@@ -1,5 +1,5 @@
 function addTableRow(table, cells){
-    let newRow = table.insertRow(0);
+    let newRow = table.insertRow(-1);
     let numOfCells = cells.length;
 
     for (let i = 0; i < numOfCells; i++){

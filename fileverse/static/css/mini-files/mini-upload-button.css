@@ -1,0 +1,21 @@
+.upload-button {
+    display: block;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px black;
+}
+
+.upload-button svg {
+    width: 80%;
+    height: 80%;
+
+    cursor: pointer;
+    
+}

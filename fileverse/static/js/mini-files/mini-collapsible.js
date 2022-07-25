@@ -1,6 +1,6 @@
 
-initCollapsibleUploadTable();
-initCollapsibleFileTable();
+//initCollapsibleUploadTable();
+//initCollapsibleFileTable();
 
 function initCollapsibleUploadTable(){
     const content = document.querySelector("#upload-table");
