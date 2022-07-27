@@ -1,6 +1,7 @@
+
+
 .table {
     width: 100%;
-    height: 100%;
 
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     border-collapse: collapse;
@@ -20,12 +21,21 @@
 .table th,
 .table td {
     padding: 12px 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100px;
 }
 
 .table tbody tr {
     height: 10px;
     border-bottom: thin solid #ddd;
     cursor: pointer;
+}
+
+.table thead tr th:first-of-type, 
+.table tbody tr td:first-of-type{
+    display: none;
 }
 
 .table tbody tr:nth-of-type(odd),
@@ -42,6 +52,20 @@
     color: #009879;
 }
 
+
+.file-table-container {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.file-table-container h2{
+    color:#222222;
+    
+}
+
+/*
 
 .file-entries-container {
     width: 60%;
@@ -108,3 +132,4 @@
     
     cursor: pointer;
 }
+*/

@@ -4,19 +4,18 @@ function initUploadPopUp() {
     const uploadButton = document.querySelector(".upload-button");
     uploadButton.onclick = () => {
         const uploadPopUp = document.querySelector(".upload-pop-up");
-        console.log(uploadPopUp.classList)
+        const background = document.querySelector(".page-content");
 
-        if (uploadPopUp.classList.contains("display-active"))
+        if (uploadPopUp.classList.contains("display-active")) {
+            background.classList.remove("blur-active");
             uploadPopUp.classList.replace("display-active", "display-disable");
 
-        else
+        }
+        else {
+            background.classList.add("blur-active");
             uploadPopUp.classList.replace("display-disable", "display-active");
+        }
     };
-
-
-
-
-
 }
 
 
@@ -41,6 +40,74 @@ function createSVGDoneIcon() {
 
     return svg;
 }
+
+
+function createUploadEntry() { }
+
+
+function UploadFile(file) {
+    this.file = file;
+    this.uploadHandler = new XMLHttpRequest();
+    this.uploadFileUI = new UploadFileUI(file.name);
+
+
+    this.validateFilename = () => { }
+
+    this.initUpload = () => { }
+    this.abortUpload = () => { }
+
+    this.reportProgress = () => { }
+
+}
+
+function UploadFileUI(name) {
+    this.name = name;
+    this.uploadEntry = document.createElement("div");
+    this.uploadEntryDetails = document.createElement("div");
+    this.filename = document.createElement("span");
+    this.progressBar = document.createElement("progress");
+    this.cancelButton = document.createElement("button");
+
+
+    this.configElements = () => {
+        this.uploadEntry.classList.add("upload-entry");
+        this.uploadEntryDetails.classList.add("upload-entry__details");
+        this.filename.textContent = this.name;
+
+        this.uploadEntry.appendChild(this.uploadEntryDetails);
+        this.uploadEntry.appendChild(this.cancelButton);
+
+        this.uploadEntryDetails.appendChild(this.filename);
+        this.uploadEntryDetails.appendChild(this.progressBar);
+
+        this.progressBar.setAttribute("max", "100");
+        this.progressBar.setAttribute("value", "0");
+        this.cancelButton.appendChild(createSVGCancelIcon());
+    }
+
+    this.updateProgressBar = (loaded, total) => {
+        this.progressBar.value = (loaded / total) * 100;
+    }
+
+    this.cancelButtonOnClick = (action) => {
+        this.cancelButton.onclick = action;
+
+    }
+
+    this.getUI = () => this.uploadEntry;
+    this.removeSelf = () => this.uploadEntry.remove(); 
+
+}
+
+
+const testUI = new UploadFileUI("my-test-element.test");
+testUI.configElements();
+testUI.cancelButtonOnClick(() => alert("click"))
+
+document.querySelector(".page-content").appendChild(testUI.getUI());
+
+setTimeout(() => {testUI.updateProgressBar(70, 100)}, 5* 1000);
+
 
 function createSVGCancelIcon() {
     const xml = "http://www.w3.org/2000/svg"

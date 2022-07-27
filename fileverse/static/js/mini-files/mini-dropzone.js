@@ -6,7 +6,8 @@ function initDropzone() {
     const dropZoneElement = document.querySelector(".drop-zone");
 
     inputElement.addEventListener("change", e => {
-        const table = document.getElementById("upload-table").children[1]
+        //const table = document.getElementById("upload-table").children[1]
+        const table = document.querySelector(".upload-table-container");
 
         for (selected of inputElement.files) {
             const row = addTableRow(table, createUploadEntryArray(selected.name))
