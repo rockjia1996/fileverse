@@ -62,6 +62,23 @@ function updateUploadTableButton(name, loaded, total){
 }
 
 
+
+
+
+function FileTable(tableHTML){
+    this.tableHTML = tableHTML;
+
+
+    this.addFileEntryHTML = (id, filename, date, size) => {
+
+    }
+
+    this.removeFileEntryHTML = (id) => {
+
+    }
+}
+
+
 function autoFileSizeUnit(size){
     const isB = (size) => size < 2**10 ? true : false;
     const isKB = (size) => size >= 2**10 && size < 2**20 ? true : false;

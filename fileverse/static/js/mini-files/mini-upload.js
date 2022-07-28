@@ -45,18 +45,96 @@ function createSVGDoneIcon() {
 function createUploadEntry() { }
 
 
+function UploadXHR(url, method, file) {
+    this.url = url;
+    this.method = method;
+    this.file = file;
+    this.xhr = new XMLHttpRequest();
+
+}
+
+function HttpHandler() {
+    this.xhr = null;
+
+    this.abort = () => this.xhr.abort();
+    this.get = (url, config) => { };
+    this.post = (url, config) => {
+        this.xhr = new XMLHttpRequest();
+
+        if (config.responseType)
+            this.xhr.responseType = config.responseType;
+
+        if (config.onReadyStateChange)
+            this.xhr.onreadystatechange = (event) => config.onReadyStateChange(this.xhr, event);
+
+
+        if (config.onLoad)
+            this.xhr.onload = (event) => config.onLoad(event);
+
+        if (config.onAbort)
+            this.xhr.onabort = (event) => config.onAbort(event);
+
+
+        if (config.onUploadProgress)
+            this.xhr.upload.onprogress = (event) => config.onUploadProgress(event);
+
+
+        if (url)
+            this.xhr.open("POST", url);
+
+        if (config.data !== undefined)
+            this.xhr.send(config.data);
+
+    }
+
+    this.delete = (url, config) => {
+        this.xhr = new XMLHttpRequest();
+
+        if (url)
+            this.xhr.open("DELETE", url);
+
+        if (config.data !== undefined)
+            this.xhr.send(config.data);
+    };
+
+}
+
 function UploadFile(file) {
     this.file = file;
-    this.uploadHandler = new XMLHttpRequest();
+    this.uploadHandler = new HttpHandler();
     this.uploadFileUI = new UploadFileUI(file.name);
-
 
     this.validateFilename = () => { }
 
-    this.initUpload = () => { }
-    this.abortUpload = () => { }
+    this.initUpload = () => new Promise((resolve, reject) => {
 
-    this.reportProgress = () => { }
+        const xhr = new XMLHttpRequest();
+        const url = `files/upload/${this.file.name}`;
+        const data = this.file;
+
+        xhr.responseType = "json";
+        xhr.upload.onprogress = (event) => {
+            this.uploadFileUI.updateProgressBar(event.loaded, event.total);
+        }
+
+        xhr.onreadystatechange = (event) => {
+            const state = xhr.readyState;
+            const status = xhr.status;
+            if (state === XMLHttpRequest.DONE && status === 200){
+                this.uploadFileUI.removeSelf();
+                resolve(xhr.response);
+            }
+        }
+
+        xhr.onerror = (event) => {
+            reject(event)
+        }
+
+        xhr.open("POST", url);
+        xhr.send(data);
+
+        this.uploadFileUI.cancelButtonOnClick = () => xhr.abort(); 
+    });
 
 }
 
@@ -68,8 +146,7 @@ function UploadFileUI(name) {
     this.progressBar = document.createElement("progress");
     this.cancelButton = document.createElement("button");
 
-
-    this.configElements = () => {
+    this.styleElements = () => {
         this.uploadEntry.classList.add("upload-entry");
         this.uploadEntryDetails.classList.add("upload-entry__details");
         this.filename.textContent = this.name;
@@ -84,6 +161,7 @@ function UploadFileUI(name) {
         this.progressBar.setAttribute("value", "0");
         this.cancelButton.appendChild(createSVGCancelIcon());
     }
+    this.styleElements();
 
     this.updateProgressBar = (loaded, total) => {
         this.progressBar.value = (loaded / total) * 100;
@@ -91,22 +169,13 @@ function UploadFileUI(name) {
 
     this.cancelButtonOnClick = (action) => {
         this.cancelButton.onclick = action;
-
     }
 
-    this.getUI = () => this.uploadEntry;
-    this.removeSelf = () => this.uploadEntry.remove(); 
+    this.getHTML = () => this.uploadEntry;
+    this.removeSelf = () => this.uploadEntry.remove();
 
 }
 
-
-const testUI = new UploadFileUI("my-test-element.test");
-testUI.configElements();
-testUI.cancelButtonOnClick(() => alert("click"))
-
-document.querySelector(".page-content").appendChild(testUI.getUI());
-
-setTimeout(() => {testUI.updateProgressBar(70, 100)}, 5* 1000);
 
 
 function createSVGCancelIcon() {

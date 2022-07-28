@@ -10,6 +10,7 @@ function initDropzone() {
         const table = document.querySelector(".upload-table-container");
 
         for (selected of inputElement.files) {
+            /*
             const row = addTableRow(table, createUploadEntryArray(selected.name))
             const cancelButton = row.children[2].children[0];
             const url = `files/upload/${selected.name}`;
@@ -27,6 +28,29 @@ function initDropzone() {
                 const row = addTableRow(fileTable, configCells);
                 addFileEntryContextMenu(row);
             })
+            */
+
+
+            const uploadEntry = new UploadFile(selected);
+            const uploadEntryUI = uploadEntry.uploadFileUI;
+            table.appendChild(uploadEntryUI.getHTML());
+
+            const promise = uploadEntry.initUpload();
+            promise.then(
+                details => {
+                    const configCells = createFileEntryArray(
+                        details.id,
+                        details.filename,
+                        details.date,
+                        details.size
+                    );
+
+                    const fileTable = document.getElementById("file-table").children[1];
+                    const row = addTableRow(fileTable, configCells);
+                    addFileEntryContextMenu(row);
+                }
+            )
+
         }
     })
 

@@ -27,5 +27,12 @@ html {
 
 
 
+.display-active {
+    display: block;
+}
+
+.display-disable {
+    display: none;
+}
 
 

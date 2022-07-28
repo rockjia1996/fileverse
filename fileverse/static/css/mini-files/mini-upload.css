@@ -1,14 +1,7 @@
-.display-active {
-    display: block;
-}
-
-.display-disable {
-    display: none;
-}
 
 .upload-pop-up {
-    width: 50%;
-    height: 60%;
+    width: 70%;
+    height: 70%;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -21,12 +14,10 @@
 
 .upload-table-container {
     width: 100%;
-    height: 50%;
+    height: 55%;
     overflow: scroll;
     margin-top: 20px;
-}
 
-.upload-table-container {
     background-color: #faf8ff;
     margin-left: auto;
     margin-right: auto;

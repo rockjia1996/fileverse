@@ -50,11 +50,17 @@ def upload(filename):
     )
     db.commit()
     new_record = db.execute(
-        "SELECT id from user_upload WHERE path = ? ", (save_path, )
+        "SELECT id, filename, size, date from user_upload WHERE path = ? ", (save_path, )
     ).fetchone()
-    
-    return str(new_record["id"])
 
+    #return str(new_record["id"])
+    json = { 
+        "id": new_record["id"],
+        "filename": new_record["filename"],
+        "size": new_record["size"],
+        "date": new_record["date"]
+    }
+    return json
 
 def read_chunk(path_to_file, chunk_size):
     with open(path_to_file, "rb") as f:
