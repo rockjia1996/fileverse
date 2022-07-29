@@ -55,6 +55,17 @@
     color: #009879;
 }
 
+table tbody tr td button,
+.file-table-action{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+table tbody tr td:last-child {
+    text-align: center;
+}
 
 .file-table-container {
     width: 70%;

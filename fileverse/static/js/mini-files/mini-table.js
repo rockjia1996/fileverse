@@ -1,16 +1,21 @@
 const fileTable = new FileTable(document.getElementById("file-table"));
 initFileTable(fileTable);
-function initFileTable(fileTable){
+function initFileTable(fileTable) {
     const url = "/files/username";
-    fetch(url, {method: "GET"})
+    fetch(url, { method: "GET" })
         .then(response => response.json())
         .then(responseJSON => {
-        const fileList = responseJSON.fileList;
-        fileList.forEach(details => {
-            const {id, filename, date, size} = details;
-            const entry = new FileTableEntry(id, filename, date, size);
-            fileTable.addFileEntry(entry);
-        })})
+            const fileList = responseJSON.fileList;
+            fileList.forEach(details => {
+                const { id, filename, date, size } = details;
+
+                let formattedDate = new Date(date);
+                formattedDate = formattedDate.toLocaleString();
+
+                const entry = new FileTableEntry(id, filename, formattedDate, size);
+                fileTable.addFileEntry(entry);
+            })
+        })
         .catch(error => console.log(error));
 
 
@@ -39,11 +44,11 @@ function FileTable(tableHTML) {
 }
 
 function FileTableEntry(id, filename, date, size) {
-    this.details = {id, filename, date, size}
+    this.details = { id, filename, date, size }
     this.entryHTML = null;
 
     this.createHTML = () => {
-        const {id, filename, date, size} = this.details;
+        const { id, filename, date, size } = this.details;
         const tableRow = document.createElement("tr");
         const cellID = document.createElement("td");
         const cellFilename = document.createElement("td");
@@ -52,7 +57,8 @@ function FileTableEntry(id, filename, date, size) {
         const cellActions = document.createElement("td");
         const downloadButton = document.createElement("button");
         const deleteButton = document.createElement("button");
-        
+        const infoButton = document.createElement("button");
+
         tableRow.appendChild(cellID);
         tableRow.appendChild(cellFilename);
         tableRow.appendChild(cellDate);
@@ -60,14 +66,16 @@ function FileTableEntry(id, filename, date, size) {
         tableRow.appendChild(cellActions);
         cellActions.appendChild(downloadButton);
         cellActions.appendChild(deleteButton);
+        cellActions.appendChild(infoButton)
 
         cellID.textContent = id;
         cellFilename.textContent = filename;
         cellDate.textContent = date;
         cellSize.textContent = this.autoFileSizeUnit(size);
-        downloadButton.textContent = "Download";
-        deleteButton.textContent = "Delete";
-        
+        downloadButton.appendChild(createDownloadIcon());
+        deleteButton.appendChild(createDeleteIcon());
+        infoButton.appendChild(createInfoIcon());
+
         downloadButton.onclick = () => {
             downloadHandler(id);
         }
@@ -79,7 +87,7 @@ function FileTableEntry(id, filename, date, size) {
 
         return tableRow;
     }
-    
+
     this.updateDetails = (key, value) => {
         this.details[key] = value;
     }
@@ -91,7 +99,7 @@ function FileTableEntry(id, filename, date, size) {
     this.getHTML = () => {
         if (this.entryHTML)
             return this.entryHTML;
-       
+
         this.entryHTML = this.createHTML();
         return this.entryHTML;
     }
@@ -99,14 +107,14 @@ function FileTableEntry(id, filename, date, size) {
     this.removeSelf = () => {
         this.entryHTML.remove();
     }
-    
+
     this.autoFileSizeUnit = (size) => {
         const isB = (size) => size < 2 ** 10 ? true : false;
         const isKB = (size) => size >= 2 ** 10 && size < 2 ** 20 ? true : false;
         const isMB = (size) => size >= 2 ** 20 && size < 2 ** 30 ? true : false;
         const isGB = (size) => size >= 2 ** 30 ? true : false;
-    
-    
+
+
         if (isB(size)) return `${size} byte`;
         if (isKB(size)) return `${Math.round((size * 100) / 2 ** 10) / 100} Kb`;
         if (isMB(size)) return `${Math.round((size * 100) / 2 ** 20) / 100} Mb`;

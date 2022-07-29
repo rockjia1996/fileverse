@@ -15,10 +15,13 @@ function initDropzone() {
             const promise = uploadEntry.initUpload();
             promise.then(
                 details => {
+                    let formattedDate = new Date(details.date);
+                    formattedDate = formattedDate.toLocaleString();
+                    console.log(formattedDate)
                     const fileTableEntry = new FileTableEntry(
                         details.id,
                         details.filename,
-                        details.date,
+                        formattedDate,
                         details.size
                     )
                     fileTable.addFileEntry(fileTableEntry)
@@ -68,8 +71,8 @@ function initDropzone() {
 
 
 
-function DropZone(dropzoneHTML){
+function DropZone(dropzoneHTML) {
     this.dropzoneHTML = dropzoneHTML;
-    
+
 }
 
