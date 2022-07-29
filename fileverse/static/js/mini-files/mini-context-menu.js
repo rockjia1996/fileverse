@@ -26,8 +26,6 @@ function addFileEntryContextMenu(entry){
     openContextMenuInNewLocation(scopes, contextMenu);
 }
 
-
-
 function highlightFileTableLeftClick(entries) {
     entries.forEach(entry => {
         entry.addEventListener("click", event => {
@@ -112,4 +110,35 @@ function openContextMenuInNewLocation(entries, contextMenu) {
             });
         })
     })
+}
+
+
+function FileTableContextMenu(){
+    this.menuHTML = document.createElement("div");
+
+
+    this.menuHTML.classList.add("context-menu");
+
+
+    this.addOption = (option) => {
+        const menu = document.createElement("div");
+        const downloadButton = document.createElement("button");
+        const deleteButton = document.createElement("button");
+
+        menu.appendChild(downloadButton);
+        menu.appendChild(deleteButton);
+
+        downloadButton.textContent = "Download";
+        deleteButton.textContent = "Delete";
+
+        menu.classList.add("context-menu");
+    }
+}
+
+function FileTableContextMenuOption(optionName, action){
+    this.optionHTML = document.createElement("button");
+    this.optionHTML.textContent = optionName;
+    this.optionHTML.onclick = () => action();
+
+    this.getHTML = () => this.optionHTML;
 }

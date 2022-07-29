@@ -1,36 +1,13 @@
 initDropzone()
 
 function initDropzone() {
-
     const inputElement = document.querySelector(".drop-zone__input");
     const dropZoneElement = document.querySelector(".drop-zone");
 
     inputElement.addEventListener("change", e => {
-        //const table = document.getElementById("upload-table").children[1]
         const table = document.querySelector(".upload-table-container");
 
         for (selected of inputElement.files) {
-            /*
-            const row = addTableRow(table, createUploadEntryArray(selected.name))
-            const cancelButton = row.children[2].children[0];
-            const url = `files/upload/${selected.name}`;
-
-            const promise = uploadHandler(cancelButton, url, selected);
-            promise.then(details => {
-                const configCells = createFileEntryArray(
-                    details.id, 
-                    details.name, 
-                    details.date, 
-                    details.size
-                );
-                    
-                const fileTable = document.getElementById("file-table").children[1];
-                const row = addTableRow(fileTable, configCells);
-                addFileEntryContextMenu(row);
-            })
-            */
-
-
             const uploadEntry = new UploadFile(selected);
             const uploadEntryUI = uploadEntry.uploadFileUI;
             table.appendChild(uploadEntryUI.getHTML());
@@ -38,16 +15,14 @@ function initDropzone() {
             const promise = uploadEntry.initUpload();
             promise.then(
                 details => {
-                    const configCells = createFileEntryArray(
+                    const fileTableEntry = new FileTableEntry(
                         details.id,
                         details.filename,
                         details.date,
                         details.size
-                    );
+                    )
+                    fileTable.addFileEntry(fileTableEntry)
 
-                    const fileTable = document.getElementById("file-table").children[1];
-                    const row = addTableRow(fileTable, configCells);
-                    addFileEntryContextMenu(row);
                 }
             )
 
@@ -92,9 +67,9 @@ function initDropzone() {
 
 
 
-function getSelectedFiles() {
-    const dropzoneFiles = document.querySelector(".drop-zone");
 
+function DropZone(dropzoneHTML){
+    this.dropzoneHTML = dropzoneHTML;
+    
 }
-
 

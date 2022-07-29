@@ -18,90 +18,8 @@ function initUploadPopUp() {
     };
 }
 
-
-function createSVGDoneIcon() {
-    const xml = "http://www.w3.org/2000/svg"
-    const svg = document.createElementNS(xml, "svg");
-    const path1 = document.createElementNS(xml, "path");
-    const path2 = document.createElementNS(xml, "path");
-
-    svg.setAttributeNS(null, "viewBox", "0 0 24 24");
-    svg.setAttributeNS(null, "width", "24px");
-    svg.setAttributeNS(null, "height", "24px");
-    svg.setAttributeNS(null, "fill", "#00c896");
-
-    path1.setAttributeNS(null, "d", "M0 0h24v24H0V0z");
-    path1.setAttributeNS(null, "fill", "none");
-    path2.setAttributeNS(null, "d", "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z")
-
-
-    svg.appendChild(path1);
-    svg.appendChild(path2);
-
-    return svg;
-}
-
-
-function createUploadEntry() { }
-
-
-function UploadXHR(url, method, file) {
-    this.url = url;
-    this.method = method;
-    this.file = file;
-    this.xhr = new XMLHttpRequest();
-
-}
-
-function HttpHandler() {
-    this.xhr = null;
-
-    this.abort = () => this.xhr.abort();
-    this.get = (url, config) => { };
-    this.post = (url, config) => {
-        this.xhr = new XMLHttpRequest();
-
-        if (config.responseType)
-            this.xhr.responseType = config.responseType;
-
-        if (config.onReadyStateChange)
-            this.xhr.onreadystatechange = (event) => config.onReadyStateChange(this.xhr, event);
-
-
-        if (config.onLoad)
-            this.xhr.onload = (event) => config.onLoad(event);
-
-        if (config.onAbort)
-            this.xhr.onabort = (event) => config.onAbort(event);
-
-
-        if (config.onUploadProgress)
-            this.xhr.upload.onprogress = (event) => config.onUploadProgress(event);
-
-
-        if (url)
-            this.xhr.open("POST", url);
-
-        if (config.data !== undefined)
-            this.xhr.send(config.data);
-
-    }
-
-    this.delete = (url, config) => {
-        this.xhr = new XMLHttpRequest();
-
-        if (url)
-            this.xhr.open("DELETE", url);
-
-        if (config.data !== undefined)
-            this.xhr.send(config.data);
-    };
-
-}
-
 function UploadFile(file) {
     this.file = file;
-    this.uploadHandler = new HttpHandler();
     this.uploadFileUI = new UploadFileUI(file.name);
 
     this.validateFilename = () => { }
@@ -130,10 +48,10 @@ function UploadFile(file) {
             reject(event)
         }
 
+        this.uploadFileUI.cancelButtonOnClick = () => xhr.abort(); 
         xhr.open("POST", url);
         xhr.send(data);
 
-        this.uploadFileUI.cancelButtonOnClick = () => xhr.abort(); 
     });
 
 }
@@ -176,8 +94,6 @@ function UploadFileUI(name) {
 
 }
 
-
-
 function createSVGCancelIcon() {
     const xml = "http://www.w3.org/2000/svg"
     const svg = document.createElementNS(xml, "svg");
@@ -192,6 +108,28 @@ function createSVGCancelIcon() {
     path1.setAttributeNS(null, "d", "M0 0h24v24H0V0z");
     path1.setAttributeNS(null, "fill", "none");
     path2.setAttributeNS(null, "d", "M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z")
+
+
+    svg.appendChild(path1);
+    svg.appendChild(path2);
+
+    return svg;
+}
+
+function createSVGDoneIcon() {
+    const xml = "http://www.w3.org/2000/svg"
+    const svg = document.createElementNS(xml, "svg");
+    const path1 = document.createElementNS(xml, "path");
+    const path2 = document.createElementNS(xml, "path");
+
+    svg.setAttributeNS(null, "viewBox", "0 0 24 24");
+    svg.setAttributeNS(null, "width", "24px");
+    svg.setAttributeNS(null, "height", "24px");
+    svg.setAttributeNS(null, "fill", "#00c896");
+
+    path1.setAttributeNS(null, "d", "M0 0h24v24H0V0z");
+    path1.setAttributeNS(null, "fill", "none");
+    path2.setAttributeNS(null, "d", "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z")
 
 
     svg.appendChild(path1);

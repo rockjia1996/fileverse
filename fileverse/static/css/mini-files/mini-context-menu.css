@@ -14,7 +14,7 @@
     display: block;
 }
 
-.context-menu__item {
+.context-menu button{
     display: block;
     color:white;
     background-color: #1b1a1a;

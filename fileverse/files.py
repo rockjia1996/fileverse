@@ -4,7 +4,7 @@ from flask import (
     Blueprint, flash, g, 
     redirect, render_template, 
     request, url_for, current_app, 
-    Response, stream_with_context
+    Response, stream_with_context, jsonify
 )
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
@@ -36,11 +36,15 @@ def upload(filename):
 
     # save the file
     with open(save_path, "bw") as f:
-        while True:
-            chunk = request.stream.read(chunk_size)
-            if len(chunk) == 0:
-                break
-            f.write(chunk)
+
+        try:
+            while True:
+                chunk = request.stream.read(chunk_size)
+                if len(chunk) == 0:
+                    break
+                f.write(chunk)
+        except:
+            print("Error occur")
 
     # get the size of file and record the upload in database
     size = os.stat(save_path).st_size
@@ -68,8 +72,6 @@ def read_chunk(path_to_file, chunk_size):
             data = f.read(chunk_size)
             if data: yield data
             else: break
-
-
 
 @bp.route("/files/download/<int:id>", methods=("GET", ))
 def download(id):
@@ -104,3 +106,24 @@ def delete(id):
     )
     db.commit()
     return "Ok delete"
+
+
+# For now return all the saved files
+# Need to add auth in the future
+@bp.route("/files/<username>", methods=("GET", ))
+def get_filelist(username):
+    db = get_db()
+    records = db.execute(
+        "SELECT id, date, filename, size from user_upload;"
+    ).fetchall()
+
+    details = {"fileList": []}
+    for record in records:
+        details["fileList"].append( {
+            "id": record["id"],
+            "date": record["date"],
+            "filename": record["filename"],
+            "size": record["size"]
+        })
+
+    return jsonify(details)
