@@ -8,10 +8,10 @@ function uploadHandler(cancelButton, url, file) {
         }
 
         xhr.upload.onerror = () => reject("error")
-        
+
         xhr.onreadystatechange = () => {
             if (xhr.readyState == XMLHttpRequest.DONE) {
-                let date = new Date().toLocaleString('en-US', {timeZone: 'UTC'});
+                let date = new Date().toLocaleString('en-US', { timeZone: 'UTC' });
                 resolve({
                     id: xhr.responseText,
                     name: file.name,
@@ -28,16 +28,16 @@ function uploadHandler(cancelButton, url, file) {
     })
 }
 
-function downloadHandler(id){
+function downloadHandler(id) {
     const downloadRequest = "/files/download/" + id;
     const downloadLink = document.createElement('a');
     downloadLink.href = downloadRequest;
     downloadLink.click();
 }
 
-async function deleteHandler(id){
+async function deleteHandler(id) {
     const deleteRequest = "/files/delete/" + id;
-    const response = await fetch(deleteRequest, {method: "DELETE"});
+    const response = await fetch(deleteRequest, { method: "DELETE" });
 
     return response.status;
 }

@@ -1,23 +1,19 @@
 initDropzone()
-
 function initDropzone() {
     const inputElement = document.querySelector(".drop-zone__input");
     const dropZoneElement = document.querySelector(".drop-zone");
-
+    
     inputElement.addEventListener("change", e => {
         const table = document.querySelector(".upload-table-container");
-
         for (selected of inputElement.files) {
             const uploadEntry = new UploadFile(selected);
             const uploadEntryUI = uploadEntry.uploadFileUI;
             table.appendChild(uploadEntryUI.getHTML());
-
             const promise = uploadEntry.initUpload();
             promise.then(
                 details => {
                     let formattedDate = new Date(details.date);
                     formattedDate = formattedDate.toLocaleString();
-                    console.log(formattedDate)
                     const fileTableEntry = new FileTableEntry(
                         details.id,
                         details.filename,

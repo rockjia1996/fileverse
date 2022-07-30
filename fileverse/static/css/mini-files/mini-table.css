@@ -41,6 +41,11 @@
     border-bottom: thin solid #ddd;
     cursor: pointer;
 }
+.table thead tr th:last-child{
+    text-align: right;
+    cursor: pointer;
+    font-size: 18px;
+}
 
 .table thead tr th:first-of-type, 
 .table tbody tr td:first-of-type{
@@ -53,6 +58,7 @@
 
 .table tbody tr.active-row {
     color: #009879;
+    background-color: #e4e4e4;
 }
 
 table tbody tr td button,
@@ -74,6 +80,14 @@ table tbody tr td:last-child {
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.table-menu{
+    width: 30px;
+    height: 30px;
+    background-image: radial-gradient(circle, black 10px, transparent 11px);
+    background-size: 100% 33.33%;
+
 }
 
 .page-content h2 {

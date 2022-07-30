@@ -1,3 +1,4 @@
+/*
 initFileTableContextMenu();
 
 function initFileTableContextMenu() {
@@ -53,10 +54,7 @@ function customizeFileTableContextMenu(entries, contextMenu) {
             contextMenu.style.left = `${mouseX}px`;
             contextMenu.classList.add("visible");
 
-            /* 
-                Note that event.target is  <td> that is clicked on, 
-                event.target.parentElement is <tr>
-            */
+
             const rows = event.target.parentElement.parentElement.children;
 
             for (row of rows)
@@ -112,33 +110,36 @@ function openContextMenuInNewLocation(entries, contextMenu) {
     })
 }
 
+function FileTableContextMenu(options){
+    this.menuHTML = null;
+    this.options = options;
 
-function FileTableContextMenu(){
-    this.menuHTML = document.createElement("div");
+    this.createHTML = () => {
+        const menu = document.createElement("div");
 
+        this.options.forEach((option) => {
+            const button = document.createElement("button");
+            button.textContent = option.name;
+            button.onclick = option.action;
+            menu.appendChild(button);
+        });
 
-    this.menuHTML.classList.add("context-menu");
-
+        menu.classList.add("context-menu")
+        this.menuHTML = menu;
+    }
 
     this.addOption = (option) => {
-        const menu = document.createElement("div");
-        const downloadButton = document.createElement("button");
-        const deleteButton = document.createElement("button");
-
-        menu.appendChild(downloadButton);
-        menu.appendChild(deleteButton);
-
-        downloadButton.textContent = "Download";
-        deleteButton.textContent = "Delete";
-
-        menu.classList.add("context-menu");
+        this.options.push(option);
+        this.createHTML();
     }
+
+    this.getHTML = () => {
+        if (this.menuHTML)
+            return this.menuHTML;
+        this.createHTML();
+        return this.menuHTML;
+    }
+
 }
 
-function FileTableContextMenuOption(optionName, action){
-    this.optionHTML = document.createElement("button");
-    this.optionHTML.textContent = optionName;
-    this.optionHTML.onclick = () => action();
-
-    this.getHTML = () => this.optionHTML;
-}
+*/

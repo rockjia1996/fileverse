@@ -14,7 +14,7 @@ from fileverse.db import get_db
 bp = Blueprint('files', __name__)
 
 @bp.route("/files")
-#@login_required
+@login_required
 def files():
     db = get_db()
     uploads = db.execute(
@@ -73,6 +73,7 @@ def read_chunk(path_to_file, chunk_size):
             if data: yield data
             else: break
 
+@login_required
 @bp.route("/files/download/<int:id>", methods=("GET", ))
 def download(id):
     db = get_db()
@@ -91,6 +92,7 @@ def download(id):
        }
     )
 
+@login_required
 @bp.route("/files/delete/<int:id>", methods=("DELETE", ))
 def delete(id):
     db = get_db()
