@@ -1,5 +1,4 @@
-import os
-
+import os, json, zipfile
 from flask import (
     Blueprint, flash, g, 
     redirect, render_template, 
@@ -91,6 +90,38 @@ def download(id):
             'Content-Disposition': f'attachment; filename={filename}'
        }
     )
+
+@login_required
+@bp.route("/files/download_files", methods=("POST", ))
+def downloadFiles():
+    db = get_db()
+    content_type = request.headers.get("Content-Type") 
+    fileIDs = None
+    if (content_type == "application/json"):
+        fileIDs = request.get_json()["fileIDs"]
+
+    path_to_files = []
+
+    for id in fileIDs:
+        record = db.execute(
+            "SELECT filename, path FROM user_upload WHERE id = ? ;", 
+            (id, )
+        ).fetchone() 
+        path_to_files.append(record["path"])
+
+    zip_path = current_app.config["UPLOAD_FOLDER"] + "/downloads.zip"
+    print(zip_path)
+    with zipfile.ZipFile(zip_path, mode="w") as zf:
+        for path in path_to_files:
+            zf.write(path)
+    return Response(
+       stream_with_context(read_chunk(zip_path, 1024)),
+       headers={
+            'Content-Disposition': f'attachment; filename=downloads.zip'
+       }
+    )
+
+    return "ok"
 
 @login_required
 @bp.route("/files/delete/<int:id>", methods=("DELETE", ))

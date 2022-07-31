@@ -40,19 +40,48 @@ function FileTable(tableHTML) {
         const deselectAll = menu.children[3];
 
         downloadSelected.onclick = () => {
+            const selectedID = [];
             this.entries.forEach(entry => {
                 if (entry.selected){
-
+                    selectedID.push(entry.details.id)
                 }
             });
             menu.classList.replace("display-active", "display-disable");
+            downloadFiles(selectedID)
         }
 
         deleteSelected.onclick = () => {
+            const remain = this.entries.filter( async (entry) => {
+                if (entry.selected === false){
+                    return entry;
+                }
+                else {
+                    entry.removeSelf();
+                    await deleteHandler(entry.details.id)
+                }
+            });
 
-            
+            menu.classList.replace("display-active", "display-disable");
+            this.entries = remain;
         }
 
+        selectAll.onclick = () => {
+            this.entries.forEach(entry => {
+                if (!entry.selected){
+                    entry.getHTML().click();
+                }
+            })
+            menu.classList.replace("display-active", "display-disable");
+        }
+
+        deselectAll.onclick = () => {
+            this.entries.forEach(entry => {
+                if (entry.selected){
+                    entry.getHTML().click();
+                }
+            })
+            menu.classList.replace("display-active", "display-disable");
+        }
 
     }
 
@@ -126,6 +155,8 @@ function FileTableEntry(id, filename, date, size) {
         tableRow.onclick = (event) => {
             // If user clicks the actions on the right most cell, do nothing.
             if (event.target.tagName === "svg") return;
+            if (event.target.tagName === "button") return;
+
             if (this.selected) {
                 this.selected = false;
                 tableRow.classList.remove("active-row")

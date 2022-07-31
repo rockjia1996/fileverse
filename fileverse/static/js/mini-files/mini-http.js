@@ -41,3 +41,31 @@ async function deleteHandler(id) {
 
     return response.status;
 }
+
+
+function downloadFiles(idArray) {
+    console.log(idArray)
+    const url = "/files/download_files";
+
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify({'fileIDs': idArray}),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then((response) => {
+        console.log(response)
+        return response.blob();
+    }).then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "downloads.zip"
+        link.click();
+        window.URL.revokeObjectURL(url)
+    })
+
+
+
+
+}
