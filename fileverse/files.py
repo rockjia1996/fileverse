@@ -1,4 +1,4 @@
-import os, json, zipfile
+import os, json, zipfile, io, uuid
 from flask import (
     Blueprint, flash, g, 
     redirect, render_template, 
@@ -95,12 +95,13 @@ def download(id):
 @bp.route("/files/download_files", methods=("POST", ))
 def downloadFiles():
     db = get_db()
-    content_type = request.headers.get("Content-Type") 
     fileIDs = None
+    path_to_files = []
+
+    content_type = request.headers.get("Content-Type") 
     if (content_type == "application/json"):
         fileIDs = request.get_json()["fileIDs"]
 
-    path_to_files = []
 
     for id in fileIDs:
         record = db.execute(
@@ -109,19 +110,35 @@ def downloadFiles():
         ).fetchone() 
         path_to_files.append(record["path"])
 
-    zip_path = current_app.config["UPLOAD_FOLDER"] + "/downloads.zip"
+
+    temp_filename = "/" + str(uuid.uuid4()) + ".zip"
+    zip_path = current_app.config["ZIP_FOLDER"] + temp_filename
     print(zip_path)
     with zipfile.ZipFile(zip_path, mode="w") as zf:
         for path in path_to_files:
             zf.write(path)
+
+
     return Response(
-       stream_with_context(read_chunk(zip_path, 1024)),
+       stream_with_context(read_zipfile(zip_path, 1024)),
        headers={
             'Content-Disposition': f'attachment; filename=downloads.zip'
        }
     )
 
-    return "ok"
+
+def read_zipfile(zip_path, chunk_size):
+    with open(zip_path, "rb") as f:
+        while True:
+            data = f.read(chunk_size)
+            if data: yield data
+            else: break
+    os.remove(zip_path)
+
+
+
+
+
 
 @login_required
 @bp.route("/files/delete/<int:id>", methods=("DELETE", ))

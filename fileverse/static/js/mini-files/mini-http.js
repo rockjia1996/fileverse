@@ -54,7 +54,6 @@ function downloadFiles(idArray) {
             "Content-Type": "application/json"
         }
     }).then((response) => {
-        console.log(response)
         return response.blob();
     }).then((blob) => {
         const url = window.URL.createObjectURL(blob);
@@ -64,8 +63,4 @@ function downloadFiles(idArray) {
         link.click();
         window.URL.revokeObjectURL(url)
     })
-
-
-
-
 }

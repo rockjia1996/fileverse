@@ -13,11 +13,14 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'fileverse.sqlite'),
         UPLOAD_FOLDER=os.path.join(app.instance_path, "upload"),
         #UPLOAD_FOLDER="/mnt/storage",
+        ZIP_FOLDER=os.path.join(app.instance_path, "zips"),
         MAX_CONTENT_LENGTH = 100 * 1024 * 1024 * 1024
+
     )
 
 
     try:
+        os.makedirs(app.config["ZIP_FOLDER"])
         os.makedirs(app.config["UPLOAD_FOLDER"])
         os.makedirs(app.instance_path)
     except OSError:

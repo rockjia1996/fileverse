@@ -55,10 +55,10 @@
 
 
 .table-options {
-    position: absolute;
+    position: fixed;
     background-color: #1b1a1a;
 
-    width: auto;
+    width: 350px;
     right: 0px;
 
     z-index: 10000;
