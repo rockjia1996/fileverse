@@ -39,6 +39,8 @@
 */
 
 
+
+
 .table-options-icon {
     width: 40px;
     border: none;
@@ -55,11 +57,13 @@
 
 
 .table-options {
-    position: fixed;
+    position: absolute;
     background-color: #1b1a1a;
 
-    width: 350px;
-    right: 0px;
+    width: 180px;
+    right: 0;
+    top: 43px;
+    
 
     z-index: 10000;
 
