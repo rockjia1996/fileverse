@@ -1,6 +1,47 @@
 const fileTable = new FileTable(document.getElementById("file-table"));
 initFileTable(fileTable);
 
+const searchBar = document.querySelector(".search-bar");
+const searchContent = searchBar.children[0]
+const searchCancel = searchBar.children[1];
+const searchButton = searchBar.children[2]
+
+
+searchCancel.onclick = () => {
+    searchContent.value = "";
+
+    const entries = fileTable.entries;
+    entries.forEach(entry => {
+
+            entry.entryHTML.classList.remove("display-disable")
+
+
+    })
+}
+
+searchButton.onclick = () => {
+    const searchName = searchContent.value;
+    const entries = fileTable.entries;
+    entries.forEach(entry => {
+
+        const filename = entry.details.filename;
+        const result = filename.match(searchName)
+
+        if (!result) {
+            entry.entryHTML.classList.add("display-disable")
+        }
+        else {
+            entry.entryHTML.classList.remove("display-disable")
+        }
+
+
+
+    })
+}
+
+
+
+
 function initFileTable(fileTable) {
     const url = "/files/username";
     fetch(url, { method: "GET" })
@@ -42,7 +83,7 @@ function FileTable(tableHTML) {
         downloadSelected.onclick = () => {
             const selectedID = [];
             this.entries.forEach(entry => {
-                if (entry.selected){
+                if (entry.selected) {
                     selectedID.push(entry.details.id)
                 }
             });
@@ -51,8 +92,8 @@ function FileTable(tableHTML) {
         }
 
         deleteSelected.onclick = () => {
-            const remain = this.entries.filter( async (entry) => {
-                if (entry.selected === false){
+            const remain = this.entries.filter(async (entry) => {
+                if (entry.selected === false) {
                     return entry;
                 }
                 else {
@@ -67,7 +108,7 @@ function FileTable(tableHTML) {
 
         selectAll.onclick = () => {
             this.entries.forEach(entry => {
-                if (!entry.selected){
+                if (!entry.selected) {
                     entry.getHTML().click();
                 }
             })
@@ -76,7 +117,7 @@ function FileTable(tableHTML) {
 
         deselectAll.onclick = () => {
             this.entries.forEach(entry => {
-                if (entry.selected){
+                if (entry.selected) {
                     entry.getHTML().click();
                 }
             })
@@ -84,12 +125,6 @@ function FileTable(tableHTML) {
         }
 
     }
-
-
-
-
-
-
 
     this.addFileEntry = (entry) => {
         this.entries.push(entry);
