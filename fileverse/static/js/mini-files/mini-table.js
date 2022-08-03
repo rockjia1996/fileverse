@@ -6,16 +6,12 @@ const searchContent = searchBar.children[0]
 const searchCancel = searchBar.children[1];
 const searchButton = searchBar.children[2]
 
-
 searchCancel.onclick = () => {
     searchContent.value = "";
 
     const entries = fileTable.entries;
     entries.forEach(entry => {
-
-            entry.entryHTML.classList.remove("display-disable")
-
-
+        entry.entryHTML.classList.remove("display-disable")
     })
 }
 
@@ -23,24 +19,98 @@ searchButton.onclick = () => {
     const searchName = searchContent.value;
     const entries = fileTable.entries;
     entries.forEach(entry => {
-
         const filename = entry.details.filename;
         const result = filename.match(searchName)
-
         if (!result) {
             entry.entryHTML.classList.add("display-disable")
         }
         else {
             entry.entryHTML.classList.remove("display-disable")
         }
-
-
-
     })
 }
 
 
+function Pagination() {
+    this.paginationHTML = document.querySelector(".pagination")
+    this.pageButtons = [];
+    this.current = 1;
+    this.rows = 8;
 
+    this.paginationHTML.classList.add("pagination");
+
+    this.addPageButton = (pageNumber) => {
+        const listItem = document.createElement("li");
+        const pageButton = document.createElement("button");
+
+        listItem.appendChild(pageButton)
+        pageButton.textContent = pageNumber;
+
+        if (pageNumber === this.current) {
+            pageButton.classList.add("active-page")
+
+
+            const total = fileTable.entries.length;
+            const startIndex = (pageNumber - 1) * this.rows
+            const endIndex = startIndex + (this.rows - 1) > total
+                ? total - 1
+                : startIndex + (this.rows - 1);
+
+            const fileEntries = fileTable.entries.slice(startIndex, endIndex + 1)
+            const beforePage = fileTable.entries.slice(0, startIndex);
+            const afterPage = fileTable.entries.slice(endIndex + 1);
+            /*
+            console.log(fileEntries)
+            console.log(beforePage)
+            console.log(afterPage)
+            */
+            beforePage.forEach(entry => entry.entryHTML.style = "display: none;")
+            afterPage.forEach(entry => entry.entryHTML.style = "display: none;")
+            fileEntries.forEach(entry => entry.entryHTML.style = "display: table-row;")
+        }
+
+        pageButton.onclick = () => {
+            const total = fileTable.entries.length;
+            const startIndex = (pageNumber - 1) * this.rows
+            const endIndex = startIndex + (this.rows - 1) > total
+                ? total - 1
+                : startIndex + (this.rows - 1);
+
+            const fileEntries = fileTable.entries.slice(startIndex, endIndex + 1)
+            const beforePage = fileTable.entries.slice(0, startIndex);
+            const afterPage = fileTable.entries.slice(endIndex + 2);
+
+            beforePage.forEach(entry => entry.entryHTML.style = "display: none;")
+            afterPage.forEach(entry => entry.entryHTML.style = "display: none;")
+            fileEntries.forEach(entry => entry.entryHTML.style = "display: table-row;")
+            this.pageButtons[this.current - 1].children[0].classList.remove("active-page");
+            pageButton.classList.add("active-page")
+            this.current = pageNumber;
+        }
+
+
+        this.paginationHTML.appendChild(listItem)
+        this.pageButtons.push(listItem)
+    }
+
+    this.initPagination = () => {
+        const numOfPages = Math.ceil(fileTable.entries.length / this.rows);
+        const entries = fileTable.entries;
+        this.pageButtons.forEach(button => {
+            button.remove();
+        })
+        console.log(entries.length)
+        for (let i = 0; i < numOfPages; i++) {
+            this.addPageButton(i + 1)
+        }
+
+    }
+
+}
+
+
+
+const pagination = new Pagination();
 
 function initFileTable(fileTable) {
     const url = "/files/username";
@@ -55,6 +125,14 @@ function initFileTable(fileTable) {
                 const entry = new FileTableEntry(id, filename, formattedDate, size);
                 fileTable.addFileEntry(entry);
             })
+
+            pagination.initPagination();
+
+
+
+
+
+
         })
         .catch(error => console.log(error));
 }

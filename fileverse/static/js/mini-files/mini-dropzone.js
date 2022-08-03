@@ -21,6 +21,7 @@ function initDropzone() {
                         details.size
                     )
                     fileTable.addFileEntry(fileTableEntry)
+                    pagination.initPagination();
 
                 }
             )

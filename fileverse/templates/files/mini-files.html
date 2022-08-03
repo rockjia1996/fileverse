@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-collapsible.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-upload-button.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-upload.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-pagination.css')}}">
 
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {% endblock%}
@@ -38,8 +39,8 @@
                             <button class="table-options-icon">
                                 &#xFE19;
                             </button>
-    
-                            
+
+
                         </th>
                     </tr>
                 </thead>
@@ -52,9 +53,19 @@
                 <button>Select All</button>
                 <button>Deselect All</button>
             </div>
-
         </div>
     </div>
+    <nav class="pagination">
+        <!--
+                <li><button>Previous</button></li>
+                <li><button>1</button></li>
+                <li><button class="active-page">2</button></li>
+                <li><button>3</button></li>
+                <li><button>Next</button></li>
+            -->
+
+    </nav>
+
 
 
 
