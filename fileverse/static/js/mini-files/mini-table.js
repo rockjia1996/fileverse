@@ -30,7 +30,6 @@ searchButton.onclick = () => {
     })
 }
 
-
 function Pagination() {
     this.paginationHTML = document.querySelector(".pagination")
     this.pageButtons = [];
@@ -45,29 +44,7 @@ function Pagination() {
 
         listItem.appendChild(pageButton)
         pageButton.textContent = pageNumber;
-
-        if (pageNumber === this.current) {
-            pageButton.classList.add("active-page")
-
-
-            const total = fileTable.entries.length;
-            const startIndex = (pageNumber - 1) * this.rows
-            const endIndex = startIndex + (this.rows - 1) > total
-                ? total - 1
-                : startIndex + (this.rows - 1);
-
-            const fileEntries = fileTable.entries.slice(startIndex, endIndex + 1)
-            const beforePage = fileTable.entries.slice(0, startIndex);
-            const afterPage = fileTable.entries.slice(endIndex + 1);
-            /*
-            console.log(fileEntries)
-            console.log(beforePage)
-            console.log(afterPage)
-            */
-            beforePage.forEach(entry => entry.entryHTML.style = "display: none;")
-            afterPage.forEach(entry => entry.entryHTML.style = "display: none;")
-            fileEntries.forEach(entry => entry.entryHTML.style = "display: table-row;")
-        }
+        this.pageButtons.push(pageButton);
 
         pageButton.onclick = () => {
             const total = fileTable.entries.length;
@@ -76,6 +53,7 @@ function Pagination() {
                 ? total - 1
                 : startIndex + (this.rows - 1);
 
+            console.log(`${startIndex} to ${endIndex}`)
             const fileEntries = fileTable.entries.slice(startIndex, endIndex + 1)
             const beforePage = fileTable.entries.slice(0, startIndex);
             const afterPage = fileTable.entries.slice(endIndex + 2);
@@ -83,7 +61,13 @@ function Pagination() {
             beforePage.forEach(entry => entry.entryHTML.style = "display: none;")
             afterPage.forEach(entry => entry.entryHTML.style = "display: none;")
             fileEntries.forEach(entry => entry.entryHTML.style = "display: table-row;")
-            this.pageButtons[this.current - 1].children[0].classList.remove("active-page");
+
+            this.pageButtons.forEach(button => {
+                if (button.classList.contains("active-page")) {
+                    button.classList.remove("active-page")
+                }
+            })
+
             pageButton.classList.add("active-page")
             this.current = pageNumber;
         }
@@ -104,11 +88,28 @@ function Pagination() {
             this.addPageButton(i + 1)
         }
 
+        this.current = 1;
+        this.pageButtons[0].classList.add("active-page")
+
+
+        const total = fileTable.entries.length;
+        const startIndex = (1 - 1) * this.rows
+        const endIndex = startIndex + (this.rows - 1) > total
+            ? total - 1
+            : startIndex + (this.rows - 1);
+
+        console.log(`${startIndex} to ${endIndex}`)
+        const fileEntries = fileTable.entries.slice(startIndex, endIndex + 1)
+        const beforePage = fileTable.entries.slice(0, startIndex);
+        const afterPage = fileTable.entries.slice(endIndex + 1);
+
+        console.log(afterPage)
+        beforePage.forEach(entry => entry.entryHTML.style = "display: none;")
+        afterPage.forEach(entry => entry.entryHTML.style = "display: none;")
+        fileEntries.forEach(entry => entry.entryHTML.style = "display: table-row;")
     }
 
 }
-
-
 
 const pagination = new Pagination();
 
@@ -127,12 +128,6 @@ function initFileTable(fileTable) {
             })
 
             pagination.initPagination();
-
-
-
-
-
-
         })
         .catch(error => console.log(error));
 }
