@@ -1,5 +1,6 @@
 1. Add a search bar for searching files [x]
 2. Add a pagnation to manage file display [x]
-3. Add memo for file 
-4. Add dashboard to manage file stroage
-5. Add an admin page to manage users
+3. Add memo for file [x] 
+4. Refactor frontend (it is quite messy)
+5. Add dashboard to manage file stroage
+6. Add an admin page to manage users

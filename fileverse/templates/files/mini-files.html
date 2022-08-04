@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-upload-button.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-upload.css')}}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-pagination.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mini-files/mini-info.css')}}">
 
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 {% endblock%}
@@ -63,13 +64,7 @@
                 <li><button>3</button></li>
                 <li><button>Next</button></li>
             -->
-
     </nav>
-
-
-
-
-
 </div>
 
 <button class="upload-button">
@@ -93,10 +88,36 @@
     </div>
 </div>
 
+<div class="info-container display-disable">
+    <h3>Details</h3>
+    <form class="info" action="">
+        <div class="info__filename">
+            <label for="filename">Filename</label>
+            <input type="text" name="filename" value="" disabled/>
+        </div>
+
+        <div class="info__filesize">
+            <label for="file-size">File Size</label>
+            <input type="text" name="file-size" value="" disabled/>
+        </div>
+
+        <div class="info__date">
+            <label for="last-modified">Last Modified</label>
+            <input type="text" name="last-modified" value="" disabled>
+        </div>
+
+        <div class="info__action">
+            <button>Close</button>
+        </div>
+    </form>
+</div>
+
+
 <script src="{{ url_for('static', filename='js/mini-files/mini-dropzone.js') }}"></script>
 <script src="{{ url_for('static', filename='js/mini-files/mini-table.js') }}"></script>
 <script src="{{ url_for('static', filename='js/mini-files/mini-context-menu.js') }}"></script>
 <script src="{{ url_for('static', filename='js/mini-files/mini-http.js') }}"></script>
 <script src="{{ url_for('static', filename='js/mini-files/mini-collapsible.js') }}"></script>
 <script src="{{ url_for('static', filename='js/mini-files/mini-upload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/mini-files/mini-info.js') }}"></script>
 {% endblock %}

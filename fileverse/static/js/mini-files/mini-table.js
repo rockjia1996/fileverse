@@ -257,7 +257,7 @@ function FileTableEntry(id, filename, date, size) {
         }
 
         infoButton.onclick = () => {
-            alert(`id = ${id}, filename =  ${filename}, size =  ${size}`)
+            showInfo(filename, this.autoFileSizeUnit(size), date)
         }
 
         tableRow.onclick = (event) => {
