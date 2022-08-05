@@ -1,3 +1,4 @@
+
 const fileTable = new FileTable(document.getElementById("file-table"));
 initFileTable(fileTable);
 
