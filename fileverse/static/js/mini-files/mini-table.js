@@ -306,3 +306,46 @@ function FileTableEntry(id, filename, date, size) {
 
 
 
+function Directory(){
+    this.root = null;
+    this.currentPath = [];
+
+    this.createFolder = () => {
+
+    }
+
+    this.deleteFolder = () => {
+
+    }
+
+    this.moveFolder = () => {
+
+    }
+
+    this.changeDirectory = () => {
+
+    }
+}
+
+function Entry() {
+    this.type = null;
+    this.parent = null;
+    this.children = null;
+    this.content = null;
+
+
+    this.setType = () => {
+
+    }
+
+    this.setParent = () => {
+
+    }
+
+
+    
+
+
+
+
+}
