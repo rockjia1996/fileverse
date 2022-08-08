@@ -1,0 +1,174 @@
+/* Page Settings */
+html {
+    font-family: system-ui,-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+/* Navbar */
+.navbar {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+
+    background-color: #333;
+}
+
+.navbar li a {
+    display: block;
+    padding: 14px 16px;;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+.navbar li a:hover{
+    background-color: #111;
+}
+
+/* Container */
+.container {
+    width: 70vw;
+    height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Search Bar */
+.search-bar {
+    display: flex;
+    width: 100%;
+    margin: 10px;
+    border-radius: 5px;
+    outline: auto;
+    position: sticky;
+}
+
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+}
+
+.search-bar button:first-of-type {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    font-size: large;
+}
+
+.search-bar button:last-of-type {
+    padding: 10px 20px;
+    border-radius: 0px;
+    background-color: #0D6EFD;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Directory */
+.directory {
+    width: 100%;
+    margin-left: 150px;
+    margin-right: 150px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.directory > div {
+    display: flex;
+    align-items: center;
+    border: 0;
+    border-bottom: 0.7px solid #ddd;
+    padding: 10px;
+}
+
+.directory > div:first-child {
+    color: white;
+    background-color: #00a97f;
+    border-bottom:2px solid #000;
+    font-weight: bolder;
+}
+
+.directory div div:nth-child(1) {
+    /* icon */
+    width: 30px;
+    height: 30px;
+}
+
+.directory div div:nth-child(1) svg {
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.directory div div:nth-child(2) {
+    /* filename */
+    width: 70%;
+    padding-left: 10px;
+}
+
+.directory div div:nth-child(3) {
+    /* date */
+    width: 20%;
+    padding-left: 10px;
+    font-size: medium;
+}
+
+.directory div div:nth-child(4) {
+    width: 5%;
+    padding-left: 10px;
+    font-size: larger;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+
+    list-style: none;
+    margin: 10px;
+    padding: 0;
+}
+
+.pagination li button {
+    display: block;
+    padding: 5px 10px;
+    margin: 4px;
+
+    border: 1px solid #999;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Upload Button */
+.upload-button {
+    display: block;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 5px black;
+}
+
+.upload-button svg {
+    width: 80%;
+    height: 80%;
+    cursor: pointer;
+}
+
+/* Upload Pop Up */
+.upload-pop-up {
+
+}

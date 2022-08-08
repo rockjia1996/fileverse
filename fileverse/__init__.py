@@ -37,15 +37,9 @@ def create_app(test_config=None):
     from . import files
     app.register_blueprint(files.bp)
 
-
-    from . import mini_files
-    app.register_blueprint(mini_files.bp)
-
     from . import index
     app.register_blueprint(index.bp)
 
-    from . import mannual
-    app.register_blueprint(mannual.bp)
 
 
 
