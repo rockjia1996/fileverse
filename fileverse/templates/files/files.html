@@ -1,118 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Drive</title>
+{% block title %}
+<title>My Files</title>
+{% endblock %}
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/layout.css')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/navbar.css')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/tabs.css')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/searchbar.css')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/table.css')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/dropzone.css')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/files/details.css')}}">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-</head>
+{% block stylesheet %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/layout.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/dropzone.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/details.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/table.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/context-menu.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/collapsible.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/upload-button.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/upload.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/pagination.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/info.css')}}">
 
-<body>
-  <div class="navbar">
-    <div class="brand-name">FileVerse</div>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% endblock%}
 
-    <!-- Search Bar -->
-    <form class="search-bar">
-      <input type="search" placeholder="Search" />
-      <input type="submit" value="Search" />
-    </form>
-
-  </div>
-
-  <div class="page-content">
-
-    <!-- Sidebar -->
-    <div class="tab">
-
-      <!--
-        <button class="tab__link">
-          <svg class="dashboard-icon"></svg>
-          <span>Dashboard</span>
-        </button>
-
-        
-        <button class="tab__link">
-          <svg class="settings-icon"></svg>
-          <span>Settings</span>
-        </button>
-      -->
-
-      <button class="tab__link" onclick="openTab(event, 'file-table');" id="file-tab">
-        <svg class="files-icon"></svg>
-        <span>Files</span>
-
-      </button>
-      <button class="tab__link">
-        <svg class="trash-icon"></svg>
-        <span>Trash</span>
-      </button>
-
+{% block content %}
+<div class="page-content">
+    <h2>Files on Remote Server</h2>
+    <div class="search-bar">
+        <input type="text" placeholder="Search Files Here..." />
+        <button>&#10799;</button>
+        <button type="button">Search</button>
     </div>
+    <div class="file-table-container">
+        <div style="position: relative;">
+            <table class="table" id="file-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Last modified</th>
+                        <th>File size</th>
+                        <th>
+                            <button class="table-options-icon">
+                                &#xFE19;
+                            </button>
 
 
-    <div class="tabcontent" id="file-table" style="display: block;">
-      <!-- File Table -->
-      <table class="file-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Size</th>
-          </tr>
-        </thead>
-        <tbody class="file-table__body">
-          {% for upload in uploads %}
-          <tr class="file-table__row" id="{{ upload['id'] }}">
-            <td>{{ upload['filename']}}</td>
-            <td>{{ upload['date'] }}</td>
-            <td>{{ upload['size'] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <!-- Right Click on File Entries in the File Table-->
-      <div id="context-menu">
-        <button class="context-menu__item">Download</button>
-        <button class="context-menu__item">Delete</button>
-        <button class="context-menu__item">Details</button>
-      </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="table-options display-disable">
+                <button>Download Selected</button>
+                <button>Delete Selected</button>
+                <button>Select All</button>
+                <button>Deselect All</button>
+            </div>
+        </div>
     </div>
+    <nav class="pagination">
+    </nav>
 
-    <div class="upload-download">
-      <!--Drag and Drop Upload Box-->
-      <div class="drop-zone">
-        <span class="drop-zone__prompt">Drop files here or click to upload</span>
-        <input class="drop-zone__input" type="file" name="file" multiple />
-      </div>
-
+    <div class="directory">
         <div>
-          <button class="drop-zone__submit" type="submit" onclick="uploadFile(event)">Upload</button>
-          <button class="drop-zone__submit" type="submit" onclick="removeUploadFileEntries(event)">Clear</button>
+            <div>
+            </div>
+            <div>Name</div>
+            <div>Last Modified</div>
+            <div>&#xFE19;</div>
         </div>
 
-      <div class="upload-details">
-      </div>
-
+        <div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#29465b">
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path
+                        d="M8 16h8v2H8zm0-4h8v2H8zm6-10H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z" />
+                </svg>
+            </div>
+            <div>some filename.format</div>
+            <div>Apr 9, 2022</div>
+            <div>&#xFE19;</div>
+        </div>   
     </div>
-  </div>
-  </div>
+</div>
 
-  </div>
-  <script src="{{ url_for('static', filename='js/files/requestHandler.js')}}"></script>
-  <script src="{{ url_for('static', filename='js/files/dropzone.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/files/tabs.js')     }}"></script>
-  <script src="{{ url_for('static', filename='js/files/table.js')     }}"></script>
+<button class="upload-button">
+    <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24"
+        width="24px" fill="#3590ae">
+        <g>
+            <rect fill="none" height="24" width="24" />
+        </g>
+        <g>
+            <path
+                d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z" />
+        </g>
+    </svg>
+</button>
+<div class="upload-pop-up display-disable">
+    <div class="drop-zone">
+        <span class="drop-zone__prompt">Drop files here or click to upload</span>
+        <input class="drop-zone__input" type="file" name="file" multiple />
+    </div>
+    <div class="upload-table-container">
+    </div>
+</div>
 
-</body>
+<div class="info-container display-disable">
+    <h3>Details</h3>
+    <form class="info" action="">
+        <div class="info__filename">
+            <label for="filename">Filename</label>
+            <input type="text" name="filename" value="" disabled />
+        </div>
 
-</html>
+        <div class="info__filesize">
+            <label for="file-size">File Size</label>
+            <input type="text" name="file-size" value="" disabled />
+        </div>
+
+        <div class="info__date">
+            <label for="last-modified">Last Modified</label>
+            <input type="text" name="last-modified" value="" disabled>
+        </div>
+
+        <div class="info__action">
+            <button>Close</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="{{ url_for('static', filename='js/files/dropzone.js') }}"></script>
+<script src="{{ url_for('static', filename='js/files/table.js') }}"></script>
+<script src="{{ url_for('static', filename='js/files/context-menu.js') }}"></script>
+<script src="{{ url_for('static', filename='js/files/http.js') }}"></script>
+<script src="{{ url_for('static', filename='js/files/collapsible.js') }}"></script>
+<script src="{{ url_for('static', filename='js/files/upload.js') }}"></script>
+<script src="{{ url_for('static', filename='js/files/info.js') }}"></script>
+{% endblock %}

@@ -1,74 +1,188 @@
-#context-menu{
-    position: fixed;
-    z-index: 10000;
-    width: 150px;
-    background-color: #1b1a1a;
-    border-radius: 5px;
-    transform: scale(0);
-    transform-origin: top left;
-}
-
-#context-menu.visible{
-    transform: scale(1);
-    transition: transform 200ms ease-in-out;
-    display: block;
-}
-
-.context-menu__item {
-    display: block;
-    color:white;
-    background-color: #1b1a1a;
-    border: none;
+.table {
     width: 100%;
-    text-align: left;
-
-    font-size: 17px;
-    padding: 7px;
-    
-    border-radius: 5px;
-}
-
-.context-menu__item:hover {
-    background-color: #343434;
-    cursor: pointer;
-}
-
-/* File Table */
-
-.file-table{
+    overflow: hidden;
     border-collapse: collapse;
-    margin: 25px 0;
     font-size: 0.9em;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    background-color: #00a97f;
+}
+
+.table thead:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
     width: 100%;
-
+    border-bottom: 3px solid #222222;
 }
 
-.file-table thead tr {
-    background-color: #009879;
-    color: #fff;
+.table thead tr {
+    color: #f2ecff;
     text-align: left;
+    height: 10px;
 }
 
 
-.file-table th,
-.file-table td {
+.table th,
+.table td {
     padding: 12px 15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 100px;
 }
 
-.file-table tbody tr {
+.table tbody tr {
+    height: 10px;
     border-bottom: thin solid #ddd;
     cursor: pointer;
 }
 
-.file-table tbody tr:nth-of-type(even){
-    background-color: #f3f3f3;
+.table thead tr th:last-child {
+    text-align: right;
+    cursor: pointer;
+    font-size: 18px;
 }
 
-.file-table tbody tr:last-of-type {
-border-bottom: 2px solid #009879;
+.table thead tr th:first-of-type,
+.table tbody tr td:first-of-type {
+    display: none;
 }
 
-.file-table tbody tr.active-row{
+.table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.table tbody tr.active-row {
     color: #009879;
+    background-color: #e4e4e4;
+}
+
+table tbody tr td button,
+.file-table-action {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+table tbody tr td:last-child {
+    text-align: center;
+}
+
+.file-table-container {
+    width: 70%;
+    height: 50%;
+    overflow: scroll;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.table-menu {
+    width: 30px;
+    height: 30px;
+    background-image: radial-gradient(circle, black 10px, transparent 11px);
+    background-size: 100% 33.33%;
+
+}
+
+.page-content h2 {
+    width: 70%;
+    text-align: left;
+}
+
+.search-bar {
+    display: flex;
+    width: 70%;
+    margin: 10px;
+    border-radius: 5px;
+    outline: auto;
+    position: sticky;
+}
+
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+}
+
+.search-bar button:first-of-type {
+    background-color: white;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    font-size: large;
+}
+
+.search-bar button:last-of-type {
+    padding: 10px 20px;
+    border-radius: 0px;
+    background-color: #0D6EFD;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.directory {
+    width: 700px;
+    margin-left: 150px;
+    margin-right: 150px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+}
+
+.directory>div {
+    display: flex;
+    align-items: center;
+
+    border: 0;
+    border-bottom: 0.7px solid #ddd;
+    padding: 10px;
+
+}
+
+.directory>div:first-child {
+    color: white;
+    background-color: #00a97f;
+    border-bottom:2px solid #000;
+    font-weight: bolder;
+
+}
+
+/* icon */
+.directory div div:nth-child(1) {
+    width: 30px;
+    height: 30px;
+}
+
+.directory div div:nth-child(1) svg {
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* filename */
+.directory div div:nth-child(2) {
+    width: 70%;
+    padding-left: 10px;
+}
+
+/* date */
+.directory div div:nth-child(3) {
+    width: 20%;
+    padding-left: 10px;
+    font-size: medium;
+}
+
+.directory div div:nth-child(4) {
+    width: 5%;
+    padding-left: 10px;
+    font-size: larger;
 }

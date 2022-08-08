@@ -60,7 +60,7 @@ def login():
         if error is None:
             session.clear()
             session["user_id"] = user["id"]
-            return redirect(url_for('mini_files.mini_files'))
+            return redirect(url_for('files.files'))
 
     return render_template("/index.html")
 

@@ -1,49 +1,23 @@
-.upload-details {
-    width: 100%;
-    height: 60vh;
-    overflow-y: scroll;
+.details {
+    width: 80%;
+    height: 10rem;
+    padding: 1rem;
 }
 
 .detail {
     width: 100%;
-    padding: 10px;
-    margin: 5px;
-    text-align: left;
-    padding: 10px 10px;
-}
-
-.detail:hover {
-    background-color: rgba(0, 0, 0, 0.10);
 }
 
 .detail__name {
     display: block;
-    font-size: small;
 }
 
 .detail__progress {
     display: inline-block;
-    width: 70%;
+    width: 90%;
+    vertical-align: middle;
 }
 
 .detail__cancel {
     display: inline-block;
-    cursor: pointer;
-    background-color: transparent;
-    border: 0;
-    padding: 10px 10px;
 }
-
-.cancel-icon {
-    width: 20px;
-    height: 20px;
-    background-image: url("/static/img/cancel.svg");
-    background-repeat: no-repeat;
-}
-
-.cancel-icon:hover {
-    transform: scale(1.1);
-}
-
-
-
