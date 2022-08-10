@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/files/files-stylesheet.css')}}" />
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css')}}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/files-stylesheet.css')}}" />
 
-    <title>My Files</title>
+<title>My Files</title>
 </head>
 
 <body>
@@ -13,16 +13,13 @@
         <li><a href="/files">Fileverse</a></li>
         <li><a href="/auth/logout">Logout</a></li>
     </nav>
-
     <div class="container">
         <h2>Files on Remote Server</h2>
-
         <div class="search-bar">
             <input type="text" placeholder="Search Files Here..." />
             <button>&#10799;</button>
             <button type="button">Search</button>
         </div>
-
         <div class="directory">
             <div>
                 <div></div>
@@ -45,53 +42,35 @@
                 <div>&#xFE19;</div>
             </div>
         </div>
-
         <nav class="pagination">
             <li><button>1</button></li>
             <li><button>2</button></li>
             <li><button>3</button></li>
         </nav>
-
         <button class="upload-button">
             <svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24"
                 width="24px" fill="#3590ae">
-                <g>
-                    <rect fill="none" height="24" width="24" />
-                </g>
-                <g>
-                    <path
-                        d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z" />
-                </g>
+                <g><rect fill="none" height="24" width="24" /></g>
+                <g><path d="M18,15v3H6v-3H4v3c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2v-3H18z M7,9l1.41,1.41L11,7.83V16h2V7.83l2.59,2.58L17,9l-5-5L7,9z" /></g>
             </svg>
         </button>
-
-        <div class="upload-pop-up">
+        <div class="upload-pop-up" style="display:none;">
             <div><input type="file" name="file" multiple /></div>
             <div></div>
         </div>
-
-        <div>
-            <h3>Details</h3>
-            <form>
-                <div>
-                    <span>Filename</span>
-                    <input type="text" value="" disabled />
-                </div>
-                <div>
-                    <span>File Size</span>
-                    <input type="text" value="" disabled />
-                </div>
-
-                <div>
-                    <span>Uploaded Date</span>
-                    <input type="text" value="" disabled>
-                </div>
-
-                <div>
-                    <button>Close</button>
-                </div>
-            </form>
+        <div class="details-pop-up" style="display:none;">
+            <div>
+                <h3>Details</h3>
+                <span>Filename</span>
+                <input type="text" value="" disabled />
+                <span>File Size</span>
+                <input type="text" value="" disabled />
+                <span>Uploaded Date</span>
+                <input type="text" value="" disabled>
+                <button>Close</button>
+            </div>
         </div>
     </div>
 </body>
+
 </html>
