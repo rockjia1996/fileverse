@@ -1,73 +1,26 @@
+function fakeDataAPI(num){
+    const fakeData =[];
+    for(let i = 0; i < num; i++){
+        let now = new Date();
+        now = now.toLocaleTimeString();
+        
+        fakeData.push({
+            id: i,
+            name: `test file ${i}`,
+            date: now,
+            size: Math.floor(Math.random() * 1000),
+            type: "file",
+            parent: null,
+            children: null
+        })
 
-
-const data = [
-    {
-        id: 1,
-        name: "some filename",
-        size: 123569,
-        date: "Aug 10 2022, 15:14",
-        type: "file",
-        parent: "",
-        children: null
     }
-]
-
-
-function FileNode(content, type, parent, children) {
-    this.content = content;
-    this.type = type;
-
-    this.parent = parent;
-    this.children = children;
-
-    this.addChild = (child) => this.children.push(child);
-    this.addParent = (parent) => this.parent = parent;
-
-    this.equals = (target) => {
-        if (this.content.id === target.content.id)
-            return true;
-        else
-            return false;
-    }
+    return fakeData;
 }
+let data = fakeDataAPI(10);
+console.log(data)
 
-function FileTree(root) {
-    this.root = root;
-    this.currentPath = [];
-
-    this.visited = [];
-
-    this.addNode = (parent, node) => {
-        const parentNode = this.searchNode(parent);
-        parentNode.addChild(node);
-    }
-
-    this.removeNode = (node) => {
-    }
-
-    this.searchNode = (target) => {
-        const found = this.dfs(this.root, target);
-        this.visited = [];
-        return found;
-    }
-
-    this.dfs = (current, target) => {
-        if (current.equals(target))
-            return current;
-
-        this.visited.push(current);
-        const children = current.children;
-
-        for (child of children) {
-            let result = null;
-            if (!this.visited.some(v => v.equals(child)))
-                result = this.dfs(child, target);
-            if (result)
-                return result;
-        }
-    }
-}
-
+/*
 const root = new FileNode({ id: 0 }, "folder", null, []);
 
 const node1 = new FileNode({ id: 1 }, "folder", root, []);
@@ -111,3 +64,72 @@ node11.addChild(node14);
 
 const testTree = new FileTree(root);
 console.log(testTree.searchNode(node8));
+*/
+
+
+function FileNode(content, type, parent, children) {
+    this.content = content;
+    this.type = type;
+
+    this.parent = parent;
+    this.children = children;
+
+    this.addChild = (child) => this.children.push(child);
+    this.addParent = (parent) => this.parent = parent;
+
+    this.equals = (target) => {
+        if (this.content.id === target.content.id)
+            return true;
+        else
+            return false;
+    }
+
+    this.onDownload = () => {
+    }
+
+    this.onDelete =() => {
+    }
+
+
+}
+
+function FileTree(root) {
+    this.root = root;
+    this.currentPath = [];
+
+    this.visited = [];
+
+    this.addNode = (parent, node) => {
+        const parentNode = this.searchNode(parent);
+        parentNode.addChild(node);
+    }
+
+    this.removeNode = (node) => {
+    }
+
+    this.searchNode = (target) => {
+        const found = this.dfs(this.root, target);
+        this.visited = [];
+        return found;
+    }
+
+    this.dfs = (current, target) => {
+        if (current.equals(target))
+            return current;
+
+        this.visited.push(current);
+        const children = current.children;
+
+        for (child of children) {
+            let result = null;
+            if (!this.visited.some(v => v.equals(child)))
+                result = this.dfs(child, target);
+            if (result)
+                return result;
+        }
+    }
+}
+
+function Controller() {
+
+}
