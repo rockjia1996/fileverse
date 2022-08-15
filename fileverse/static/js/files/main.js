@@ -185,8 +185,8 @@ function FileTree() {
 
 
     this.deleteNode = (target) => {
-        const index = this.node.findIndex(node => node.equals(target));
-        this.node[index].onDelete();
+        const index = this.nodes.findIndex(node => node.equals(target));
+        //this.node[index].onDelete();
         this.nodes.splice(index, 1);
     }
 
@@ -196,6 +196,8 @@ function FileTree() {
         selectedNodes.forEach(node => contentJSON.push(node.getContentJSON()))
         return contentJSON;
     }
+
+    this.getNodeCount = () => this.nodes.length;
 }
 
 function FileTableView() {
@@ -270,8 +272,9 @@ function FileTableView() {
 
 function PaginationView() {
     this.html = document.querySelector(".pagination");
+    this.total = null;
+    this.currentPage = 1;
     this.pageRows = 10;
-    this.currentPage = 0;
     this.controller = null;
 
     this.setController = (controller) => this.controller = controller;
@@ -280,6 +283,11 @@ function PaginationView() {
         const listItem = document.createElement("li");
         const button  = document.createElement("button");
         button.textContent = pageNum;
+
+        if (pageNum === this.currentPage){
+            button.style.background = "#008AD8";
+            button.style.color = "#fff";
+        }
 
         button.onclick = () => {
             const otherButtons = document.querySelectorAll(".pagination li button");
@@ -290,7 +298,9 @@ function PaginationView() {
             button.style.background = "#008AD8";
             button.style.color = "#fff";
 
+            this.currentPage = pageNum;
             this.controller.loadPage(pageNum, this.pageRows)
+
         }
 
         listItem.appendChild(button);
@@ -298,10 +308,16 @@ function PaginationView() {
     }
 
     this.render = (total) => {
+        this.total = total;
+
+        const displayed = document.querySelectorAll(".pagination li");
+        for(let i = 0; i < displayed.length; i++)
+            displayed[i].remove();
+
+
         const numOfPages = Math.ceil(total / this.pageRows);
         for (let i = 0; i < numOfPages; i++)
             this.addButton(i+1);
-
     }
 }
 
@@ -313,6 +329,9 @@ function Controller() {
 
     this.deleteFile = (id) => {
         console.log(`controller handles id ${id} deletion`)
+        this.treeModel.deleteNode(new FileNode({id}));
+        this.pagination.render(this.treeModel.getNodeCount());
+
     }
 
     this.uploadFile = () => {
@@ -332,8 +351,8 @@ function Controller() {
 
     this.init = (data) => {
         this.treeModel.init(data);
-        this.tableView.render(data);
         this.pagination.render(data.length);
+        this.loadPage(this.pagination.currentPage, this.pagination.pageRows)
     }
 
 }
