@@ -6,7 +6,7 @@ function fakeDataAPI(num) {
 
         fakeData.push({
             id: i,
-            name: `test file ${i}`,
+            name: `test file ${i}, and a very very very long filename goes here`,
             date: now,
             size: Math.floor(Math.random() * 1000),
         })
@@ -14,6 +14,7 @@ function fakeDataAPI(num) {
     }
     return fakeData;
 }
+
 
 function createFileIcon() {
     /*
@@ -164,6 +165,34 @@ function FileNode(content) {
         const response = await fetch(deleteRequest, { method: "DELETE" });
         return response.status;
     }
+
+    this.onUpload = (file, progressCallback, abortCallback) => new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        const url = `files/upload/${file.name}`;
+
+        xhr.responseType = "json";
+        xhr.upload.onprogress = (event) => {
+            progressCallback(event.loaded, event.total);
+        }
+
+        xhr.onreadystatechange = (event) => {
+            const state = xhr.readyState;
+            const status = xhr.status;
+            if (state === XMLHttpRequest.DONE && status === 200) {
+                resolve(xhr.response);
+            }
+        }
+
+        xhr.onerror = (event) => {
+            reject(event)
+        }
+
+        const abortFn = () => xhr.abort();
+        abortCallback(abortFn)
+
+        xhr.open("POST", url);
+        xhr.send(file);
+    })
 }
 
 function FileTree() {
@@ -171,7 +200,6 @@ function FileTree() {
     this.controller = null;
 
     this.setController = (controller) => this.controller = controller;
-
 
     this.init = (data) => {
         data.forEach(content => {
@@ -183,17 +211,32 @@ function FileTree() {
         this.nodes.push(target);
     }
 
-
     this.deleteNode = (target) => {
         const index = this.nodes.findIndex(node => node.equals(target));
-        //this.node[index].onDelete();
+        this.nodes[index].onDelete();
         this.nodes.splice(index, 1);
     }
 
-    this.sliceNodes = (start, end) => {
+    this.searchNode = (keyword) => {
+        const matched = [];
+
+        this.nodes.forEach(node => {
+            const content = node.getContentJSON();
+            const filename = content.name;
+            if (filename.includes(keyword))
+                matched.push(content);
+        })
+
+        return matched;
+    }
+
+    this.sliceNodes = (start=0, end=this.nodes.length) => {
         const selectedNodes = this.nodes.slice(start, end);
         const contentJSON = [];
-        selectedNodes.forEach(node => contentJSON.push(node.getContentJSON()))
+        selectedNodes.forEach(node => {
+            contentJSON.push(node.getContentJSON())
+
+        })
         return contentJSON;
     }
 
@@ -202,9 +245,11 @@ function FileTree() {
 
 function FileTableView() {
     this.html = document.querySelector(".directory");
+    this.state = {};
     this.controller = null;
 
     this.setController = (controller) => this.controller = controller;
+
     this.insertRowHTML = (id, name, date, size) => {
         const fileSVG = createFileIcon();
         const downloadSVG = createDownloadIcon();
@@ -216,7 +261,7 @@ function FileTableView() {
         const filenameCell = document.createElement('div');
         const dateCell = document.createElement('div');
         const actionsCell = document.createElement('div');
-   
+
         typeCell.appendChild(fileSVG);
         filenameCell.textContent = name;
         dateCell.textContent = date;
@@ -246,7 +291,7 @@ function FileTableView() {
             const closeButton = document.querySelector(".details-pop-up div button");
 
             filename.value = name;
-            fileSize.value = size;
+            fileSize.value = this.autoFileSizeUnit(size);
             modified.value = date;
 
             closeButton.onclick = () => details.style.display = "none";
@@ -255,36 +300,57 @@ function FileTableView() {
         this.html.appendChild(row);
     }
 
-    this.render = (entries) => {
+    this.autoFileSizeUnit = (size) => {
+        const isB = (size) => size < 2 ** 10 ? true : false;
+        const isKB = (size) => size >= 2 ** 10 && size < 2 ** 20 ? true : false;
+        const isMB = (size) => size >= 2 ** 20 && size < 2 ** 30 ? true : false;
+        const isGB = (size) => size >= 2 ** 30 ? true : false;
 
+
+        if (isB(size)) return `${size} byte`;
+        if (isKB(size)) return `${Math.round((size * 100) / 2 ** 10) / 100} Kb`;
+        if (isMB(size)) return `${Math.round((size * 100) / 2 ** 20) / 100} Mb`;
+        if (isGB(size)) return `${Math.round((size * 100) / 2 ** 30) / 100} Gb`;
+    }
+
+    this.render = (entries) => {
         let displayed = document.querySelectorAll(".directory > div");
-        for (let i = 1; i < displayed.length; i++){
+        for (let i = 1; i < displayed.length; i++) {
             displayed[i].remove()
         }
-
         entries.forEach(content => {
-            const {id, name, date, size} = content;
+            const { id, name, date, size } = content;
             this.insertRowHTML(id, name, date, size);
         })
-        
     }
+
+    this.setState = (newState) => {
+        const keys = Object.keys(newState);
+        keys.forEach(key => this.state[key] = newState[key]);
+    }
+
+    this.deleteState = (key) => {
+        delete this.state[key];
+    }
+
+    this.getState = (key) => this.state[key];
 }
 
 function PaginationView() {
     this.html = document.querySelector(".pagination");
-    this.total = null;
-    this.currentPage = 1;
-    this.pageRows = 10;
+
+    this.state = {};
     this.controller = null;
 
     this.setController = (controller) => this.controller = controller;
 
     this.addButton = (pageNum) => {
         const listItem = document.createElement("li");
-        const button  = document.createElement("button");
+        const button = document.createElement("button");
         button.textContent = pageNum;
 
-        if (pageNum === this.currentPage){
+        const { currentPage, pageRows } = this.state;
+        if (pageNum === currentPage) {
             button.style.background = "#008AD8";
             button.style.color = "#fff";
         }
@@ -298,47 +364,173 @@ function PaginationView() {
             button.style.background = "#008AD8";
             button.style.color = "#fff";
 
-            this.currentPage = pageNum;
-            this.controller.loadPage(pageNum, this.pageRows)
-
+            this.setState({ currentPage: pageNum });
+            this.controller.loadPage(pageNum, pageRows)
         }
 
         listItem.appendChild(button);
         this.html.appendChild(listItem);
     }
 
-    this.render = (total) => {
-        this.total = total;
 
+    this.render = (total) => {
         const displayed = document.querySelectorAll(".pagination li");
-        for(let i = 0; i < displayed.length; i++)
+        for (let i = 0; i < displayed.length; i++)
             displayed[i].remove();
 
 
-        const numOfPages = Math.ceil(total / this.pageRows);
+        const numOfPages = Math.ceil(total / this.state.pageRows);
         for (let i = 0; i < numOfPages; i++)
-            this.addButton(i+1);
+            this.addButton(i + 1);
     }
+
+    this.setState = (newState) => {
+        const keys = Object.keys(newState);
+        keys.forEach(key => this.state[key] = newState[key]);
+    }
+
+    this.deleteState = (key) => {
+        delete this.state[key];
+    }
+
+    this.getState = (key) => this.state[key];
 }
 
 function SearchBarView() {
-    this.html = document.querySelector(".search-bar");
-    
+    this.inputField = document.querySelector(".search-bar input");
+    this.clearFieldButton = document.querySelector(".search-bar button:first-of-type");
+    this.searchButton = document.querySelector(".search-bar button:last-of-type");
+    this.controller = null;
+
+    this.clearFieldButton.onclick = () => {
+        this.inputField.value = "";
+        this.controller.searchFile("");        // It's a bit hacky.
+    }
+
+    this.searchButton.onclick = () => {
+        controller.searchFile(this.inputField.value);
+    }
+    this.setController = (controller) => this.controller = controller;
+
 }
 
+function UploadTableView() {
+    this.html = document.querySelector(".upload-pop-up");
+    this.state = {};
+    this.controller = null;
+    this.selectedFile = document.querySelector(".upload-pop-up > div input")
+
+    this.selectedFile.onchange = () => {
+        this.controller.uploadFile(this.selectedFile.files);
+}
+
+    document.querySelector(".upload-button").onclick = () => {
+        const currentDisplay = this.html.style.display;
+        if (currentDisplay === "none") this.html.style.display = "block";
+        else this.html.style.display = "none";
+    }
+
+    this.setController = (controller) => this.controller = controller;
+
+    this.addEntry = (name) => {
+        const row = document.createElement("div")
+        const filename = document.createElement("div")
+        const progress = document.createElement("div")
+        const abort = document.createElement("div")
+
+        const progressBar = document.createElement("progress");
+        const abortButton = document.createElement("button");
+
+
+        filename.textContent = name;
+        abortButton.textContent = "Abort";
+        progressBar.max = "100";
+        progressBar.value = "0";
+        progress.appendChild(progressBar);
+        abort.appendChild(abortButton);
+
+        row.appendChild(filename)
+        row.appendChild(progress)
+        row.appendChild(abort)
+
+        const body = document.querySelector(".upload-pop-up>div:nth-child(2)")
+        body.appendChild(row);
+
+
+        const progressCallback = (loaded, total) => {
+            progressBar.max = total;
+            progressBar.value = loaded;
+            if (loaded === total)
+                row.remove();
+        }
+
+        const abortCallback = (abortFn) => abortButton.onclick = abortFn();
+
+        return { progressCallback, abortCallback }
+
+
+
+
+
+    }
+
+}
 
 function Controller() {
     this.tableView = null;
     this.treeModel = null;
     this.pagination = null;
+    this.searchBar = null;
+    this.uploadTableView = null;
 
     this.deleteFile = (id) => {
         console.log(`controller handles id ${id} deletion`)
-        this.treeModel.deleteNode(new FileNode({id}));
-        this.pagination.render(this.treeModel.getNodeCount());
+        this.treeModel.deleteNode(new FileNode({ id }));
+
+        const entries = this.tableView.getState("entries");
+        const newEntries = entries.filter(entry => entry.id !== id);
+        this.tableView.setState({ entries: newEntries })
+
+        this.pagination.setState({ total: this.pagination.getState("total") - 1 })
+        this.pagination.render(this.pagination.getState("total"));
     }
 
-    this.uploadFile = () => {
+    this.uploadFile = (selectedFiles) => {
+        for (selected of selectedFiles) {
+            const filename = selected.name;
+
+            const { abortCallback, progressCallback } = this.uploadTableView.addEntry(filename);
+            const node = new FileNode({});
+            const promise = node.onUpload(selected, progressCallback, abortCallback);
+
+            promise.then(details => {
+                let formattedDate = new Date(details.date);
+                formattedDate = formattedDate.toLocaleString();
+                const entry = {
+                    id: details.id,
+                    name: details.filename,
+                    date: formattedDate,
+                    size: details.size
+                }
+
+
+                // Update treeModel
+                const node = new FileNode(entry)
+                this.treeModel.addNode(node)
+
+                const entries = this.treeModel.sliceNodes();
+                //this.treeModel.nodes.forEach(node => entries.push(node.content));
+                
+                
+                // Update pagination
+                this.pagination.setState({total: entries.length, currentPage: 1});
+                this.pagination.render(entries.length)
+                
+                // Update tableView
+                this.tableView.setState({entries: entries});
+                this.loadPage(1, this.pagination.getState("pageRows"));
+            })
+        }
     }
 
     this.downloadFile = (id) => {
@@ -348,29 +540,75 @@ function Controller() {
     this.loadPage = (currentPage, rows) => {
         const startIndex = (currentPage - 1) * rows;
         const endIndex = currentPage * rows;
-        const data = this.treeModel.sliceNodes(startIndex, endIndex);
-        this.tableView.render(data);
+
+        const entries = this.tableView.getState("entries");
+        this.tableView.render(entries.slice(startIndex, endIndex));
+    }
+
+    this.searchFile = (keyword) => {
+        const data = this.treeModel.searchNode(keyword);
+
+        this.tableView.setState({ entries: data });
+
+        this.pagination.setState({ total: data.legnth, currentPage: 1 });
+        this.pagination.render(data.length)
+
+        this.loadPage(1, this.pagination.getState("pageRows"))
     }
 
     this.init = (data) => {
         this.treeModel.init(data);
-        this.pagination.render(data.length);
-        this.loadPage(this.pagination.currentPage, this.pagination.pageRows)
+
+        this.pagination.setState({ total: data.length, currentPage: 1, pageRows: 10 });
+        this.pagination.render(this.pagination.getState("total"));
+
+        this.tableView.setState({ entries: data });
+
+
+        this.loadPage(1, this.pagination.getState("pageRows"));
     }
 
 }
 
-const data = fakeDataAPI(100);
+function getFileData() {
+    const url = "/files/username";
+    fetch(url, { method: "GET" })
+        .then(response => response.json())
+        .then(responseJSON => {
+            const data = [];
+            const fileList = responseJSON.fileList;
+            fileList.forEach(details => {
+                const { id, filename, date, size } = details;
+                let formattedDate = new Date(date);
+                formattedDate = formattedDate.toLocaleString();
+                data.push({ id: id, name: filename, date: formattedDate, size: size })
+            })
+            return data;
+        })
+        .then((data) => {
+            console.log(data)
+            controller.init(data);
+        })
+        .catch(error => console.log(error));
+}
+
 const tableView = new FileTableView();
 const treeModel = new FileTree();
 const pagination = new PaginationView();
+const searchBar = new SearchBarView();
+const uploadTableView = new UploadTableView();
 const controller = new Controller();
 
 tableView.setController(controller);
 treeModel.setController(controller);
 pagination.setController(controller);
+searchBar.setController(controller);
+uploadTableView.setController(controller);
+
 controller.tableView = tableView;
 controller.treeModel = treeModel;
-controller.pagination = pagination; 
+controller.pagination = pagination;
+controller.searchBar = searchBar;
+controller.uploadTableView = uploadTableView;
 
-controller.init(data);
+getFileData();
