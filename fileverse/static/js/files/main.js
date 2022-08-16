@@ -321,6 +321,11 @@ function PaginationView() {
     }
 }
 
+function SearchBarView() {
+    this.html = document.querySelector(".search-bar");
+    
+}
+
 
 function Controller() {
     this.tableView = null;
@@ -331,11 +336,9 @@ function Controller() {
         console.log(`controller handles id ${id} deletion`)
         this.treeModel.deleteNode(new FileNode({id}));
         this.pagination.render(this.treeModel.getNodeCount());
-
     }
 
     this.uploadFile = () => {
-
     }
 
     this.downloadFile = (id) => {
