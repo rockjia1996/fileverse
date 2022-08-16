@@ -1,21 +1,3 @@
-function fakeDataAPI(num) {
-    const fakeData = [];
-    for (let i = 0; i < num; i++) {
-        let now = new Date();
-        now = now.toLocaleTimeString();
-
-        fakeData.push({
-            id: i,
-            name: `test file ${i}, and a very very very long filename goes here`,
-            date: now,
-            size: Math.floor(Math.random() * 1000),
-        })
-
-    }
-    return fakeData;
-}
-
-
 function createFileIcon() {
     /*
         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"
@@ -517,10 +499,7 @@ function Controller() {
                 // Update treeModel
                 const node = new FileNode(entry)
                 this.treeModel.addNode(node)
-
                 const entries = this.treeModel.sliceNodes();
-                //this.treeModel.nodes.forEach(node => entries.push(node.content));
-                
                 
                 // Update pagination
                 this.pagination.setState({total: entries.length, currentPage: 1});
@@ -586,7 +565,6 @@ function getFileData() {
             return data;
         })
         .then((data) => {
-            console.log(data)
             controller.init(data);
         })
         .catch(error => console.log(error));
