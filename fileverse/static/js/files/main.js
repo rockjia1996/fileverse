@@ -179,9 +179,6 @@ function FileNode(content) {
 
 function FileTree() {
     this.nodes = [];
-    this.controller = null;
-
-    this.setController = (controller) => this.controller = controller;
 
     this.init = (data) => {
         data.forEach(content => {
@@ -212,7 +209,7 @@ function FileTree() {
         return matched;
     }
 
-    this.sliceNodes = (start=0, end=this.nodes.length) => {
+    this.sliceNodes = (start = 0, end = this.nodes.length) => {
         const selectedNodes = this.nodes.slice(start, end);
         const contentJSON = [];
         selectedNodes.forEach(node => {
@@ -220,6 +217,11 @@ function FileTree() {
 
         })
         return contentJSON;
+    }
+
+    this.getNode = (target) => {
+        const index = this.nodes.findIndex(node => node.equals(target));
+        return this.nodes[index]
     }
 
     this.getNodeCount = () => this.nodes.length;
@@ -404,7 +406,7 @@ function UploadTableView() {
 
     this.selectedFile.onchange = () => {
         this.controller.uploadFile(this.selectedFile.files);
-}
+    }
 
     document.querySelector(".upload-button").onclick = () => {
         const currentDisplay = this.html.style.display;
@@ -466,7 +468,6 @@ function Controller() {
     this.uploadTableView = null;
 
     this.deleteFile = (id) => {
-        console.log(`controller handles id ${id} deletion`)
         this.treeModel.deleteNode(new FileNode({ id }));
 
         const entries = this.tableView.getState("entries");
@@ -500,20 +501,21 @@ function Controller() {
                 const node = new FileNode(entry)
                 this.treeModel.addNode(node)
                 const entries = this.treeModel.sliceNodes();
-                
+
                 // Update pagination
-                this.pagination.setState({total: entries.length, currentPage: 1});
+                this.pagination.setState({ total: entries.length, currentPage: 1 });
                 this.pagination.render(entries.length)
-                
+
                 // Update tableView
-                this.tableView.setState({entries: entries});
+                this.tableView.setState({ entries: entries });
                 this.loadPage(1, this.pagination.getState("pageRows"));
             })
         }
     }
 
     this.downloadFile = (id) => {
-        console.log(`controller handles id ${id} download`)
+        const node = this.treeModel.getNode(new FileNode({ id: id }));
+        node.onDownload();
     }
 
     this.loadPage = (currentPage, rows) => {
@@ -549,25 +551,19 @@ function Controller() {
 
 }
 
-function getFileData() {
+async function startApp(controller) {
     const url = "/files/username";
-    fetch(url, { method: "GET" })
-        .then(response => response.json())
-        .then(responseJSON => {
-            const data = [];
-            const fileList = responseJSON.fileList;
-            fileList.forEach(details => {
-                const { id, filename, date, size } = details;
-                let formattedDate = new Date(date);
-                formattedDate = formattedDate.toLocaleString();
-                data.push({ id: id, name: filename, date: formattedDate, size: size })
-            })
-            return data;
-        })
-        .then((data) => {
-            controller.init(data);
-        })
-        .catch(error => console.log(error));
+    const response = await fetch(url, { method: "GET" });
+    const responseJSON = await response.json();
+    const data = [];
+
+    responseJSON.fileList.forEach(details => {
+        const { id, filename, date, size } = details;
+        let formattedDate = new Date(date);
+        formattedDate = formattedDate.toLocaleString();
+        data.push({ id: id, name: filename, date: formattedDate, size: size })
+    })
+    controller.init(data);
 }
 
 const tableView = new FileTableView();
@@ -589,4 +585,4 @@ controller.pagination = pagination;
 controller.searchBar = searchBar;
 controller.uploadTableView = uploadTableView;
 
-getFileData();
+startApp(controller);
