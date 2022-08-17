@@ -229,7 +229,7 @@ function FileTree() {
 
 function FileTableView() {
     this.html = document.querySelector(".directory");
-    this.state = {};
+    this.state = {entries: [], startIndex: null, endIndex: null};
     this.controller = null;
 
     this.setController = (controller) => this.controller = controller;
@@ -297,12 +297,16 @@ function FileTableView() {
         if (isGB(size)) return `${Math.round((size * 100) / 2 ** 30) / 100} Gb`;
     }
 
-    this.render = (entries) => {
+    this.render = () => {
+        const { entries, startIndex, endIndex } = this.state;
+        const slicedEntries = entries.slice(startIndex, endIndex);
         let displayed = document.querySelectorAll(".directory > div");
+
         for (let i = 1; i < displayed.length; i++) {
             displayed[i].remove()
         }
-        entries.forEach(content => {
+
+        slicedEntries.forEach(content => {
             const { id, name, date, size } = content;
             this.insertRowHTML(id, name, date, size);
         })
@@ -311,10 +315,12 @@ function FileTableView() {
     this.setState = (newState) => {
         const keys = Object.keys(newState);
         keys.forEach(key => this.state[key] = newState[key]);
+        this.render();
     }
 
     this.deleteState = (key) => {
         delete this.state[key];
+        this.render();
     }
 
     this.getState = (key) => this.state[key];
@@ -348,8 +354,10 @@ function PaginationView() {
             button.style.background = "#008AD8";
             button.style.color = "#fff";
 
+            this.controller.loadPage((pageNum - 1) * pageRows, pageNum * pageRows);
             this.setState({ currentPage: pageNum });
-            this.controller.loadPage(pageNum, pageRows)
+
+            
         }
 
         listItem.appendChild(button);
@@ -451,11 +459,6 @@ function UploadTableView() {
         const abortCallback = (abortFn) => abortButton.onclick = abortFn();
 
         return { progressCallback, abortCallback }
-
-
-
-
-
     }
 
 }
@@ -507,8 +510,7 @@ function Controller() {
                 this.pagination.render(entries.length)
 
                 // Update tableView
-                this.tableView.setState({ entries: entries });
-                this.loadPage(1, this.pagination.getState("pageRows"));
+                this.tableView.setState({ entries: entries, startIndex: 0, endIndex: this.pagination.getState("pageRows") });
             })
         }
     }
@@ -518,23 +520,18 @@ function Controller() {
         node.onDownload();
     }
 
-    this.loadPage = (currentPage, rows) => {
-        const startIndex = (currentPage - 1) * rows;
-        const endIndex = currentPage * rows;
-
+    this.loadPage = (start, end) => {
         const entries = this.tableView.getState("entries");
-        this.tableView.render(entries.slice(startIndex, endIndex));
+        this.tableView.setState({startIndex: start, endIndex: end})
     }
 
     this.searchFile = (keyword) => {
         const data = this.treeModel.searchNode(keyword);
 
-        this.tableView.setState({ entries: data });
+        this.tableView.setState({ entries: data, startIndex: 0, endIndex: this.pagination.getState("pageRows") });
 
         this.pagination.setState({ total: data.legnth, currentPage: 1 });
         this.pagination.render(data.length)
-
-        this.loadPage(1, this.pagination.getState("pageRows"))
     }
 
     this.init = (data) => {
@@ -543,10 +540,7 @@ function Controller() {
         this.pagination.setState({ total: data.length, currentPage: 1, pageRows: 10 });
         this.pagination.render(this.pagination.getState("total"));
 
-        this.tableView.setState({ entries: data });
-
-
-        this.loadPage(1, this.pagination.getState("pageRows"));
+        this.tableView.setState({ entries: data, startIndex: 0, endIndex: this.pagination.getState("pageRows") });
     }
 
 }
@@ -574,7 +568,6 @@ const uploadTableView = new UploadTableView();
 const controller = new Controller();
 
 tableView.setController(controller);
-treeModel.setController(controller);
 pagination.setController(controller);
 searchBar.setController(controller);
 uploadTableView.setController(controller);
