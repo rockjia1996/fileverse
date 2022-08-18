@@ -2,7 +2,7 @@ import functools
 from flask import (
     Blueprint, flash, g, 
     redirect, render_template, 
-    request, session, url_for
+    request, session, url_for, Response
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 from fileverse.db import get_db
@@ -29,12 +29,13 @@ def register():
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."
+                flash(error)
+                return Response(error, status=400)
             else:
                 return redirect(url_for("auth.login"))
-            
-        flash(error)
-        print(error)
-
+        else:
+            flash(error)
+            return Response(error, status=400)
     return render_template("auth/register.html")
 
 @bp.route("/login", methods=("GET", "POST"))
@@ -57,6 +58,10 @@ def login():
             error = "Incorrect username"
         elif not check_password_hash(user["password"], password):
             error = "Incorrect password"
+
+        if not error == None:
+            flash("Invalid username or password")
+            return Response("Invalid username or password", status=400)
 
         if error is None:
             session.clear()

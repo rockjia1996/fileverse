@@ -18,7 +18,13 @@ function initLoginForm() {
             method: "POST",
             body: new FormData(loginForm),
         })
-        .then(res => window.location.href = res.url)
+        .then(res => {
+            console.log(res)
+            if (res.status !== 200)
+                window.location.href = "/";
+            if (res.status === 200)
+                window.location.href = res.url;
+        })
         .catch(err => console.log(err));
 
     }
@@ -54,11 +60,12 @@ function initRegisterForm() {
             body: new FormData(registerForm)
         })
         .then(res => {
-            console.log(res)
             document.querySelector(".register-form-container").classList.add("display-disable");
 
             const background = document.querySelector(".index-page-layout");
             background.classList.remove("blur-active");
+
+            window.location.href = "/";
         })
         .catch(err => console.log(err));
         

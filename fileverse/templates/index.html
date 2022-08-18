@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,28 @@
 </head>
 
 <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div style=
+        "
+        position: fixed;
+        width: 100vh;
+        top: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        text-align: center;;
+        color:white; 
+        font-size: large; 
+        font-weight: bold;
+        margin-top: 10px;
+        background-color: red;
+        ">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <div class="index-page-layout">
         <div class="fileverse-description-container">
             <h1>FileVerse </h1>
@@ -22,6 +45,7 @@
                 <input type="text" id="username" name="username" placeholder="Username" required>
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
+
                 <button>Log in</button>
                 <hr>
                 <button>Create new account</button>
@@ -43,4 +67,5 @@
     </div>
     <script src="{{ url_for('static', filename='/js/index/login.js')}}"></script>
 </body>
+
 </html>
