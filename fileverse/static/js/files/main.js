@@ -229,7 +229,7 @@ function FileTree() {
 
 function FileTableView() {
     this.html = document.querySelector(".directory");
-    this.state = {entries: [], startIndex: null, endIndex: null};
+    this.state = { entries: [], startIndex: null, endIndex: null };
     this.controller = null;
 
     this.setController = (controller) => this.controller = controller;
@@ -328,8 +328,7 @@ function FileTableView() {
 
 function PaginationView() {
     this.html = document.querySelector(".pagination");
-
-    this.state = {};
+    this.state = { total: null, currentPage: 1, pageRows: 10 };
     this.controller = null;
 
     this.setController = (controller) => this.controller = controller;
@@ -338,40 +337,36 @@ function PaginationView() {
         const listItem = document.createElement("li");
         const button = document.createElement("button");
         button.textContent = pageNum;
-
         const { currentPage, pageRows } = this.state;
+
         if (pageNum === currentPage) {
             button.style.background = "#008AD8";
             button.style.color = "#fff";
         }
+        else {
+            button.style.background = "";
+            button.style.color = "#000";
+        }
 
         button.onclick = () => {
-            const otherButtons = document.querySelectorAll(".pagination li button");
-            otherButtons.forEach(btn => {
-                btn.style.background = "";
-                btn.style.color = "#000";
-            })
-            button.style.background = "#008AD8";
-            button.style.color = "#fff";
-
-            this.controller.loadPage((pageNum - 1) * pageRows, pageNum * pageRows);
+            const start = (pageNum - 1) * pageRows;
+            const end = pageNum * pageRows;
+            this.controller.loadPage(start, end);
             this.setState({ currentPage: pageNum });
-
-            
         }
 
         listItem.appendChild(button);
         this.html.appendChild(listItem);
     }
 
-
-    this.render = (total) => {
+    this.render = () => {
+        const { total, pageRows } = this.state;
         const displayed = document.querySelectorAll(".pagination li");
+        const numOfPages = Math.ceil(total / pageRows);
+        
         for (let i = 0; i < displayed.length; i++)
             displayed[i].remove();
 
-
-        const numOfPages = Math.ceil(total / this.state.pageRows);
         for (let i = 0; i < numOfPages; i++)
             this.addButton(i + 1);
     }
@@ -379,10 +374,19 @@ function PaginationView() {
     this.setState = (newState) => {
         const keys = Object.keys(newState);
         keys.forEach(key => this.state[key] = newState[key]);
+
+        const { total, currentPage, pageRows } = this.state;
+        const numOfPages = Math.ceil(total / pageRows);
+        
+        // Offset currentPage if it's out of bound
+        if (currentPage > numOfPages)
+            this.state["currentPage"] = numOfPages;
+        this.render();
     }
 
     this.deleteState = (key) => {
         delete this.state[key];
+        this.render();
     }
 
     this.getState = (key) => this.state[key];
@@ -475,10 +479,16 @@ function Controller() {
 
         const entries = this.tableView.getState("entries");
         const newEntries = entries.filter(entry => entry.id !== id);
-        this.tableView.setState({ entries: newEntries })
 
-        this.pagination.setState({ total: this.pagination.getState("total") - 1 })
-        this.pagination.render(this.pagination.getState("total"));
+        this.pagination.setState({ total: this.pagination.getState("total") - 1 });
+
+        // In case of currentPage out of bound, FileTableView needs to re-render
+        const currentPage = this.pagination.getState("currentPage");
+        const pageRows = this.pagination.getState("pageRows");
+        const startIndex = (currentPage - 1) * pageRows;
+        const endIndex = currentPage * pageRows
+        
+        this.tableView.setState({ entries: newEntries, startIndex, endIndex });
     }
 
     this.uploadFile = (selectedFiles) => {
@@ -499,15 +509,12 @@ function Controller() {
                     size: details.size
                 }
 
-
                 // Update treeModel
-                const node = new FileNode(entry)
-                this.treeModel.addNode(node)
+                this.treeModel.addNode(new FileNode(entry));
                 const entries = this.treeModel.sliceNodes();
 
                 // Update pagination
                 this.pagination.setState({ total: entries.length, currentPage: 1 });
-                this.pagination.render(entries.length)
 
                 // Update tableView
                 this.tableView.setState({ entries: entries, startIndex: 0, endIndex: this.pagination.getState("pageRows") });
@@ -521,32 +528,26 @@ function Controller() {
     }
 
     this.loadPage = (start, end) => {
-        const entries = this.tableView.getState("entries");
-        this.tableView.setState({startIndex: start, endIndex: end})
+        this.tableView.setState({ startIndex: start, endIndex: end })
     }
 
     this.searchFile = (keyword) => {
         const data = this.treeModel.searchNode(keyword);
-
+        console.log(data);
         this.tableView.setState({ entries: data, startIndex: 0, endIndex: this.pagination.getState("pageRows") });
-
-        this.pagination.setState({ total: data.legnth, currentPage: 1 });
-        this.pagination.render(data.length)
+        this.pagination.setState({ total: data.length, currentPage: 1 });
     }
 
     this.init = (data) => {
         this.treeModel.init(data);
-
         this.pagination.setState({ total: data.length, currentPage: 1, pageRows: 10 });
-        this.pagination.render(this.pagination.getState("total"));
-
         this.tableView.setState({ entries: data, startIndex: 0, endIndex: this.pagination.getState("pageRows") });
     }
 
 }
 
 async function startApp(controller) {
-    const url = "/files/username";
+    const url = "/filelist";
     const response = await fetch(url, { method: "GET" });
     const responseJSON = await response.json();
     const data = [];

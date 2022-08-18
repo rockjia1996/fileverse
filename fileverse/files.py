@@ -3,7 +3,7 @@ from flask import (
     Blueprint, flash, g, 
     redirect, render_template, 
     request, url_for, current_app, 
-    Response, stream_with_context, jsonify
+    Response, stream_with_context, jsonify, session
 )
 from werkzeug.exceptions import abort
 from werkzeug.utils import secure_filename
@@ -15,27 +15,23 @@ bp = Blueprint('files', __name__)
 @bp.route("/files")
 @login_required
 def files():
-    db = get_db()
-    uploads = db.execute(
-        "SELECT id, filename, date, size FROM user_upload"
-    ).fetchall()
-    return render_template("files/files.html", uploads=uploads)
+    return render_template("files/files.html")
 
 # See the details about why favour request.stream over request.files/request.form
 # https://izmailoff.github.io/web/flask-file-streaming/
 #
 # Don't touch request.files, and request.form! 
+@login_required
 @bp.route("/files/upload/<filename>", methods=("POST", ))
 def upload(filename):
     db = get_db()
     filename = secure_filename(filename)
-    save_path = os.path.join(current_app.config["UPLOAD_FOLDER"], filename)
+    unique_name = str(uuid.uuid4())
 
+    save_path = os.path.join(current_app.config["UPLOAD_FOLDER"], unique_name)
     chunk_size = 4096  # set chunk size to 4 Mb 
-
     # save the file
     with open(save_path, "bw") as f:
-
         try:
             while True:
                 chunk = request.stream.read(chunk_size)
@@ -48,15 +44,14 @@ def upload(filename):
     # get the size of file and record the upload in database
     size = os.stat(save_path).st_size
     db.execute(
-        "INSERT INTO user_upload (filename, size, path) VALUES (?, ?, ?)", 
-        (filename, size, save_path)
+        "INSERT INTO user_upload (filename, size, path, owner_id) VALUES (?, ?, ?, ?)", 
+        (filename, size, save_path, g.user['id'])
     )
     db.commit()
     new_record = db.execute(
         "SELECT id, filename, size, date from user_upload WHERE path = ? ", (save_path, )
     ).fetchone()
 
-    #return str(new_record["id"])
     json = { 
         "id": new_record["id"],
         "filename": new_record["filename"],
@@ -78,9 +73,13 @@ def download(id):
     db = get_db()
     
     record = db.execute(
-        "SELECT filename, path FROM user_upload WHERE id = ? ;", 
-        (id, )
+        "SELECT filename, path FROM user_upload WHERE id = ? AND owner_id = ? ;", 
+        (id, g.user['id'])
     ).fetchone()
+
+    if (record == None):
+       return Response("invalid request", status=400) 
+
     path_to_file = record["path"]
     filename = record["filename"]
 
@@ -105,9 +104,12 @@ def downloadFiles():
 
     for id in fileIDs:
         record = db.execute(
-            "SELECT filename, path FROM user_upload WHERE id = ? ;", 
-            (id, )
+            "SELECT filename, path FROM user_upload WHERE id = ? AND owner_id = ?;", 
+            (id, g.user['id'])
         ).fetchone() 
+
+        if (record == None):
+            return Response("invalid request", status=400) 
         path_to_files.append(record["path"])
 
 
@@ -136,23 +138,23 @@ def read_zipfile(zip_path, chunk_size):
     os.remove(zip_path)
 
 
-
-
-
-
 @login_required
 @bp.route("/files/delete/<int:id>", methods=("DELETE", ))
 def delete(id):
     db = get_db()
     record = db.execute(
-        "SELECT path FROM user_upload WHERE id = ? ;", 
-        (id, )
+        "SELECT path FROM user_upload WHERE id = ? AND owner_id = ?;", 
+        (id, g.user['id'])
     ).fetchone()
+
+    if (record == None):
+       return Response("invalid request", status=400) 
+
     path_to_file = record["path"]
     os.remove(path_to_file)
     db.execute(
-        "DELETE FROM user_upload WHERE id = ?;",
-        (id, )
+        "DELETE FROM user_upload WHERE id = ? AND owner_id = ?;",
+        (id,  g.user['id'])
     )
     db.commit()
     return "Ok delete"
@@ -160,11 +162,18 @@ def delete(id):
 
 # For now return all the saved files
 # Need to add auth in the future
-@bp.route("/files/<username>", methods=("GET", ))
-def get_filelist(username):
+@login_required
+@bp.route("/filelist", methods=("GET", ))
+def get_filelist():
+    if ("user_id" not in session ):
+        session.clear()
+        return  Response("Invalid credential", status=400)
+
     db = get_db()
+
     records = db.execute(
-        "SELECT id, date, filename, size from user_upload;"
+        "SELECT id, date, filename, size from user_upload WHERE owner_id = ?;", 
+        (g.user['id'], )
     ).fetchall()
 
     details = {"fileList": []}

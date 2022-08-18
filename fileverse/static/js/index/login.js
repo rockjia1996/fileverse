@@ -31,7 +31,7 @@ function initLoginForm() {
 
         background.classList.add("blur-active");
         registerForm.classList.remove("display-disable");
-        registerForm.classList.remove("display-active");
+        registerForm.classList.add("display-active");
     }
 
 }
@@ -47,14 +47,22 @@ function initRegisterForm() {
 
         // Make API call to backend
         // ...
-        console.log(event.target.parentElement)
+        
         
         fetch("/auth/register", {
             method: "POST",
             body: new FormData(registerForm)
         })
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res)
+            document.querySelector(".register-form-container").classList.add("display-disable");
+
+            const background = document.querySelector(".index-page-layout");
+            background.classList.remove("blur-active");
+        })
         .catch(err => console.log(err));
+        
+        console.log(event.target.parentElement)
 
     };
 
